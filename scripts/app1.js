@@ -10,11 +10,6 @@ var svg = d3.select('svg')
 
 $("svg").draggable();
 
-$("myClickBox").on("click", function(){
-
-
-});
-
 function drawNode(name, imgUrl, offsetX, offsetY) {
     var box = svg
          .append("g")
@@ -22,8 +17,7 @@ function drawNode(name, imgUrl, offsetX, offsetY) {
             function(d, i) { return "translate(" + offsetX + "," + offsetY + ")"; }
           );
 
-    box.attr("data-target", ".bs-example-modal-sm")
-       .attr("class", "myClickBox")
+    box.attr("data-target", "#node-modal")
        .attr("data-toggle", "modal");
 
 
@@ -73,6 +67,9 @@ function drawNode(name, imgUrl, offsetX, offsetY) {
     .on("mouseout", function(d) {
       d3.select(this).style("opacity", 1);
     }) ;
+
+    var nodeModal = new NodeModal(box);
+
     return box;
 }
 
