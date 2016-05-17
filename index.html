@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Family Tree</title>
-    <link rel="stylesheet" type="text/css" href="dist/css/main.css">
-    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/redmond/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <title>Family Tree</title>
+  <link rel="stylesheet" type="text/css" href="dist/css/main.css">
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/redmond/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 
 </head>
 <body>
@@ -14,39 +14,109 @@
   </div>
 
   <div class="container">
-  <!-- Modal -->
-    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <!-- Modal -->
+    <div class="modal fade" id="node-modal" tabindex="-1" role="dialog" aria-labelledby="familyTreeNodeModal">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
 
           <div class="modal-body">
-          <div class="row">
-            <div class="col-md-3">
-              <img style='height: 100px; width: 100px; object-fit: fill' src="https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg"/>
+            <div class="row">
+              <div class="col-md-3">
+                <img class='profile-img' style='height: 100px; width: 100px; object-fit: fill' src="https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg"/>
+              </div>
+              <div class="col-md-4">
+                <h3 class='node-name'>Lauren</h3>
+              </div>
             </div>
-            <div class="col-md-4">
-              <h3>Lauren</h3>
-            </div>
-          </div>
+            <div class="node-options-pane">
+              <a class="btn btn-primary" href="http://google.com" role="button"><span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span><br/>  Their tree</a>
 
-            <br>
-            <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-primary">
-              <input type="radio" name="options" id="option1" autocomplete="off" checked> Profile
-            </label>
-            <label class="btn btn-primary">
-              <input type="radio" name="options" id="option2" autocomplete="off"> Search
-            </label>
-            <label class="btn btn-primary">
-              <input type="radio" name="options" id="option3" autocomplete="off">Quick Edit
-            </label>
-            <label class="btn btn-primary">
-              <input type="radio" name="options" id="option3" autocomplete="off"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-            </label>
+              <a class="btn btn-primary" href="http://google.com" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br/> Profile</a>
+              
+              <a class="btn btn-primary" href="#" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><br/>  Edit</a>
+
+              <button class="btn btn-primary btn-add-relative"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br/>  Add Relative</button>
+            </div>
+            <div class="hidden add-relative-pane">
+              <h4>Choose a relative to add</h4>
+              <a href="#" class="list-group-item father" data-value=1><span class="glyphicon glyphicon-plus"> Father</a>
+              <a href="#" class="list-group-item mother" data-value=2><span class="glyphicon glyphicon-plus"> Mother</a>
+              <a href="#" class="list-group-item spouse" data-value=3><span class="glyphicon glyphicon-plus"> Spouse</a>
+              <a href="#" class="list-group-item sibling" data-value=4><span class="glyphicon glyphicon-plus"> Sibling</a>
+              <a href="#" class="list-group-item child" data-value=5><span class="glyphicon glyphicon-plus"> Child</a>
+            </div>
+
+            <div class="hidden add-relative-form-pane">
+              <h4>Create a new <span class='relationship'>Spouse</span></h4>
+              <form>
+                <div class="row">
+                  <div class="form-group col-xs-6">
+                    <label for="exampleInputName2">Name</label>
+                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                  </div>
+                  <div class="form-group col-xs-6">
+                    <label for="exampleInputEmail2">Email</label>
+                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-12">
+                    <label for="inlineRadioOptions">Gender</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Male
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Female
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> Unknown
+                    </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-12">
+                    <label for="inlineRadioOptions">Status</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Living
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Deceased
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> Unknown
+                    </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-6">
+                    <label for="exampleInputName2">Birth</label>
+                    <input type="date" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                  </div>
+                  <div class="form-group col-xs-6">
+                    <label for="exampleInputName2">Place</label>
+                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-6">
+                    <label for="exampleInputName2">Death</label>
+                    <input type="date" class="form-control" id="exampleInputName2" placeholder="Jane Doe" disabled>
+                  </div>
+                  <div class="form-group col-xs-6">
+                    <label for="exampleInputName2">Place</label>
+                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe" disabled>
+                  </div>
+                </div>
+                <br/>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-default">Cancel</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </body>
 
@@ -55,6 +125,9 @@
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.js"></script>
   <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="bower_components/d3/d3.js"></script>
+  <script type="text/javascript" src="node_modules/gulp-traceur/node_modules/traceur/bin/traceur-runtime.js"></script>
+  <script type="text/javascript" src="dist/scripts/NodeModal.js"></script>
   <script type="text/javascript" src="dist/scripts/app1.js"></script>
+  <script type="text/javascript" src="dist/scripts/global.js"></script>
 </footer>
 </html>
