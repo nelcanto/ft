@@ -1,3 +1,9 @@
+// this file serves to create family tree with D3
+// originally written and tested with traceur,
+// but should be compatible with native ES6
+// please use traceur compiler for safty purposes
+
+
 // svg is the base for drawing d3 objects
 var svg = d3.select("body").append("svg"),
     maxRect = { x: 100, y: 130},
@@ -10,6 +16,7 @@ var svg = d3.select('svg')
             .attr('height', $(window).height()*3)
             .attr('width', $(window).width()*2);
 
+// removing soon
 var data = {"data":[
   {"id":1, "name":"Lauren", "children":[4,5,6],"father":2,"mother":3, "spouse": 7, "image":imgUrlMen},
   {"id":2, "name":"Tom", "children":[1],"father":null,"mother":null, "spouse":3, "image":imgUrlWomen},
@@ -66,8 +73,8 @@ function connectLine(parentNode, childNode) {
     }
 
     let lineFunction = d3.svg.line()
-                     .x(function(d) { return d.x; })
-                     .y(function(d) { return d.y; });
+                     .x((d) => { return d.x; })
+                     .y((d) => { return d.y; });
 
     let lineData = [
             { "x": parentNode.offsetX + maxRect.x/2,
@@ -156,7 +163,10 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
       childNode,
       childrenArrayLength;
 
-  for (let entry of arr) {
+  // be sure not to use for ()
+  // because arr looks like:
+  // 0:Object, 1:Object, length:2, _proto_: []
+  arr.forEach((entry) => {
       obj = entry.obj;
       node = entry.node;
       // check if visited
@@ -197,10 +207,10 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
           connectWithParents(node, nodeSpouse, childNode);
 
           i++;
-        };
+        }
       }
 
-  };
+  });
   // console.log(ret);
   return ret;
 }
@@ -307,9 +317,11 @@ function drawNode(obj, offsetX, offsetY) {
         .attr("stroke-width", 2);
 
     box.append("image")
+        .attr("x", "1")
+        .attr("y", "1")
         .attr("preserveAspectRatio", "none")
-        .attr("height", maxRect.x)
-        .attr("width", maxRect.x)
+        .attr("height", maxRect.x-2)
+        .attr("width", maxRect.x-2)
         .attr("xlink:href", imgUrl);
 
     box.append('text')
@@ -324,10 +336,15 @@ function drawNode(obj, offsetX, offsetY) {
         .text(name);
 
     box.on("mouseover", function(d) {
-      d3.select(this).style("opacity", .5);
+      d3.select(this).transition()
+                     .delay("100")
+                     .style("opacity", .5);
+
     })
     .on("mouseout", function(d) {
-      d3.select(this).style("opacity", 1);
+      d3.select(this).transition()
+                     .delay("100")
+                     .style("opacity", 1);
     });
     obj.node = box;
     return box;
