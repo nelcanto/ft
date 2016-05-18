@@ -9,6 +9,7 @@ bindEvents() {
 
     // using arrow function to lexically bind this context to the callback event handler function
     this.targetModal.on('show.bs.modal', (e) => {this.onShowModal(e)});
+    $('.btn-edit', this.targetModal).on('click', (e) => {this.onClickEditBtn(e);});
     $('.btn-add-relative', this.targetModal).on('click', (e) => {this.onClickAddRelativeBtn(e);});
     $('.add-relative-pane', this.targetModal).on('click', (e) => {this.onClickAddRelative(e);});
 }
@@ -32,19 +33,33 @@ onNodeClicked(e) {
     console.log('box clicked');
     console.log($(e.currentTarget));
     console.log($(e.currentTarget).data());
-    var imgUrl = $(e.currentTarget).data('img');
-    var name = $(e.currentTarget).data('name');
-    var userId = $(e.currentTarget).data('userId');
+    this.node = $(e.currentTarget).data();
 
-    $('.profile-img', this.targetModal).attr('src', imgUrl);
-    $('.node-name', this.targetModal).text(name);
-    $('.modal-body', this.targetModal).data('userId', userId);
+    $('.profile-img', this.targetModal).attr('src', this.node['img']);
+    $('.node-name', this.targetModal).text(this.node['name']);
+    $('.modal-body', this.targetModal).data('userId', this.node['userId']);
 }
 
 onShowModal(e) {
     console.log('a wild popup has appear!');
     console.log(e);
     this.showView('node-options');
+}
+
+onClickEditBtn(e) {
+    console.log('click edit');
+    console.log(e);
+    this.showView('add-relative-form');
+    
+    // Hide create new node H4 title
+    $('.add-relative-form-pane h4', this.targetModal).hide();
+    
+    // Prefill with user info
+    /*$('.add-relative-form-pane input[name=firstName]', this.targetModal).text();
+    $('.add-relative-form-pane input[name=lastName]', this.targetModal).text();
+    $('.add-relative-form-pane input[name=firstName]', this.targetModal).text();
+    $('.add-relative-form-pane input[name=firstName]', this.targetModal).text();
+    $('.add-relative-form-pane input[name=firstName]', this.targetModal).text();*/
 }
 
 onClickAddRelativeBtn(e) {
@@ -71,25 +86,25 @@ onClickAddRelative(e) {
     this.showView('add-relative-form');
     $('.add-relative-form-pane .relationship', this.targetModal).text(target.text().trim());
   
-/*switch(true) {
-  case target.hasClass('father'):
-  console.log('father');
-  break;
-  case target.hasClass('mother'):
-  console.log('mother');
-  break;
-  case target.hasClass('spouse'):
-  console.log('spouse');
-  break;
-  case target.hasClass('sibling'):
-  console.log('sibling');
-  break;
-  case target.hasClass('child'):
-  console.log('child');
-  break;
-  default:
-  console.log('something abnormal has happened');
-  break;
-}*/
+    switch(true) {
+      case target.hasClass('father'):
+      console.log('father');
+      break;
+      case target.hasClass('mother'):
+      console.log('mother');
+      break;
+      case target.hasClass('spouse'):
+      console.log('spouse');
+      break;
+      case target.hasClass('sibling'):
+      console.log('sibling');
+      break;
+      case target.hasClass('child'):
+      console.log('child');
+      break;
+      default:
+      console.log('something abnormal has happened');
+      break;
+    }
 }
 }
