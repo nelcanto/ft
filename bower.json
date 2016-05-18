@@ -13,6 +13,7 @@
   ],
   "dependencies": {
     "d3": "^3.5.17",
-    "lodash": "^4.11.2"
+    "lodash": "^4.11.2",
+    "traceur-runtime": "^0.0.108"
   }
 }
