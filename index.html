@@ -56,65 +56,65 @@
                 <div class="row">
                   <div class="form-group col-xs-6">
                     <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name">
+                    <input type="text" class="form-control" name="firstName" placeholder="First Name">
                   </div>
                   <div class="form-group col-xs-6">
                     <label for="lastName">Last Name</label>
-                    <input type="email" class="form-control" id="lastName" name="lastName" placeholder="Last Name">
+                    <input type="email" class="form-control" name="lastName" placeholder="Last Name">
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-xs-12">
-                    <label for="genderOptions">Gender</label>
+                    <label for="gender">Gender</label>
                     <label class="radio-inline">
-                      <input type="radio" name="genderOptions" id="maleRadio" value="1" checked> Male
+                      <input type="radio" name="gender" value="1" > Male
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="genderOptions" id="femaleRadio" value="2"> Female
+                      <input type="radio" name="gender" value="2"> Female
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="genderOptions" id="unknownGenderRadio" value="3"> Unknown
+                      <input type="radio" name="gender" value="3"> Unknown
                     </label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-xs-12">
-                    <label for="statusOptions">Status</label>
+                    <label for="status">Status</label>
                     <label class="radio-inline">
-                      <input type="radio" name="statusOptions" id="livingRadio" value="1" checked> Living
+                      <input type="radio" name="status" value="1"> Living
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="statusOptions" id="deceasedRadio" value="2"> Deceased
+                      <input type="radio" name="status" value="2"> Deceased
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="statusOptions" id="unknownStatusRadio" value="3"> Unknown
+                      <input type="radio" name="status" value="3"> Unknown
                     </label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-xs-6">
                     <label for="birth">Birth</label>
-                    <input type="date" class="form-control" id="birth" name="birth">
+                    <input type="date" class="form-control" name="birth">
                   </div>
                   <div class="form-group col-xs-6">
                     <label for="birthPlace">Place</label>
-                    <input type="text" class="form-control" id="birthPlace" name="birthPlace" placeholder="New York City">
+                    <input type="text" class="form-control" name="birthPlace" placeholder="New York City">
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-xs-6">
                     <label for="death">Death</label>
-                    <input type="date" class="form-control" id="death" name="death" disabled>
+                    <input type="date" class="form-control" name="death" disabled>
                   </div>
                   <div class="form-group col-xs-6">
                     <label for="deathPlace">Place</label>
-                    <input type="text" class="form-control" id="deathPlace" name="deathPlace" placeholder="New York City" disabled>
+                    <input type="text" class="form-control" name="deathPlace" placeholder="New York City" disabled>
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-xs-12">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="jane.doe@example.com">
+                    <input type="email" class="form-control" name="email" placeholder="jane.doe@example.com">
                   </div>
                 </div>
                 <br/>
@@ -136,6 +136,7 @@
   <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="bower_components/d3/d3.js"></script>
   <script src="/bower_components/traceur-runtime/traceur-runtime.js"></script>
+  <script src="/bower_components/lodash/lodash.js"></script>
   <script type="text/javascript" src="dist/scripts/NodeModal.js"></script>
   <script type="text/javascript" src="dist/scripts/drawTree.js"></script>
   <script type="text/javascript" src="dist/scripts/global.js"></script>

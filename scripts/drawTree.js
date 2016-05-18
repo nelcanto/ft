@@ -291,9 +291,12 @@ function drawNode(obj, offsetX, offsetY) {
         .attr("data-target", "#node-modal")
         .attr("data-toggle", "modal")
         .attr("data-name", name)
-        .attr("data-img", imgUrl);
-
-
+        .attr("data-img", imgUrl)
+        .attr("data-first-name", "123")
+        .attr("data-last-name", "321")
+        .attr("data-gender", '2')
+        .attr("data-status", '1');
+  
     box.offsetX = offsetX;
     box.offsetY = offsetY;
     box.name = name;
