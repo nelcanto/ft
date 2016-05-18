@@ -6,11 +6,24 @@ constructor(targetModal) {
 
 bindEvents() {
     // using arrow function to lexically bind this context to the callback event handler function
-    $('.node').on('click', (e) => {this.onNodeClicked(e);});
-    this.targetModal.on('show.bs.modal', (e) => {this.onShowModal(e);});
-    $('.btn-edit', this.targetModal).on('click', (e) => {this.onClickEditBtn(e);});
-    $('.btn-add-relative', this.targetModal).on('click', (e) => {this.onClickAddRelativeBtn(e);});
-    $('.add-relative-pane', this.targetModal).on('click', (e) => {this.onClickAddRelative(e);});
+    $('.node').on('click', (e) => {
+        this.onNodeClicked(e);
+    });
+    this.targetModal.on('show.bs.modal', (e) => {
+        this.onShowModal(e);
+    });
+    $('.btn-edit', this.targetModal).on('click', (e) => {
+        this.onClickEditBtn(e);
+    });
+    $('.btn-add-relative', this.targetModal).on('click', (e) => {
+        this.onClickAddRelativeBtn(e);
+    });
+    $('.add-relative-pane', this.targetModal).on('click', (e) => {
+        this.onClickAddRelative(e);
+    });
+    $('.add-relative-form-pane [name=status]', this.targetModal).on('change', (e) => {
+        this.onStatusChanged(e);
+    });
 }
 
 showView(view) {
@@ -23,8 +36,20 @@ showView(view) {
         case 'add-relative':
         case 'add-relative-form':
             $(`.${view}-pane`, this.targetModal).removeClass('hidden');
+            break;
         default:
         break;
+    }
+}
+
+onStatusChanged(e) {
+    console.log(`status changed to ${$(e.currentTarget).val()}`);
+    if ($(e.currentTarget).val() == 2) {
+        $('.add-relative-form-pane [name=birth]', this.targetModal).parents('.row').hide();
+        $('.add-relative-form-pane [name=death]', this.targetModal).parents('.row').show();
+    } else {
+        $('.add-relative-form-pane [name=birth]', this.targetModal).parents('.row').show();
+        $('.add-relative-form-pane [name=death]', this.targetModal).parents('.row').hide();
     }
 }
 
@@ -75,9 +100,11 @@ prefillForm(form, values) {
         //console.log(`element: ${key} value: ${value}`)
         if ($(`[name=${key}][type=radio]`, form).length) {
             $(`[name=${key}][type=radio][value=${value}]`, form).prop('checked', true);
+            $(`[name=${key}][type=radio][value=${value}]`, form).trigger('change');
             //console.log('check radio');
         } else {
             $(`[name=${key}]`, form).val(value);
+            $(`[name=${key}]`, form).trigger('change');
             //console.log('set value');
         }
     });
