@@ -39,7 +39,7 @@ var centerX = $(window).width()/2+200,
     marginX = 150,
     marginY = 50;
 
-var id = 1;
+
 $("svg").draggable();
 
 // lets start from here ...
@@ -88,6 +88,34 @@ function connectLine(parentNode, childNode) {
             },
             { "x": childNode.offsetX + maxRect.x/2,
               "y": childNode.offsetY
+            }
+        ];
+
+    svg.append("path")
+       .attr("d", lineFunction(lineData))
+       .attr("stroke", "gray")
+       .attr("stroke-width", 2)
+       .attr("fill", "none");
+}
+
+/*
+ * connect spouse directly
+ * @param nodeLeft       should pass in left node
+ * @param nodeRight      should pass in right node
+ * @return
+ */
+function connectSpouse(nodeLeft, nodeRight) {
+
+    let lineFunction = d3.svg.line()
+                     .x((d) => { return d.x; })
+                     .y((d) => { return d.y; });
+
+    let lineData = [
+            { "x": nodeLeft.offsetX + maxRect.x,
+              "y": nodeLeft.offsetY + maxRect.y/2
+            },
+            { "x": nodeRight.offsetX,
+              "y": nodeLeft.offsetY + maxRect.y/2
             }
         ];
 
@@ -242,8 +270,14 @@ function draw(id, data) {
   let objSpouse = tree[objMe.spouse];
 
   let nodeMe      = drawNode(objMe, centerX, centerY);
-  let nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 4*marginX, nodeMe.offsetY);
+  let nodeSpouse;
 
+  if (objMe.children.length < 1) {
+    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 1*marginX, nodeMe.offsetY);
+    connectSpouse(nodeMe, nodeSpouse);
+  } else {
+    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 4*marginX, nodeMe.offsetY);
+  }
   // Layer 1
   let initialArr;
   initialArr = [ {'node':nodeMe, 'obj':objMe}, {'node': nodeSpouse, 'obj': objSpouse}];
@@ -292,7 +326,7 @@ function drawNode(obj, offsetX, offsetY) {
         .attr("data-target", "#node-modal")
         .attr("data-toggle", "modal")
         .attr("data-name", name);
-        
+
     $(`#node-${obj.id}`).data(obj);
 
     box.offsetX = offsetX;
