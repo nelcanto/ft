@@ -33,95 +33,95 @@
             </div>
             <br>
             <div class="node-options-pane">
-              <a class="btn btn-primary" href="http://google.com" role="button"><span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span><br/>  Their tree</a>
+              <a class="btn btn-primary" href="http://google.com" role="button"><span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span><br/> 族谱</a>
 
-              <a class="btn btn-primary" href="http://google.com" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br/> Profile</a>
+              <a class="btn btn-primary" href="http://google.com" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br/> 信息</a>
               
-              <a class="btn btn-primary btn-edit" href="#" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><br/>  Edit</a>
+              <a class="btn btn-primary btn-edit" href="#" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><br/> 修改</a>
 
-              <button class="btn btn-primary btn-add-relative"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br/>  Add relative</button>
+              <button class="btn btn-primary btn-add-relative"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br/> 添加</button>
 
-              <button class="btn btn-primary btn-delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><br/>  Delete</button>
+              <button class="btn btn-primary btn-delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><br/> 删除</button>
             </div>
             <div class="hidden add-relative-pane">
-              <h4>Choose a relative to add</h4>
-              <a href="#" class="list-group-item father" data-value=1><span class="glyphicon glyphicon-plus"> Father</a>
-              <a href="#" class="list-group-item mother" data-value=2><span class="glyphicon glyphicon-plus"> Mother</a>
-              <a href="#" class="list-group-item spouse" data-value=3><span class="glyphicon glyphicon-plus"> Spouse</a>
-              <a href="#" class="list-group-item sibling" data-value=4><span class="glyphicon glyphicon-plus"> Sibling</a>
-              <a href="#" class="list-group-item child" data-value=5><span class="glyphicon glyphicon-plus"> Child</a>
+              <h4>选者要添加关系</h4>
+              <a href="#" class="list-group-item father" data-value=1><span class="glyphicon glyphicon-plus"> 父亲</a>
+              <a href="#" class="list-group-item mother" data-value=2><span class="glyphicon glyphicon-plus"> 母亲</a>
+              <a href="#" class="list-group-item spouse" data-value=3><span class="glyphicon glyphicon-plus"> 配偶</a>
+              <a href="#" class="list-group-item sibling" data-value=4><span class="glyphicon glyphicon-plus"> 兄弟、姐妹</a>
+              <a href="#" class="list-group-item child" data-value=5><span class="glyphicon glyphicon-plus"> 儿女</a>
             </div>
 
             <div class="hidden add-relative-form-pane">
-              <h4>Create a new <span class='relationship'>Spouse</span></h4>
+              <h4>添加个<span class='relationship'>配偶</span></h4>
               <form action="javascript:void(0);">
                 <div class="row">
                   <div class="form-group col-xs-6">
-                    <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" name="firstName" placeholder="First Name">
+                    <label for="firstName">名</label>
+                    <input type="text" class="form-control" name="firstName">
                   </div>
                   <div class="form-group col-xs-6">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" class="form-control" name="lastName" placeholder="Last Name">
+                    <label for="lastName">姓</label>
+                    <input type="text" class="form-control" name="lastName">
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-xs-12">
-                    <label for="gender">Gender</label>
+                    <label for="gender">性别</label>
                     <label class="radio-inline">
-                      <input type="radio" name="gender" value="1" > Male
+                      <input type="radio" name="gender" value="1" > 男
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="gender" value="2"> Female
+                      <input type="radio" name="gender" value="2"> 女
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="gender" value="3"> Unknown
+                      <input type="radio" name="gender" value="3"> 未知
                     </label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-xs-12">
-                    <label for="status">Status</label>
+                    <label for="status">状态</label>
                     <label class="radio-inline">
-                      <input type="radio" name="status" value="1"> Living
+                      <input type="radio" name="status" value="1"> 在世
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="status" value="2"> Deceased
+                      <input type="radio" name="status" value="2"> 已故
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="status" value="3"> Unknown
+                      <input type="radio" name="status" value="3"> 未知
                     </label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-xs-6">
-                    <label for="birth">Birth</label>
+                    <label for="birth">生日</label>
                     <input type="date" class="form-control" name="birth">
                   </div>
                   <div class="form-group col-xs-6">
-                    <label for="birthPlace">Place</label>
-                    <input type="text" class="form-control" name="birthPlace" placeholder="New York City">
+                    <label for="birthPlace">出身地点</label>
+                    <input type="text" class="form-control" name="birthPlace">
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-xs-6">
-                    <label for="death">Death</label>
+                    <label for="death">过世日期</label>
                     <input type="date" class="form-control" name="death">
                   </div>
                   <div class="form-group col-xs-6">
-                    <label for="deathPlace">Place</label>
-                    <input type="text" class="form-control" name="deathPlace" placeholder="New York City">
+                    <label for="deathPlace">过世地点</label>
+                    <input type="text" class="form-control" name="deathPlace">
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-xs-12">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" placeholder="jane.doe@example.com">
+                    <input type="email" class="form-control" name="email">
                   </div>
                 </div>
                 <br/>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
               </form>
             </div>
           </div>
