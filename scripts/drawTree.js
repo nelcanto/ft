@@ -312,7 +312,7 @@ function drawNode(obj, offsetX, offsetY) {
       // console.log("inside drawNode:" + obj);
       return -1;
     }
-    let name = obj.firstName + ' ' + obj.lastName;
+    let name = obj.lastName + ' ' + obj.firstName;
     let imgUrl = obj.image;
     let box = svg
          .append("g")
@@ -402,10 +402,7 @@ function drawTiny(offsetX, offsetY){
             function(d, i) { return "translate(" + boxOffsetX + "," + offsetY + ")"; }
           );
 
-    box.attr("data-target", ".bs-example-modal-sm")
-       .attr("class", "myClickBox")
-       .attr("style", "cursor:pointer;")
-       .attr("data-toggle", "modal");
+    box.attr("style", "cursor:pointer;");
 
     box.append("rect")
         .attr("x", "0")
