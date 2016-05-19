@@ -27,6 +27,9 @@ class NodeModal {
         $('.add-relative-form-pane', this.targetModal).on('submit', e => {
             this.onFormSubmit(e);
         });
+        $('.btn-delete', this.targetModal).on('click', e => {
+            this.onClickDeleteBtn(e);
+        });
     }
 
     showView(view) {
@@ -89,6 +92,10 @@ class NodeModal {
         //console.log('a wild popup has appear!');
         //console.log(e);
         this.showView('node-options');
+    }
+
+    onClickDeleteBtn(e) {
+        console.log('delete btn clicked');
     }
 
     onClickEditBtn(e) {
