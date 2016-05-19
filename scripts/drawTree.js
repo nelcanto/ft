@@ -18,20 +18,20 @@ var svg = d3.select('svg')
 
 // removing soon
 var data = {"data":[
-  {"id":1, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"萧", "lastName":"王", "children":[4,5,6],"father":2,"mother":3, "spouse": 7, "image":imgUrlMen},
-  {"id":2, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"成", "lastName":"王", "children":[1],"father":null,"mother":null, "spouse":3, "image":imgUrlWomen},
-  {"id":3, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"最", "lastName": "王", "children":[1],"father":8,"mother":9, "spouse":2, "image":imgUrlMen},
-  {"id":4, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"后", "lastName": "王", "children":[],"father":7,"mother":1, "spouse":null, "image":imgUrlWomen},
-  {"id":5, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"天", "lastName": "王", "children":[],"father":7,"mother":1, "spouse":null, "image":imgUrlChild},
-  {"id":6, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"气", "lastName": "李", "children":[10,11],"father":7,"mother":1, "spouse":12, "image":imgUrlWomen},
-  {"id":7, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"美", "lastName": "李", "children":[4,5,6],"father":null,"mother":null, "spouse": 1, "image":imgUrlChild},
-  {"id":8, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"好", "lastName": "王", "children":[3, 14],"father":null,"mother":null, "spouse":9, "image":imgUrlMen},
-  {"id":9, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"吃", "lastName": "王", "children":[3, 14],"father":null,"mother":null, "spouse":8, "image":imgUrlWomen},
-  {"id":10, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"午", "lastName": "李", "children":[],"father":6,"mother":null, "spouse":null, "image":imgUrlChild},
-  {"id":11, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"餐", "lastName": "李", "children":[],"father":6,"mother":null, "spouse":13, "image":imgUrlChild},
-  {"id":12, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"啦", "lastName": "王", "children":[10,11],"father":null,"mother":null, "spouse":6, "image":imgUrlMen},
-  {"id":13, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"有", "lastName": "李", "children":[],"father":null,"mother":null, "spouse":11, "image":imgUrlMen},
-  {"id":14, "gender": "male", "status": "none", "birth": "1992-1-1", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"没", "lastName": "王", "children":[],"father":8,"mother":9, "spouse":8, "image":imgUrlChild}
+  {"id":1, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"萧", "lastName":"王", "children":[4,5,6],"father":2,"mother":3, "spouse": 7, "image":imgUrlMen},
+  {"id":2, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"成", "lastName":"王", "children":[1],"father":null,"mother":null, "spouse":3, "image":imgUrlWomen},
+  {"id":3, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"最", "lastName": "王", "children":[1],"father":8,"mother":9, "spouse":2, "image":imgUrlMen},
+  {"id":4, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"后", "lastName": "王", "children":[],"father":7,"mother":1, "spouse":null, "image":imgUrlWomen},
+  {"id":5, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"天", "lastName": "王", "children":[],"father":7,"mother":1, "spouse":null, "image":imgUrlChild},
+  {"id":6, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"气", "lastName": "李", "children":[10,11],"father":7,"mother":1, "spouse":12, "image":imgUrlWomen},
+  {"id":7, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"美", "lastName": "李", "children":[4,5,6],"father":null,"mother":null, "spouse": 1, "image":imgUrlChild},
+  {"id":8, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"好", "lastName": "王", "children":[3, 14],"father":null,"mother":null, "spouse":9, "image":imgUrlMen},
+  {"id":9, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"吃", "lastName": "王", "children":[3, 14],"father":null,"mother":null, "spouse":8, "image":imgUrlWomen},
+  {"id":10, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"午", "lastName": "李", "children":[],"father":6,"mother":null, "spouse":null, "image":imgUrlChild},
+  {"id":11, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"餐", "lastName": "李", "children":[],"father":6,"mother":null, "spouse":13, "image":imgUrlChild},
+  {"id":12, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"啦", "lastName": "王", "children":[10,11],"father":null,"mother":null, "spouse":6, "image":imgUrlMen},
+  {"id":13, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"有", "lastName": "李", "children":[],"father":null,"mother":null, "spouse":11, "image":imgUrlMen},
+  {"id":14, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"没", "lastName": "王", "children":[],"father":8,"mother":9, "spouse":8, "image":imgUrlChild}
 ]};
 
 var centerX = $(window).width()/2+200,
@@ -284,23 +284,16 @@ function drawNode(obj, offsetX, offsetY) {
          .append("g")
          .attr("transform",
             function(d, i) { return "translate(" + offsetX + "," + offsetY + ")"; }
-          );
+          )
+         .attr('id', `node-${obj.id}`);
 
     box.attr("class", "node")
         .attr("style", "cursor:pointer;")
         .attr("data-target", "#node-modal")
         .attr("data-toggle", "modal")
-        .attr("data-name", name)
-        .attr("data-img", imgUrl)
-        .attr("data-firstName", obj.firstName)
-        .attr("data-lastName", obj.lastName)
-        .attr("data-gender", obj.gender)
-        .attr("data-status", obj.status)
-        .attr("data-birth", obj.birth)
-        .attr("data-birthPlace", obj.birthPlace)
-        .attr("data-death", obj.death)
-        .attr("data-deathPlace", obj.deathPlace)
-        .attr("data-email", obj.email);
+        .attr("data-name", name);
+        
+    $(`#node-${obj.id}`).data(obj);
 
     box.offsetX = offsetX;
     box.offsetY = offsetY;

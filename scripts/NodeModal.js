@@ -24,6 +24,9 @@ bindEvents() {
     $('.add-relative-form-pane [name=status]', this.targetModal).on('change', (e) => {
         this.onStatusChanged(e);
     });
+    $('.add-relative-form-pane', this.targetModal).on('submit', (e) => {
+        this.onFormSubmit(e);
+    });
 }
 
 showView(view) {
@@ -40,6 +43,24 @@ showView(view) {
         default:
         break;
     }
+}
+
+onFormSubmit(e) {
+    console.log('submit form');
+    var url = "http://192.168.1.220/d3/php/mysql_to_json.php";
+    /*$.ajax({
+        url: url,
+        method: 'POST', // PUT for update
+        data: {
+            'some': 'data'
+        },
+        success: (data, status, jqXHR) => {
+
+        }.
+        error: (data, status, jqXHR) => {
+
+        }
+    });*/
 }
 
 onStatusChanged(e) {
@@ -59,7 +80,7 @@ onNodeClicked(e) {
     //console.log($(e.currentTarget).data());
     this.node = $(e.currentTarget).data();
 
-    $('.profile-img', this.targetModal).attr('src', this.node['img']);
+    $('.profile-img', this.targetModal).attr('src', this.node['image']);
     $('.node-name', this.targetModal).text(this.node['name']);
     $('.modal-body', this.targetModal).data('userId', this.node['userId']);
 }
@@ -115,6 +136,24 @@ onClickAddRelativeBtn(e) {
     //console.log('click add relative');
     //console.log(e);
     this.showView('add-relative');
+
+    var addRelativePane = $('.add-relative-pane', this.targetModal);
+    console.log(this.node['father']);
+    let relationships = [
+        'father',
+        'mother',
+        'spouse'
+    ];
+
+    // show all relationships
+    $('.list-group-item', addRelativePane).show();
+
+    // hide the relationships the current node already has
+    relationships.forEach((value, key) => {
+        if (this.node[value]) {
+            $(`.${value}`, addRelativePane).hide();
+        }
+    });
 }
 
 onClickAddRelative(e) {
