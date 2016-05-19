@@ -6,25 +6,25 @@ class NodeModal {
 
     bindEvents() {
         // using arrow function to lexically bind this context to the callback event handler function
-        $('.node').on('click', (e) => {
+        $('.node').on('click', e => {
             this.onNodeClicked(e);
         });
-        this.targetModal.on('show.bs.modal', (e) => {
+        this.targetModal.on('show.bs.modal', e => {
             this.onShowModal(e);
         });
-        $('.btn-edit', this.targetModal).on('click', (e) => {
+        $('.btn-edit', this.targetModal).on('click', e => {
             this.onClickEditBtn(e);
         });
-        $('.btn-add-relative', this.targetModal).on('click', (e) => {
+        $('.btn-add-relative', this.targetModal).on('click', e => {
             this.onClickAddRelativeBtn(e);
         });
-        $('.add-relative-pane', this.targetModal).on('click', (e) => {
+        $('.add-relative-pane', this.targetModal).on('click', e => {
             this.onClickAddRelative(e);
         });
-        $('.add-relative-form-pane [name=status]', this.targetModal).on('change', (e) => {
+        $('.add-relative-form-pane [name=status]', this.targetModal).on('change', e => {
             this.onStatusChanged(e);
         });
-        $('.add-relative-form-pane', this.targetModal).on('submit', (e) => {
+        $('.add-relative-form-pane', this.targetModal).on('submit', e => {
             this.onFormSubmit(e);
         });
     }
