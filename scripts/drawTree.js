@@ -16,34 +16,38 @@ var svg = d3.select('svg')
             .attr('height', $(window).height()*3)
             .attr('width', $(window).width()*2);
 
+var tree = [];
 // removing soon
-var data = {"data":[
-  {"id":1, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"萧", "lastName":"王", "children":[4,5,6],"father":2,"mother":3, "spouse": 7, "image":imgUrlMen},
-  {"id":2, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"成", "lastName":"王", "children":[1],"father":null,"mother":null, "spouse":3, "image":imgUrlWomen},
-  {"id":3, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"最", "lastName": "王", "children":[1],"father":8,"mother":9, "spouse":2, "image":imgUrlMen},
-  {"id":4, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"后", "lastName": "王", "children":[],"father":7,"mother":1, "spouse":null, "image":imgUrlWomen},
-  {"id":5, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"天", "lastName": "王", "children":[],"father":7,"mother":1, "spouse":null, "image":imgUrlChild},
-  {"id":6, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"气", "lastName": "李", "children":[10,11],"father":7,"mother":1, "spouse":12, "image":imgUrlWomen},
-  {"id":7, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"美", "lastName": "李", "children":[4,5,6],"father":null,"mother":null, "spouse": 1, "image":imgUrlChild},
-  {"id":8, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"好", "lastName": "王", "children":[3, 14],"father":null,"mother":null, "spouse":9, "image":imgUrlMen},
-  {"id":9, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"吃", "lastName": "王", "children":[3, 14],"father":null,"mother":null, "spouse":8, "image":imgUrlWomen},
-  {"id":10, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"午", "lastName": "李", "children":[],"father":6,"mother":null, "spouse":null, "image":imgUrlChild},
-  {"id":11, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"餐", "lastName": "李", "children":[],"father":6,"mother":null, "spouse":13, "image":imgUrlChild},
-  {"id":12, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"啦", "lastName": "王", "children":[10,11],"father":null,"mother":null, "spouse":6, "image":imgUrlMen},
-  {"id":13, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"有", "lastName": "李", "children":[],"father":null,"mother":null, "spouse":11, "image":imgUrlMen},
-  {"id":14, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"没", "lastName": "王", "children":[],"father":8,"mother":9, "spouse":8, "image":imgUrlChild}
-]};
+// var data = {"data":[
+//   {"id":1, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"萧", "lastName":"王", "children":[4,5,6],"father":2,"mother":3, "spouse": 7, "image":imgUrlMen},
+//   {"id":2, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"成", "lastName":"王", "children":[1],"father":null,"mother":null, "spouse":3, "image":imgUrlWomen},
+//   {"id":3, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"最", "lastName": "王", "children":[1],"father":8,"mother":9, "spouse":2, "image":imgUrlMen},
+//   {"id":4, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"后", "lastName": "王", "children":[],"father":7,"mother":1, "spouse":null, "image":imgUrlWomen},
+//   {"id":5, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"天", "lastName": "王", "children":[],"father":7,"mother":1, "spouse":null, "image":imgUrlChild},
+//   {"id":6, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"气", "lastName": "李", "children":[10,11],"father":7,"mother":1, "spouse":12, "image":imgUrlWomen},
+//   {"id":7, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"美", "lastName": "李", "children":[4,5,6],"father":null,"mother":null, "spouse": 1, "image":imgUrlChild},
+//   {"id":8, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"好", "lastName": "王", "children":[3, 14],"father":null,"mother":null, "spouse":9, "image":imgUrlMen},
+//   {"id":9, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"吃", "lastName": "王", "children":[3, 14],"father":null,"mother":null, "spouse":8, "image":imgUrlWomen},
+//   {"id":10, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"午", "lastName": "李", "children":[],"father":6,"mother":null, "spouse":null, "image":imgUrlChild},
+//   {"id":11, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"餐", "lastName": "李", "children":[],"father":6,"mother":null, "spouse":13, "image":imgUrlChild},
+//   {"id":12, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"啦", "lastName": "王", "children":[10,11],"father":null,"mother":null, "spouse":6, "image":imgUrlMen},
+//   {"id":13, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"有", "lastName": "李", "children":[],"father":null,"mother":null, "spouse":11, "image":imgUrlMen},
+//   {"id":14, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"没", "lastName": "王", "children":[],"father":8,"mother":9, "spouse":8, "image":imgUrlChild}
+// ]};
+
+// var jj = [{"id":1,"gender":"2","status":"1","birth":"1963-01-01","birthPlace":"紐約","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"月櫻","lastName":"王","children":[4,5,6],"father":2,"mother":3,"spouse":7,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"},{"id":4,"gender":"1","status":"1","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"熠榮","lastName":"李","children":[],"father":7,"mother":1,"spouse":"null","image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"},{"id":5,"gender":"1","status":"1","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"志榮","lastName":"李","children":[],"father":7,"mother":1,"spouse":"null","image":"https:\/\/thumbsplus.tutsplus.com\/uploads\/users\/135\/posts\/21954\/preview_image\/preview-cartoon-children.jpg?height=300&width=300"},{"id":6,"gender":"1","status":"2","birth":"1992-01-01","birthPlace":"紐約","death":"2016-04-01","dealthPlace":"紐約","email":"2@3.com","firstName":"進榮","lastName":"李","children":[10,11],"father":7,"mother":1,"spouse":12,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"},{"id":2,"gender":"1","status":"3","birth":"1992-01-01","birthPlace":"台灣","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"増","lastName":"王","children":[1],"father":"null","mother":"null","spouse":3,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"},{"id":3,"gender":"2","status":"1","birth":"1992-01-01","birthPlace":"紐約","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"柏穎","lastName":"邱","children":[1],"father":8,"mother":9,"spouse":2,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"},{"id":7,"gender":"1","status":"1","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"岩松","lastName":"李","children":[4,5,6],"father":"null","mother":"null","spouse":1,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"},{"id":10,"gender":"1","status":"1","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"敏長","lastName":"李","children":[],"father":6,"mother":12,"spouse":"null","image":"https:\/\/thumbsplus.tutsplus.com\/uploads\/users\/135\/posts\/21954\/preview_image\/preview-cartoon-children.jpg?height=300&width=300"},{"id":11,"gender":"1","status":"1","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"敏清","lastName":"李","children":[],"father":6,"mother":12,"spouse":13,"image":"https:\/\/thumbsplus.tutsplus.com\/uploads\/users\/135\/posts\/21954\/preview_image\/preview-cartoon-children.jpg?height=300&width=300"},{"id":12,"gender":"2","status":"1","birth":"1992-01-01","birthPlace":"紐約","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"衍宏","lastName":"王","children":[10,11],"father":"null","mother":"null","spouse":6,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"},{"id":8,"gender":"1","status":"1","birth":"1766-01-01","birthPlace":"紐約","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"信志","lastName":"邱","children":[3,14],"father":"null","mother":"null","spouse":9,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"},{"id":9,"gender":"2","status":"2","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"慶芳","lastName":"林","children":[3,14],"father":"null","mother":"null","spouse":8,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"}];
 
 var centerX = $(window).width()/2+200,
     centerY = $(window).height()/2+200,
     marginX = 150,
     marginY = 50;
 
+var id = 1;
 
 $("svg").draggable();
-
+// draw(jj);
 // lets start from here ...
-draw(1, data.data);
+d3.json("http://192.168.1.220/d3/php/view.php?userid=" + id, draw);
 
 /*
  * connect one node with its mother node and father node
@@ -145,13 +149,13 @@ function drawParentsLayerAndConnect(arr, tree, ratio, preview = false) {
 
       let objFather,objMother,nodeFather,nodeMother;
 
-      if (obj.father == null) {
+      if (obj.father != undefined && obj.father == null) {
         objFather = null;
       } else {
         objFather = tree[obj.father];
         nodeFather = drawNode(objFather, node.offsetX - marginX*ratio, node.offsetY - maxRect.y - marginY);
 
-        if (objFather.children.length>1 && preview == true) {
+        if (objFather != undefined && objFather.children != undefined && objFather.children.length>1 && preview == true) {
           drawTiny(nodeFather.offsetX, nodeFather.offsetY);
         }
         ret.push({'obj':objFather, 'node': nodeFather});
@@ -161,7 +165,7 @@ function drawParentsLayerAndConnect(arr, tree, ratio, preview = false) {
       } else {
         objMother = tree[obj.mother];
         nodeMother = drawNode(objMother, node.offsetX + marginX*ratio, node.offsetY - maxRect.y - marginY);
-        if (objMother.children.length>1 && preview == true) {
+        if (objMother != undefined && objMother.children != undefined && objMother.children.length>1 && preview == true) {
           drawTiny(nodeMother.offsetX, nodeMother.offsetY);
         }
         ret.push({'obj': objMother, 'node': nodeMother});
@@ -197,6 +201,7 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
   arr.forEach((entry) => {
       obj = entry.obj;
       node = entry.node;
+
       // check if visited
       if (visited.indexOf(obj.id) != -1) {
           // console.log('visited: ');
@@ -207,10 +212,12 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
       visited.push(obj.id);
 
       let spouseOffsetX = node.offsetX;
-      if (obj.spouse != null) {
+      if (obj != undefined && obj.spouse != undefined && obj.spouse != null) {
+
         let objSpouse = tree[obj.spouse];
+
         nodeSpouse = objSpouse.node;
-        if (obj.spouse != null && objSpouse.node == null) {
+        if (objSpouse.node == null) {
           nodeSpouse = drawNode(objSpouse, node.offsetX + marginX*ratio, node.offsetY);
           spouseOffsetX = nodeSpouse.offsetX;
         }
@@ -251,12 +258,10 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
  *    Layer 0: sisters, brothers, spouse
  *    Layer -1(N1-negative1): children
  *    Layer -2(N2-negative2): grandchildren
- * @param id       main node's id
  * @param data     complete json of all nodes
  * @return
  */
-function draw(id, data) {
-  let tree = [];
+function draw(data) {
   let main = data.forEach( (entry) => {
     tree[entry.id] = entry;
     if (entry.id == id){
@@ -272,11 +277,11 @@ function draw(id, data) {
   let nodeMe      = drawNode(objMe, centerX, centerY);
   let nodeSpouse;
 
-  if (objMe.children.length < 1) {
+  if (objMe.children == undefined || objMe.children.length < 1) {
     nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 1*marginX, nodeMe.offsetY);
     connectSpouse(nodeMe, nodeSpouse);
   } else {
-    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 4*marginX, nodeMe.offsetY);
+    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 1*marginX, nodeMe.offsetY);
   }
   // Layer 1
   let initialArr;
@@ -287,7 +292,7 @@ function draw(id, data) {
   drawParentsLayerAndConnect(layer1Arr, tree, 0.5, true);
 
   // Layer -1
-  let layerN1Arr = drawChildrenLayerAndConnect(initialArr, tree, 2, true);
+  let layerN1Arr = drawChildrenLayerAndConnect(initialArr, tree, 1, false);
 
   // console.log(layerN1Arr);
   // Layer -2
@@ -326,6 +331,13 @@ function drawNode(obj, offsetX, offsetY) {
         .attr("data-target", "#node-modal")
         .attr("data-toggle", "modal")
         .attr("data-name", name);
+
+    if (obj.father != null)
+        obj.sibling = tree[obj.father].children;
+      else if (obj.mother != null)
+        obj.sibling = tree[obj.mother].children;
+      else
+        obj.sibling = [];
 
     $(`#node-${obj.id}`).data(obj);
 
