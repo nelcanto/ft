@@ -45,15 +45,17 @@
             </div>
             <div class="hidden add-relative-pane">
               <h4>选者要添加关系</h4>
-              <a href="#" class="list-group-item father" data-value=1><span class="glyphicon glyphicon-plus"> 父亲</a>
-              <a href="#" class="list-group-item mother" data-value=2><span class="glyphicon glyphicon-plus"> 母亲</a>
-              <a href="#" class="list-group-item spouse" data-value=3><span class="glyphicon glyphicon-plus"> 配偶</a>
-              <a href="#" class="list-group-item sibling" data-value=4><span class="glyphicon glyphicon-plus"> 兄弟、姐妹</a>
-              <a href="#" class="list-group-item child" data-value=5><span class="glyphicon glyphicon-plus"> 儿女</a>
+              <div class="relationship-list">
+                <a href="#" class="list-group-item father" data-value=1><span class="glyphicon glyphicon-plus"></span> 父亲</a>
+                <a href="#" class="list-group-item mother" data-value=2><span class="glyphicon glyphicon-plus"></span> 母亲</a>
+                <a href="#" class="list-group-item spouse" data-value=3><span class="glyphicon glyphicon-plus"></span> 配偶</a>
+                <a href="#" class="list-group-item sibling" data-value=4><span class="glyphicon glyphicon-plus"></span> 兄弟、姐妹</a>
+                <a href="#" class="list-group-item child" data-value=5><span class="glyphicon glyphicon-plus"></span> 儿女</a>
+              </div>
             </div>
 
             <div class="hidden add-relative-form-pane">
-              <h4>添加个<span class='relationship'>配偶</span></h4>
+              <h4>添加个<span class='add-relationship-type'>配偶</span></h4>
               <form action="javascript:void(0);">
                 <div class="row">
                   <div class="form-group col-xs-6">
@@ -138,6 +140,7 @@
   <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="bower_components/d3/d3.js"></script>
   <script src="/bower_components/traceur-runtime/traceur-runtime.js"></script>
+  <script src="/bower_components/lodash/lodash.js"></script>
   <script type="text/javascript" src="dist/scripts/NodeModal.js"></script>
   <script type="text/javascript" src="dist/scripts/drawTree.js"></script>
   <script type="text/javascript" src="dist/scripts/global.js"></script>
