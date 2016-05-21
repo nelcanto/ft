@@ -280,6 +280,7 @@ function draw(data) {
   // console.log(layerN1Arr);
   // Layer -2
   drawChildrenLayerAndConnect(layerN1Arr, tree, 1, true);
+  $(document).trigger('DATA_LOADED');
 }
 
 
