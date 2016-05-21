@@ -22,6 +22,9 @@ class NodeModal {
         $('.btn-add-relative', this.targetModal).on('click', e => {
             this.onClickAddRelativeBtn(e);
         });
+        $('.btn-view-tree', this.targetModal).on('click', e => {
+            this.onClickViewTreeBtn(e);
+        });
         $('.add-relative-pane .relationship-list', this.targetModal).on('click', e => {
             this.onClickAddRelative(e);
         });
@@ -72,12 +75,11 @@ class NodeModal {
         } else {
             actionEndpoint = 'insert.php';
             //console.log('insert');
-            let relationshipType = $('.add-relationship-type', addRelativeForm).text().trim();
+            let relationshipType = $('.add-relative-form-pane .add-relationship-type', this.targetModal).text().trim();
             formData['father'] = null;
             formData['mother'] = null;
             formData['spouse'] = null;
             formData['children'] = [];
-            
             switch(true) {
                 case relationshipType == '父亲':
                     formData['spouse'] = this.node.mother;
@@ -109,6 +111,7 @@ class NodeModal {
                     formData['children'] = this.node.children;
                     break;
                 default:
+                console.log('WRONG');
                 break;
             }
         }
@@ -119,6 +122,8 @@ class NodeModal {
             method: 'POST',
             success: (data, status, jqXHR) => {
                 console.log(`success.`);
+                mainDraw(1);
+                this.targetModal.modal('hide');
             },
             error: (data, status, jqXHR) => {
                 console.log(`error.`);
@@ -176,6 +181,11 @@ class NodeModal {
         //console.log('a wild popup has appear!');
         //console.log(e);
         this.showView('node-options');
+    }
+
+    onClickViewTreeBtn(e) {
+        console.log(`viewing tree of ${this.node.id}`)
+        mainDraw(this.node.id);
     }
 
     onClickDeleteBtn(e) {
