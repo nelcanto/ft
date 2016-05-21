@@ -187,6 +187,7 @@ class NodeModal {
             },
             success: (data, status, jqXHR) => {
                 console.log(`user ${this.node['id']} deleted.`);
+                mainDraw(1);
             },
             error: (data, status, jqXHR) => {
                 console.log(`error occured when deleting user ${this.node['id']}.`);
