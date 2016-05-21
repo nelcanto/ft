@@ -266,7 +266,7 @@ function draw(data) {
     nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 1*marginX, nodeMe.offsetY);
     connectSpouse(nodeMe, nodeSpouse);
   } else {
-    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 2*marginX, nodeMe.offsetY);
+    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 4*marginX, nodeMe.offsetY);
   }
   // Layer 1
   let initialArr;
