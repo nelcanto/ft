@@ -7,8 +7,8 @@ class NodeModal {
 
     bindEvents() {
         // using arrow function to lexically bind this context to the callback event handler function
-        $(document).one('DATA_LOADED', e => {
-            $('.node').one('click', e => {
+        $(document).on('DATA_LOADED', e => {
+            $('.node').on('click', e => {
                 this.onNodeClicked(e);
             });
         });
@@ -82,6 +82,8 @@ class NodeModal {
             formData['children'] = [];
             switch(true) {
                 case relationshipType == '父亲':
+                    console.log('adding dad');
+                    console.log(this.node);
                     formData['spouse'] = this.node.mother;
                     formData['children'] = this.node.sibling;
                     break;
@@ -122,7 +124,7 @@ class NodeModal {
             method: 'POST',
             success: (data, status, jqXHR) => {
                 console.log(`success.`);
-                mainDraw(1);
+                mainDraw($('svg').data('viewed-id'));
                 this.targetModal.modal('hide');
             },
             error: (data, status, jqXHR) => {
@@ -184,7 +186,7 @@ class NodeModal {
     }
 
     onClickViewTreeBtn(e) {
-        console.log(`viewing tree of ${this.node.id}`)
+        console.log(`viewing tree of ${this.node.id}`);
         mainDraw(this.node.id);
     }
 
@@ -197,7 +199,7 @@ class NodeModal {
             },
             success: (data, status, jqXHR) => {
                 console.log(`user ${this.node['id']} deleted.`);
-                mainDraw(1);
+                mainDraw($('svg').data('viewed-id'));
             },
             error: (data, status, jqXHR) => {
                 console.log(`error occured when deleting user ${this.node['id']}.`);

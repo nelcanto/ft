@@ -23,9 +23,14 @@ var centerX = $(window).width()/2+200,
 var id = 1;
 mainDraw(id);
 
-function mainDraw(id) {
+function mainDraw(id2) {
+  // added a hack to change the global id variable without breaking this code
+  // need for drawing a different id tree
+  id = id2;
   d3.select("svg").remove();
-  svg = d3.select("body").append("svg")
+  svg = d3.select("body")
+          .append("svg")
+          .attr('data-viewed-id', id)
           .attr('height', $(window).height()*3)
           .attr('width', $(window).width()*2)
   $("svg").draggable();
@@ -317,12 +322,13 @@ function drawNode(obj, offsetX, offsetY) {
         .attr("data-toggle", "modal")
         .attr("data-name", name);
 
-    if (obj.father != null)
+    if (obj.father != null) {
         obj.sibling = tree[obj.father].children;
-      else if (obj.mother != null)
+        console.log(tree[obj.father]);
+    } else if (obj.mother != null)
         obj.sibling = tree[obj.mother].children;
       else
-        obj.sibling = [];
+        obj.sibling = [obj.id];
 
     $(`#node-${obj.id}`).data(obj);
 
