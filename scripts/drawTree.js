@@ -5,49 +5,32 @@
 
 
 // svg is the base for drawing d3 objects
-var svg = d3.select("body").append("svg"),
+var svg,
     maxRect = { x: 100, y: 130},
     maxIcon = { x: maxRect.x, y: maxRect.x},
     imgUrlMen = "http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg",
     imgUrlWomen = "http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg",
     imgUrlChild = "https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg?height=300&width=300";
 
-var svg = d3.select('svg')
-            .attr('height', $(window).height()*3)
-            .attr('width', $(window).width()*2);
-
 var tree = [];
-// removing soon
-// var data = {"data":[
-//   {"id":1, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"萧", "lastName":"王", "children":[4,5,6],"father":2,"mother":3, "spouse": 7, "image":imgUrlMen},
-//   {"id":2, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"成", "lastName":"王", "children":[1],"father":null,"mother":null, "spouse":3, "image":imgUrlWomen},
-//   {"id":3, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"最", "lastName": "王", "children":[1],"father":8,"mother":9, "spouse":2, "image":imgUrlMen},
-//   {"id":4, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"后", "lastName": "王", "children":[],"father":7,"mother":1, "spouse":null, "image":imgUrlWomen},
-//   {"id":5, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"天", "lastName": "王", "children":[],"father":7,"mother":1, "spouse":null, "image":imgUrlChild},
-//   {"id":6, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"气", "lastName": "李", "children":[10,11],"father":7,"mother":1, "spouse":12, "image":imgUrlWomen},
-//   {"id":7, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"美", "lastName": "李", "children":[4,5,6],"father":null,"mother":null, "spouse": 1, "image":imgUrlChild},
-//   {"id":8, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"好", "lastName": "王", "children":[3, 14],"father":null,"mother":null, "spouse":9, "image":imgUrlMen},
-//   {"id":9, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"吃", "lastName": "王", "children":[3, 14],"father":null,"mother":null, "spouse":8, "image":imgUrlWomen},
-//   {"id":10, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"午", "lastName": "李", "children":[],"father":6,"mother":null, "spouse":null, "image":imgUrlChild},
-//   {"id":11, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"餐", "lastName": "李", "children":[],"father":6,"mother":null, "spouse":13, "image":imgUrlChild},
-//   {"id":12, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"啦", "lastName": "王", "children":[10,11],"father":null,"mother":null, "spouse":6, "image":imgUrlMen},
-//   {"id":13, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"有", "lastName": "李", "children":[],"father":null,"mother":null, "spouse":11, "image":imgUrlMen},
-//   {"id":14, "gender": "1", "status": "1", "birth": "1992-01-01", "birthPlace": "New York City", "death": null, "dealthPlace": null, "email": "2@3.com", "firstName":"没", "lastName": "王", "children":[],"father":8,"mother":9, "spouse":8, "image":imgUrlChild}
-// ]};
-
-// var jj = [{"id":1,"gender":"2","status":"1","birth":"1963-01-01","birthPlace":"紐約","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"月櫻","lastName":"王","children":[4,5,6],"father":2,"mother":3,"spouse":7,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"},{"id":4,"gender":"1","status":"1","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"熠榮","lastName":"李","children":[],"father":7,"mother":1,"spouse":"null","image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"},{"id":5,"gender":"1","status":"1","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"志榮","lastName":"李","children":[],"father":7,"mother":1,"spouse":"null","image":"https:\/\/thumbsplus.tutsplus.com\/uploads\/users\/135\/posts\/21954\/preview_image\/preview-cartoon-children.jpg?height=300&width=300"},{"id":6,"gender":"1","status":"2","birth":"1992-01-01","birthPlace":"紐約","death":"2016-04-01","dealthPlace":"紐約","email":"2@3.com","firstName":"進榮","lastName":"李","children":[10,11],"father":7,"mother":1,"spouse":12,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"},{"id":2,"gender":"1","status":"3","birth":"1992-01-01","birthPlace":"台灣","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"増","lastName":"王","children":[1],"father":"null","mother":"null","spouse":3,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"},{"id":3,"gender":"2","status":"1","birth":"1992-01-01","birthPlace":"紐約","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"柏穎","lastName":"邱","children":[1],"father":8,"mother":9,"spouse":2,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"},{"id":7,"gender":"1","status":"1","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"岩松","lastName":"李","children":[4,5,6],"father":"null","mother":"null","spouse":1,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"},{"id":10,"gender":"1","status":"1","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"敏長","lastName":"李","children":[],"father":6,"mother":12,"spouse":"null","image":"https:\/\/thumbsplus.tutsplus.com\/uploads\/users\/135\/posts\/21954\/preview_image\/preview-cartoon-children.jpg?height=300&width=300"},{"id":11,"gender":"1","status":"1","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"敏清","lastName":"李","children":[],"father":6,"mother":12,"spouse":13,"image":"https:\/\/thumbsplus.tutsplus.com\/uploads\/users\/135\/posts\/21954\/preview_image\/preview-cartoon-children.jpg?height=300&width=300"},{"id":12,"gender":"2","status":"1","birth":"1992-01-01","birthPlace":"紐約","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"衍宏","lastName":"王","children":[10,11],"father":"null","mother":"null","spouse":6,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"},{"id":8,"gender":"1","status":"1","birth":"1766-01-01","birthPlace":"紐約","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"信志","lastName":"邱","children":[3,14],"father":"null","mother":"null","spouse":9,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"},{"id":9,"gender":"2","status":"2","birth":"1992-01-01","birthPlace":"New York City","death":null,"dealthPlace":null,"email":"2@3.com","firstName":"慶芳","lastName":"林","children":[3,14],"father":"null","mother":"null","spouse":8,"image":"http:\/\/thumbs.dreamstime.com\/m\/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"}];
 
 var centerX = $(window).width()/2+200,
     centerY = $(window).height()/2+200,
     marginX = 150,
     marginY = 50;
 
-var id = 1;
-
-$("svg").draggable();
-// draw(jj);
 // lets start from here ...
-d3.json("http://192.168.1.220/d3/php/view.php?userid=" + id, draw);
+var id = 1;
+mainDraw(id);
+
+function mainDraw(id) {
+  d3.select("svg").remove();
+  svg = d3.select("body").append("svg")
+          .attr('height', $(window).height()*3)
+          .attr('width', $(window).width()*2)
+  $("svg").draggable();
+  d3.json("http://192.168.1.220/d3/php/view.php?userid=" + id, draw);
+}
 
 /*
  * connect one node with its mother node and father node
