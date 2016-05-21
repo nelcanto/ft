@@ -202,6 +202,7 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
         nodeSpouse = objSpouse.node;
         if (objSpouse.node == null) {
           nodeSpouse = drawNode(objSpouse, node.offsetX + marginX*ratio, node.offsetY);
+          connectSpouse(node, nodeSpouse);
           spouseOffsetX = nodeSpouse.offsetX;
         }
         visited.push(obj.spouse);
@@ -275,7 +276,7 @@ function draw(data) {
   drawParentsLayerAndConnect(layer1Arr, tree, 0.5, true);
 
   // Layer -1
-  let layerN1Arr = drawChildrenLayerAndConnect(initialArr, tree, 1, false);
+  let layerN1Arr = drawChildrenLayerAndConnect(initialArr, tree, 2, false);
 
   // console.log(layerN1Arr);
   // Layer -2
