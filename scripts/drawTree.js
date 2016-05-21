@@ -144,7 +144,7 @@ function drawParentsLayerAndConnect(arr, tree, ratio, preview = false) {
         nodeFather = drawNode(objFather, node.offsetX - marginX*ratio, node.offsetY - maxRect.y - marginY);
 
         if (objFather != undefined && objFather.children != undefined && objFather.children.length>1 && preview == true) {
-          drawTiny(nodeFather.offsetX, nodeFather.offsetY);
+          drawTiny(nodeFather.offsetX, nodeFather.offsetY, objFather.id);
         }
         ret.push({'obj':objFather, 'node': nodeFather});
       }
@@ -154,13 +154,12 @@ function drawParentsLayerAndConnect(arr, tree, ratio, preview = false) {
         objMother = tree[obj.mother];
         nodeMother = drawNode(objMother, node.offsetX + marginX*ratio, node.offsetY - maxRect.y - marginY);
         if (objMother != undefined && objMother.children != undefined && objMother.children.length>1 && preview == true) {
-          drawTiny(nodeMother.offsetX, nodeMother.offsetY);
+          drawTiny(nodeMother.offsetX, nodeMother.offsetY, objMother.id);
         }
         ret.push({'obj': objMother, 'node': nodeMother});
       }
       connectWithParents(nodeFather, nodeMother, node);
   }
-  // console.log(ret);
   return ret;
 }
 
@@ -192,8 +191,6 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
 
       // check if visited
       if (visited.indexOf(obj.id) != -1) {
-          // console.log('visited: ');
-          // console.log(visited);
           return -1;
       }
 
@@ -217,14 +214,14 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
         return -1;
 
       // the children array is defined and has at least one element
-      if (typeof obj.children !== 'undefined' && obj.children.length > 0) {
+      if (typeof obj.children !== undefined && obj.children.length > 0) {
         childrenArrayLength = obj.children.length;
         let i = childrenArrayLength/2*(-1);
         for (let child_id of obj.children) {
           childObj = tree[child_id];
           childNode = drawNode(childObj, (node.offsetX + spouseOffsetX)/2 + i*marginX*ratio, node.offsetY + maxRect.y + marginY);
           if (preview == true && childObj.spouse != null) {
-              drawTiny(childNode.offsetX, childNode.offsetY);
+              drawTiny(childNode.offsetX, childNode.offsetY, childNode.id);
           }
           ret.push({'obj':childObj, 'node': childNode});
 
@@ -235,7 +232,6 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
       }
 
   });
-  // console.log(ret);
   return ret;
 }
 
@@ -281,19 +277,12 @@ function draw(data) {
   drawParentsLayerAndConnect(layer1Arr, tree, 0.5, true);
 
   // Layer -1
-  let layerN1Arr = drawChildrenLayerAndConnect(initialArr, tree, 2, false);
+  let layerN1Arr = drawChildrenLayerAndConnect(initialArr, tree, 3, false);
 
-  // console.log(layerN1Arr);
   // Layer -2
   drawChildrenLayerAndConnect(layerN1Arr, tree, 1, true);
   $(document).trigger('DATA_LOADED');
 }
-
-
-$("myClickBox").on("click", function(){
-
-
-});
 
 /**
  * based on obj and pre-defined offsetX, offsetY, draw and return node
@@ -304,7 +293,6 @@ $("myClickBox").on("click", function(){
  */
 function drawNode(obj, offsetX, offsetY) {
     if (obj == null) {
-      // console.log("inside drawNode:" + obj);
       return -1;
     }
     let name = obj.lastName + ' ' + obj.firstName;
@@ -396,7 +384,7 @@ function drawNode(obj, offsetX, offsetY) {
  * @param offsetY
  * @return
  */
-function drawTiny(offsetX, offsetY){
+function drawTiny(offsetX, offsetY, id){
     let base = maxRect.x;
     let boxOffsetX = offsetX-maxRect.x*0.3;
     let box = svg
@@ -413,6 +401,7 @@ function drawTiny(offsetX, offsetY){
         .attr("rx", 1)
         .attr("ry", 1)
         .attr("fill", "white")
+        .attr("data-id", id)
         .attr("style", "stroke:black;stroke-width:0.5;opacity:0.3;")
         .attr("width", 0.2*base)
         .attr("height", 0.2*base);
@@ -430,6 +419,7 @@ function drawTiny(offsetX, offsetY){
         .attr("y", "0")
         .attr("rx", 1)
         .attr("ry", 1)
+        .attr("data-id", id)
         .attr("fill", "white")
         .attr("style", "stroke:black;stroke-width:0.5;opacity:0.3;")
         .attr("width", 0.2*base)
