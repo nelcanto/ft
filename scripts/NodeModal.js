@@ -136,7 +136,7 @@ class NodeModal {
             'birth',
             'birthPlace',
             'death',
-            'deathPlace',
+            'dealthPlace',
             'email'
         ];
         
@@ -183,7 +183,7 @@ class NodeModal {
         $.ajax({
             url: `${this.apiEndpoint}/delete.php`,
             data: {
-                userId: this.node['id']
+                userid: this.node['id']
             },
             success: (data, status, jqXHR) => {
                 console.log(`user ${this.node['id']} deleted.`);
@@ -215,7 +215,7 @@ class NodeModal {
             'birth': '',
             'birthPlace': '',
             'death': '',
-            'deathPlace': '',
+            'dealthPlace': '',
             'email': ''
         };
 
