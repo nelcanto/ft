@@ -266,7 +266,7 @@ function draw(data) {
     nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 1*marginX, nodeMe.offsetY);
     connectSpouse(nodeMe, nodeSpouse);
   } else {
-    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 1*marginX, nodeMe.offsetY);
+    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 2*marginX, nodeMe.offsetY);
   }
   // Layer 1
   let initialArr;
@@ -309,10 +309,8 @@ function drawNode(obj, offsetX, offsetY) {
         .attr("data-target", "#node-modal")
         .attr("data-toggle", "modal")
         .attr("data-name", name);
-
     if (obj.father != null) {
         obj.sibling = tree[obj.father].children;
-        console.log(tree[obj.father]);
     } else if (obj.mother != null)
         obj.sibling = tree[obj.mother].children;
       else
