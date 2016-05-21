@@ -221,7 +221,7 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
           childObj = tree[child_id];
           childNode = drawNode(childObj, (node.offsetX + spouseOffsetX)/2 + i*marginX*ratio, node.offsetY + maxRect.y + marginY);
           if (preview == true && childObj.spouse != null) {
-              drawTiny(childNode.offsetX, childNode.offsetY, childNode.id);
+              drawTiny(childNode.offsetX, childNode.offsetY, childNode.obj.id);
           }
           ret.push({'obj':childObj, 'node': childNode});
 
@@ -388,6 +388,7 @@ function drawTiny(offsetX, offsetY, id){
     let box = svg
          .append("g")
          .attr('class', 'tiny-node')
+         .attr("data-id", id)
          .attr("transform",
             function(d, i) { return "translate(" + boxOffsetX + "," + offsetY + ")"; }
           );
@@ -400,7 +401,6 @@ function drawTiny(offsetX, offsetY, id){
         .attr("rx", 1)
         .attr("ry", 1)
         .attr("fill", "white")
-        .attr("data-id", id)
         .attr("style", "stroke:black;stroke-width:0.5;opacity:0.3;")
         .attr("width", 0.2*base)
         .attr("height", 0.2*base);
@@ -418,7 +418,6 @@ function drawTiny(offsetX, offsetY, id){
         .attr("y", "0")
         .attr("rx", 1)
         .attr("ry", 1)
-        .attr("data-id", id)
         .attr("fill", "white")
         .attr("style", "stroke:black;stroke-width:0.5;opacity:0.3;")
         .attr("width", 0.2*base)

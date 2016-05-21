@@ -11,6 +11,9 @@ class NodeModal {
             $('.node').on('click', e => {
                 this.onNodeClicked(e);
             });
+            $('.tiny-node').on('click', e => {
+                this.onTinyNodeClicked(e);
+            });
         });
 
         this.targetModal.on('show.bs.modal', e => {
@@ -166,12 +169,16 @@ class NodeModal {
         $('.node-name', this.targetModal).text(this.node['name']);
     }
 
+    onTinyNodeClicked(e) {
+        this.node = $(e.currentTarget).data();
+        mainDraw(this.node.id);
+    }
+
     onShowModal(e) {
         this.showView('node-options');
     }
 
     onClickViewTreeBtn(e) {
-        //console.log(`viewing tree of ${this.node.id}`);
         mainDraw(this.node.id);
     }
 
