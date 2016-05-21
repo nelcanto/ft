@@ -387,6 +387,7 @@ function drawTiny(offsetX, offsetY, id){
     let boxOffsetX = offsetX-maxRect.x*0.3;
     let box = svg
          .append("g")
+         .attr('class', 'tiny-node')
          .attr("transform",
             function(d, i) { return "translate(" + boxOffsetX + "," + offsetY + ")"; }
           );

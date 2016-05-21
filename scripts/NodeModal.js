@@ -56,7 +56,6 @@ class NodeModal {
     }
 
     onFormSubmit(e) {
-        console.log('submit form');
         let type = 'edit';
         let formData = this.getFormData();
         let actionEndpoint = '';
@@ -65,16 +64,9 @@ class NodeModal {
 
         if (addRelativeForm.data('action') == 'edit') {
             actionEndpoint = 'update.php';
-            //console.log('before edit form data');
-            //console.log(formData);
-            //console.log('before edit node data');
-            //console.log(this.node);
             formData = _.defaults(formData, this.node);
-            //console.log('after edit form data');
-            //console.log(formData);
         } else {
             actionEndpoint = 'insert.php';
-            //console.log('insert');
             let relationshipType = $('.add-relative-form-pane .add-relationship-type', this.targetModal).text().trim();
             formData['father'] = null;
             formData['mother'] = null;
@@ -82,8 +74,6 @@ class NodeModal {
             formData['children'] = [];
             switch(true) {
                 case relationshipType == '父亲':
-                    console.log('adding dad');
-                    console.log(this.node);
                     formData['spouse'] = this.node.mother;
                     formData['children'] = this.node.sibling;
                     break;
@@ -117,13 +107,11 @@ class NodeModal {
                 break;
             }
         }
-
         $.ajax({
             url: `${this.apiEndpoint}/${actionEndpoint}`,
             data: formData,
             method: 'POST',
             success: (data, status, jqXHR) => {
-                console.log(`success.`);
                 mainDraw($('svg').data('viewed-id'));
                 this.targetModal.modal('hide');
             },
@@ -150,15 +138,18 @@ class NodeModal {
         let formData = {};
         formFields.forEach((value, key) => {
             //console.log(value + " " + $(`[name=${value}]`, form).val())
-            formData[value] = $(`[name=${value}]`, form).val()
+            if ($(`[name=${value}]:checked`, form).length) {
+                formData[value] = $(`[name=${value}]:checked`, form).val()
+            } else {
+                formData[value] = $(`[name=${value}]`, form).val()
+            }
         });
-        //console.log(formData);
             
         return formData;
     }
 
     onStatusChanged(e) {
-        console.log(`status changed to ${$(e.currentTarget).val()}`);
+        //console.log(`status changed to ${$(e.currentTarget).val()}`);
         if ($(e.currentTarget).val() == 2) {
             $('.add-relative-form-pane [name=birth]', this.targetModal).parents('.row').hide();
             $('.add-relative-form-pane [name=death]', this.targetModal).parents('.row').show();
@@ -169,10 +160,6 @@ class NodeModal {
     }
 
     onNodeClicked(e) {
-        //console.log('box clicked');
-        //console.log($(e.currentTarget));
-        //console.log($(e.currentTarget).data());
-        console.log($(e));
         this.node = $(e.currentTarget).data();
 
         $('.profile-img', this.targetModal).attr('src', this.node['image']);
@@ -180,25 +167,21 @@ class NodeModal {
     }
 
     onShowModal(e) {
-        //console.log('a wild popup has appear!');
-        //console.log(e);
         this.showView('node-options');
     }
 
     onClickViewTreeBtn(e) {
-        console.log(`viewing tree of ${this.node.id}`);
+        //console.log(`viewing tree of ${this.node.id}`);
         mainDraw(this.node.id);
     }
 
     onClickDeleteBtn(e) {
-        console.log('delete btn clicked');
-        $.ajax({
+                $.ajax({
             url: `${this.apiEndpoint}/delete.php`,
             data: {
                 userid: this.node['id']
             },
             success: (data, status, jqXHR) => {
-                console.log(`user ${this.node['id']} deleted.`);
                 mainDraw($('svg').data('viewed-id'));
             },
             error: (data, status, jqXHR) => {
@@ -208,8 +191,6 @@ class NodeModal {
     }
 
     onClickEditBtn(e) {
-        //console.log('click edit');
-        //console.log(e);
         this.showView('add-relative-form');
         let relativeFormPane = $('.add-relative-form-pane', this.targetModal);
         // Hide create new node H4 title
@@ -233,26 +214,20 @@ class NodeModal {
         };
 
         let formValues = _.defaults(values, prefill);
-        //console.log(formValues);
 
         _.forOwn(formValues, (value, key) => {
-            //console.log(`element: ${key} value: ${value}`)
             if ($(`[name=${key}][type=radio]`, form).length) {
                 $(`[name=${key}][type=radio][value=${value}]`, form).prop('checked', true);
                 $(`[name=${key}][type=radio][value=${value}]`, form).trigger('change');
-                //console.log('check radio');
             } else {
                 $(`[name=${key}]`, form).val(value);
                 $(`[name=${key}]`, form).trigger('change');
-                //console.log('set value');
             }
         });
         
     }
 
     onClickAddRelativeBtn(e) {
-        //console.log('click add relative');
-        //console.log(e);
         this.showView('add-relative');
 
         let addRelativePane = $('.add-relative-pane', this.targetModal);
@@ -281,20 +256,14 @@ class NodeModal {
     }
 
     onClickAddRelative(e) {
-        //console.log('add relative');
-        //console.log(e);
         let target = $(e.target);
 
         if (target.hasClass('list-group-item')) {
-            //console.log('target is a');
         } else if(target.parent('a.list-group-item')) {
-            //console.log('target parent is a');
             target = target.parent('a.list-group-item')
         } else {
-            //console.log('target is not a');
         }
 
-        //console.log(`value: ${$(target).data('value')}`);
         this.showView('add-relative-form');
         $('h4', relativeFormPane).show();
         $('form', relativeFormPane).data('action', 'add');
@@ -304,7 +273,6 @@ class NodeModal {
         
         switch(true) {
           case target.hasClass('father'):
-          //console.log('father');
           this.prefillForm(relativeFormPane, {
             // not working
             'lastName': this.node['lastName'],
@@ -313,21 +281,18 @@ class NodeModal {
           });
           break;
           case target.hasClass('mother'):
-          //console.log('mother');
           this.prefillForm(relativeFormPane, {
             'gender': 2,
             'status': 1
           });
           break;
           case target.hasClass('spouse'):
-          //console.log('spouse');
           this.prefillForm(relativeFormPane, {
             'gender': (this.node['gender'] == 1 ? 2 : 1),
             'status': 1
           });
           break;
           case target.hasClass('sibling'):
-          //console.log('sibling');
           this.prefillForm(relativeFormPane, {
             'lastName': this.node['lastName'],
             'gender': 1,
@@ -335,7 +300,6 @@ class NodeModal {
           });
           break;
           case target.hasClass('child'):
-          //console.log('child');
           this.prefillForm(relativeFormPane, {
             'lastName': this.node['lastName'],
             'gender': 1,
