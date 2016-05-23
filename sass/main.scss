@@ -26,3 +26,7 @@ svg {
 .modal-backdrop.in {
     display: none;
 }
+
+.bootstrap-styles {
+  @import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+}
