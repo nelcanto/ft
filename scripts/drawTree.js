@@ -28,11 +28,12 @@ function mainDraw(id2) {
   // need for drawing a different id tree
   id = id2;
   d3.select("svg").remove();
-  svg = d3.select("body")
+  let container = ".wpb_wrapper .container";
+  svg = d3.select(container)
           .append("svg")
           .attr('data-viewed-id', id)
-          .attr('height', $(window).height()*3)
-          .attr('width', $(window).width()*2)
+          .attr('height', $(window).height())
+          .attr('width', $(window).width())
   $("svg").draggable();
   d3.json("http://192.168.1.220/d3/php/view.php?userid=" + id, draw);
 }
