@@ -13,16 +13,15 @@ var svg,
 
 var tree = [];
 
-// var centerX = $(window).width()/2+200,
-//     centerY = $(window).height()/2+200,
 var centerX = $(window).width()/3+50,
     centerY = $(window).height()/3+50,
     marginX = 150,
     marginY = 50;
 
-
-
-
+var zoom = d3.behavior.zoom()
+    .scaleExtent([0, 10])
+    .on("zoom", zoomed);
+var margin = {top: -5, right: -5, bottom: -5, left: -5};
 
 // lets start from here ...
 var id = -1;
@@ -46,6 +45,10 @@ function mainDraw(id2) {
           .attr('data-viewed-id', id)
           .attr('height', $(window).height())
           .attr('width', $(window).width()*3)
+          //append zoom
+          .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
+          .call(zoom);
 
   $("svg").draggable();
   d3.json("http://192.168.1.220/d3/php/view.php?userid=" + id, draw);
@@ -492,4 +495,12 @@ function drawTiny(offsetX, offsetY, id){
        .attr("stroke", "gray")
        .attr("stroke-width", 2)
        .attr("fill", "none");
+}
+
+/*
+ * zoom ft
+ */
+function zoomed() {
+  svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  console.log('Call zoomed scale:'+d3.event.scale);
 }
