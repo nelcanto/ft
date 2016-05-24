@@ -4,7 +4,6 @@
 
 svg {
     background-color: white;
-    border: solid 1px #aaa;
 }
 
 #node-modal .node-options-pane {
@@ -30,4 +29,10 @@ svg {
 
 .bootstrap-styles {
   @import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+}
+
+.container {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    margin-top: -50px;
 }

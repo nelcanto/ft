@@ -3,7 +3,7 @@
 // but should be compatible with native ES6
 // please use traceur compiler for safty purposes
 
-
+console.log("111111111")
 // svg is the base for drawing d3 objects
 var svg,
     maxRect = { x: 100, y: 130},
@@ -16,14 +16,21 @@ var tree = [];
 
 // var centerX = $(window).width()/2+200,
 //     centerY = $(window).height()/2+200,
-var centerX = $(window).width()/3,
-    centerY = $(window).height()/3,
+var centerX = $(window).width()/3+50,
+    centerY = $(window).height()/3+50,
     marginX = 150,
     marginY = 50;
 
+
 // lets start from here ...
-var id = 1;
-mainDraw(id);
+var id = -1;
+$.getJSON('http://wp.com/d3/php/getid.php', function(e) {
+    id = e.id;
+    mainDraw(id);
+    // alert('Result from PHP: ' + e.id);
+});
+// console.log(id);
+
 
 function mainDraw(id2) {
   // added a hack to change the global id variable without breaking this code
@@ -34,8 +41,9 @@ function mainDraw(id2) {
   svg = d3.select(container)
           .append("svg")
           .attr('data-viewed-id', id)
-          .attr('height', $(window).height()*2)
+          .attr('height', $(window).height())
           .attr('width', $(window).width()*3)
+
   $("svg").draggable();
   d3.json("http://192.168.1.220/d3/php/view.php?userid=" + id, draw);
 }
