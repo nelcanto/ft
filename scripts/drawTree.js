@@ -3,7 +3,6 @@
 // but should be compatible with native ES6
 // please use traceur compiler for safty purposes
 
-console.log("111111111")
 // svg is the base for drawing d3 objects
 var svg,
     maxRect = { x: 100, y: 130},
@@ -22,8 +21,12 @@ var centerX = $(window).width()/3+50,
     marginY = 50;
 
 
+
+
+
 // lets start from here ...
 var id = -1;
+//get current id
 $.getJSON('http://wp.com/d3/php/getid.php', function(e) {
     id = e.id;
     mainDraw(id);
@@ -47,6 +50,8 @@ function mainDraw(id2) {
   $("svg").draggable();
   d3.json("http://192.168.1.220/d3/php/view.php?userid=" + id, draw);
 }
+
+
 
 /*
  * connect one node with its mother node and father node
@@ -140,11 +145,12 @@ function connectSpouse(nodeLeft, nodeRight) {
 function drawParentsLayerAndConnect(arr, tree, ratio, preview = false) {
   let ret = [];
   let obj, node;
+
   for (let entry of arr) {
       obj = entry.obj;
       node = entry.node;
       if (obj == null)
-        return -1;
+        return [];
 
       let objFather,objMother,nodeFather,nodeMother;
 
@@ -201,7 +207,7 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
       node = entry.node;
 
       // check if visited
-      if (visited.indexOf(obj.id) != -1) {
+      if (node == -1 || visited.indexOf(obj.id) != -1) {
           return -1;
       }
 
