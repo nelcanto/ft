@@ -14,8 +14,10 @@ var svg,
 
 var tree = [];
 
-var centerX = $(window).width()/2+200,
-    centerY = $(window).height()/2+200,
+// var centerX = $(window).width()/2+200,
+//     centerY = $(window).height()/2+200,
+var centerX = $(window).width()/3,
+    centerY = $(window).height()/3,
     marginX = 150,
     marginY = 50;
 
@@ -32,8 +34,8 @@ function mainDraw(id2) {
   svg = d3.select(container)
           .append("svg")
           .attr('data-viewed-id', id)
-          .attr('height', $(window).height())
-          .attr('width', $(window).width())
+          .attr('height', $(window).height()*2)
+          .attr('width', $(window).width()*3)
   $("svg").draggable();
   d3.json("http://192.168.1.220/d3/php/view.php?userid=" + id, draw);
 }
@@ -318,7 +320,6 @@ function drawNode(obj, offsetX, offsetY) {
         obj.sibling = [obj.id];
 
     $(`#node-${obj.id}`).data(obj);
-
     box.offsetX = offsetX;
     box.offsetY = offsetY;
     box.name = name;

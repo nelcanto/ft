@@ -1,3 +1,1 @@
-$(() => {
-  var nodeModal = new NodeModal('#node-modal');
-});
+var nodeModal = new NodeModal('#node-modal');
