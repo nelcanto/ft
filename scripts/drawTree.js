@@ -4,7 +4,7 @@
 // please use traceur compiler for safty purposes
 
 // svg is the base for drawing d3 objects
-var svg,
+var svg,rect,
     maxRect = { x: 100, y: 130},
     maxIcon = { x: maxRect.x, y: maxRect.x},
     imgUrlMen = "http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg",
@@ -13,8 +13,10 @@ var svg,
 
 var tree = [];
 
-var centerX = $(window).width()/3+50,
-    centerY = $(window).height()/3+50,
+var w = $(window).width(),
+    h = $(window).height(),
+    centerX = w/3+50,
+    centerY = h/3+50,
     marginX = 150,
     marginY = 50;
 
@@ -43,12 +45,18 @@ function mainDraw(id2) {
   svg = d3.select(container)
           .append("svg")
           .attr('data-viewed-id', id)
-          .attr('height', $(window).height())
-          .attr('width', $(window).width()*3)
+          .attr('height', h*2)
+          .attr('width', w*2)
+          
           //append zoom
           .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
           .call(zoom);
+  rect = svg.append("rect")
+    .attr("height", h)
+    .attr("width", w)
+    .style("fill", "none")
+    .style("pointer-events", "all");
 
   $("svg").draggable();
   d3.json("http://192.168.1.220/d3/php/view.php?userid=" + id, draw);
@@ -501,6 +509,5 @@ function drawTiny(offsetX, offsetY, id){
  * zoom ft
  */
 function zoomed() {
-  svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-  console.log('Call zoomed scale:'+d3.event.scale);
+  svg.attr("transform", "scale(" + d3.event.scale + ")");
 }
