@@ -28,7 +28,7 @@ var margin = {top: -5, right: -5, bottom: -5, left: -5};
 // lets start from here ...
 var id = -1;
 //get current id
-$.getJSON('http://wp.com/d3/php/getid.php', function(e) {
+$.getJSON('http://wp.com/wp-content/plugins/family-tree/php/getid.php', function(e) {
     id = e.id;
     mainDraw(id);
     // alert('Result from PHP: ' + e.id);
@@ -59,7 +59,7 @@ function mainDraw(id2) {
     .style("pointer-events", "all");
 
   $("svg").draggable();
-  d3.json("http://192.168.1.220/d3/php/view.php?userid=" + id, draw);
+  d3.json("http://192.168.1.220/wp-content/plugins/family-tree/php/view.php?userid=" + id, draw);
 }
 
 
