@@ -1,5 +1,5 @@
 <?php
-include("../../wp-config.php");               // code by golbz
+include("../../../../wp-config.php");
 function wt_get_user_id(){
     global $userdata;
     get_currentuserinfo();
