@@ -21,7 +21,7 @@ var w = $(window).width(),
     marginY = 50;
 
 var zoom = d3.behavior.zoom()
-    .scaleExtent([0, 10])
+    .scaleExtent([0.5, 10])
     .on("zoom", zoomed);
 var margin = {top: -5, right: -5, bottom: -5, left: -5};
 
@@ -47,7 +47,7 @@ function mainDraw(id2) {
           .attr('data-viewed-id', id)
           .attr('height', h*2)
           .attr('width', w*2)
-          
+
           //append zoom
           .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
