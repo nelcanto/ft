@@ -1,7 +1,7 @@
 class NodeModal {
     constructor(targetModal) {
         this.targetModal = $(targetModal);
-        this.apiEndpoint = "http://192.168.1.220/wp-content/plugins/family-tree/php/";
+        this.apiEndpoint = "http://localhost.cqg.com/wp-content/plugins/family-tree/php/";
         this.bindEvents();
     }
 

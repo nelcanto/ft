@@ -10,21 +10,23 @@ var svg,rect,
     imgUrlMen = "http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg",
     imgUrlWomen = "http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg",
     imgUrlChild = "https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg?height=300&width=300";
-var apiUrl = "http://192.168.1.220/wp-content/plugins/family-tree/php/";
+var apiUrl = "http://localhost.cqg.com/wp-content/plugins/family-tree/php/";
 
 var tree = [];
 
-var w = $(window).width(),
-    h = $(window).height(),
-    centerX = w/3+50,
-    centerY = h/3+50,
+var w = $('.family-tree').width(),
+    h = $('.family-tree').height(),
+    centerX = w/2+250,
+    centerY = 400,
     marginX = 150,
     marginY = 50;
 
 var zoom = d3.behavior.zoom()
-    .scaleExtent([0.5, 10])
+    .scaleExtent([0.5, 1])
+    .scale(.7)
+    .center([centerX, centerY])
     .on("zoom", zoomed);
-var margin = {top: -5, right: -5, bottom: -5, left: -5};
+var margin = {top: 0, right: 0, bottom: 0, left: 0};
 
 // lets start from here ...
 var id = 1;
@@ -45,24 +47,18 @@ function mainDraw(id2) {
   // need for drawing a different id tree
   id = id2;
   d3.select("svg").remove();
-  let container = ".wpb_wrapper .container";
+  let container = ".family-tree .container";
   svg = d3.select(container)
           .append("svg")
           .attr('data-viewed-id', id)
-          .attr('height', h*2)
-          .attr('width', w*2)
-
+          .attr('height', h)
+          .attr('width', w)
           //append zoom
-          .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
-          .call(zoom);
-  rect = svg.append("rect")
-    .attr("height", h)
-    .attr("width", w)
-    .style("fill", "none")
-    .style("pointer-events", "all");
+          .call(zoom)
 
-  $("svg").draggable();
+          .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.right + ") scale(0.7)");
+
   d3.json(`${apiUrl}/view.php?userid=${id}`, draw);
 }
 
@@ -513,5 +509,5 @@ function drawTiny(offsetX, offsetY, id){
  * zoom ft
  */
 function zoomed() {
-  svg.attr("transform", "scale(" + d3.event.scale + ")");
+  svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
