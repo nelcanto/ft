@@ -1,18 +1,38 @@
 .myClass {
-    background-color: #bfbfbf;
+    background-color: white;
 }
 
 svg {
-    background-color: #bfbfbf;
+    background-color: white;
 }
 
 #node-modal .node-options-pane {
     .btn {
-            padding: 10px 15px;
-            min-width: 100px;
+            padding: 10px 13px;
+            width: 90px;
 
         .glyphicon {
-            font-size: 2.5em;
+            font-size: 2em;
         }
     }
+}
+
+#node-modal .modal-dialog {
+    width: 530px;
+    z-index: 999999;
+    padding-top: 100px;
+}
+
+.modal-backdrop.in {
+    display: none;
+}
+
+.bootstrap-styles {
+  @import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+}
+
+.container {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    margin-top: -50px;
 }

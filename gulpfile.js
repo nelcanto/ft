@@ -28,6 +28,11 @@ gulp.task('traceur', function(){
     .pipe(gulp.dest('dist/scripts'));
 });
 
+gulp.task('fonts', function () {
+    gulp.src('./bower_components/bootstrap-sass/assets/fonts/**/*')
+        .pipe(gulp.dest('dist/fonts'));
+});
+
 gulp.task('watch', function(){
     gulp.watch(['./sass/*.scss'], ['sass']);
     gulp.watch(['./scripts/*.js'], ['traceur']);
@@ -35,4 +40,4 @@ gulp.task('watch', function(){
 
 });
 
-gulp.task('default', ['connect', 'traceur', 'watch', 'sass']);
+gulp.task('default', ['connect', 'traceur', 'watch', 'sass', 'fonts']);
