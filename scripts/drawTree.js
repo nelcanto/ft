@@ -10,6 +10,7 @@ var svg,rect,
     imgUrlMen = "http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg",
     imgUrlWomen = "http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg",
     imgUrlChild = "https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg?height=300&width=300";
+var apiUrl = "http://192.168.1.220/wp-content/plugins/family-tree/php/";
 
 var tree = [];
 
@@ -26,10 +27,13 @@ var zoom = d3.behavior.zoom()
 var margin = {top: -5, right: -5, bottom: -5, left: -5};
 
 // lets start from here ...
-var id = -1;
+var id = 1;
 //get current id
-$.getJSON('http://wp.com/wp-content/plugins/family-tree/php/getid.php', function(e) {
-    id = e.id;
+$.getJSON(`${apiUrl}/getid.php`, function(e) {
+    if (e.id) {
+      id = e.id;
+    }
+    
     mainDraw(id);
     // alert('Result from PHP: ' + e.id);
 });
@@ -59,7 +63,7 @@ function mainDraw(id2) {
     .style("pointer-events", "all");
 
   $("svg").draggable();
-  d3.json("http://192.168.1.220/wp-content/plugins/family-tree/php/view.php?userid=" + id, draw);
+  d3.json(`${apiUrl}/view.php?userid=${id}`, draw);
 }
 
 
