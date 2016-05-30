@@ -78,11 +78,11 @@ class NodeModal {
             switch(true) {
                 case relationshipType == '父亲':
                     formData['spouse'] = this.node.mother;
-                    formData['children'] = this.node.sibling;
+                    formData['children'] = _.union(this.node.sibling, [this.node.id]);
                     break;
                 case relationshipType == '母亲':
                     formData['spouse'] = this.node.father;
-                    formData['children'] = this.node.sibling;
+                    formData['children'] = _.union(this.node.sibling, [this.node.id]);
                     break;
                 case relationshipType == '兄弟、姐妹':
                     formData['mother'] = this.node.mother;
@@ -91,14 +91,14 @@ class NodeModal {
                 case relationshipType == '儿女':
                     if (this.node.gender == 1) {
                         formData['father'] = this.node.id;
-                        formData['mother'] = this.node.spouse;
+                        formData['mother'] = (this.node.spouse ? this.node.spouse : null);
                     } else if (this.node.gender == 2) {
-                        formData['father'] = this.node.spuse;
+                        formData['father'] = (this.node.spouse ? this.node.spouse : null);
                         formData['mother'] = this.node.id;
                     } else {
                         // unknown gender
                         formData['father'] = this.node.id;
-                        formData['mother'] = this.node.spouse;
+                        formData['mother'] = (this.node.spouse ? this.node.spouse : null);
                     }
                     break;
                 case relationshipType == '配偶':

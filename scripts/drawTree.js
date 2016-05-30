@@ -296,10 +296,16 @@ function draw(data) {
   } else {
     nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 4*marginX, nodeMe.offsetY);
   }
+
+  if (objSpouse && (objSpouse.sibling.length || objSpouse.father || objSpouse.mother)) {
+    drawTiny(nodeSpouse.offsetX, nodeSpouse.offsetY, nodeSpouse.id);
+  }
+
   // Layer 1
   let initialArr;
-  initialArr = [ {'node':nodeMe, 'obj':objMe}, {'node': nodeSpouse, 'obj': objSpouse}];
-  let layer1Arr = drawParentsLayerAndConnect(initialArr, tree, 1, true);
+  //initialArr = [ {'node':nodeMe, 'obj':objMe}, {'node': nodeSpouse, 'obj': objSpouse}];
+  initialArr = [ {'node':nodeMe, 'obj':objMe}];
+  let layer1Arr = drawParentsLayerAndConnect(initialArr, tree, 1, false);
 
   // Layer 2
   drawParentsLayerAndConnect(layer1Arr, tree, 0.5, true);
@@ -323,7 +329,7 @@ function drawNode(obj, offsetX, offsetY) {
     if (obj == null) {
       return -1;
     }
-    let name = obj.lastName + ' ' + obj.firstName;
+    let name = (obj.lastName?obj.lastName:'') + ' ' + (obj.firstName?obj.firstName:'');
     let imgUrl = obj.image;
     let box = svg
          .append("g")
@@ -338,11 +344,11 @@ function drawNode(obj, offsetX, offsetY) {
         .attr("data-toggle", "modal")
         .attr("data-name", name);
     if (obj.father != null) {
-        obj.sibling = tree[obj.father].children;
+        obj.sibling = _.difference(tree[obj.father].children, [obj.id]);
     } else if (obj.mother != null)
-        obj.sibling = tree[obj.mother].children;
+        obj.sibling = _.difference(tree[obj.mother].children, [obj.id]);
       else
-        obj.sibling = [obj.id];
+        obj.sibling = [];
 
     $(`#node-${obj.id}`).data(obj);
     box.offsetX = offsetX;
