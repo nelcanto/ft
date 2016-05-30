@@ -55,6 +55,7 @@ function show_family_tree() {
 }
 
 /* display the family tree before activity post form when family parameter is passed in request */
-add_action( 'bp_before_member_activity_post_form', 'show_family_tree', 10 );
+// add_action( 'bp_before_member_activity_post_form', 'show_family_tree', 10 );
+add_action( 'get_template_part_content', 'show_family_tree', 10 );
 
 ?>
