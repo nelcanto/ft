@@ -323,9 +323,10 @@ function draw(data) {
  * @param obj
  * @param offsetX
  * @param offsetY
+ * @param isHighlighted
  * @return node
  */
-function drawNode(obj, offsetX, offsetY) {
+function drawNode(obj, offsetX, offsetY, isHighlighted = false) {
     if (obj == null) {
       return -1;
     }
@@ -357,13 +358,18 @@ function drawNode(obj, offsetX, offsetY) {
     box.imgUrl = imgUrl;
     box.obj = obj;
 
+    let highlightStyle = 'stroke:black;stroke-width:2;opacity:0.3;';
+    if (isHighlighted) {
+        highlightStyle = 'stroke:green;stroke-width:4;opacity:0.5;';
+    } 
+
     box.append("rect")
         .attr("x", "0")
         .attr("y", "0")
         .attr("rx", 5)
         .attr("ry", 5)
         .attr("fill", "white")
-        .attr("style", "stroke:black;stroke-width:2;opacity:0.3;")
+        .attr("style", highlightStyle)
         .attr("width", maxRect.x)
         .attr("height", maxRect.y);
 
