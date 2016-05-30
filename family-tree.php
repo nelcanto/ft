@@ -46,7 +46,11 @@ add_action( 'wp_enqueue_scripts', 'add_scripts', 9998 );
 function show_family_tree() {
     //ob_start();
     //echo 'asdasd';
-    include('tree.php');
+    $viewTree = $_GET['view-family-tree'];
+
+    if ($viewTree) {
+        include('tree.php');
+    }
     //ob_end_clean();
 }
 
