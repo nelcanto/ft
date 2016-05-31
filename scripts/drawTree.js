@@ -10,11 +10,11 @@ var svg,rect,
     imgUrlMen = "http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg",
     imgUrlWomen = "http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg",
     imgUrlChild = "https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg?height=300&width=300";
-var apiUrl = "http://localhost.cqg.com/wp-content/plugins/family-tree/php/";
+var apiUrl = "http://wp.com/wp-content/plugins/family-tree/php/";
 
 var tree = [];
 
-var w = $('.family-tree').width(),
+var w = 1400,
     h = $('.family-tree').height(),
     centerX = w/2+250,
     centerY = 400,
@@ -358,9 +358,9 @@ function drawNode(obj, offsetX, offsetY, isHighlighted = false) {
     box.imgUrl = imgUrl;
     box.obj = obj;
 
-    let highlightStyle = 'stroke:black;stroke-width:2;opacity:0.3;';
+    let highlightStyle = 'stroke:black;stroke-width:2;opacity:0.8;';
     if (isHighlighted) {
-        highlightStyle = 'stroke:green;stroke-width:4;opacity:0.5;';
+        highlightStyle = 'stroke:green;stroke-width:4;opacity:0.8;';
     } 
 
     box.append("rect")
