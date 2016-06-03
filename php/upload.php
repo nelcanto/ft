@@ -1,13 +1,13 @@
 <?php
 $endpoint = 'http://wp.com/wp-content/plugins/family-tree/img/';
-$url = $endpoint.basename($_FILES["image"]["name"]);
+$url = $endpoint.basename($_FILES["fileToUpload"]["name"]);
 $target_dir = "../img/";
-$target_file = $target_dir . basename($_FILES["image"]["name"]);
+$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
-    $check = getimagesize($_FILES["image"]["tmp_name"]);
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
         // echo "File is an image - " . $check["mime"] . ".";
         $uploadOk = 1;
@@ -30,7 +30,7 @@ if (file_exists($target_file)) {
     $uploadOk = 0;
 }
 // Check file size
-if ($_FILES["image"]["size"] > 500000) {
+if ($_FILES["fileToUpload"]["size"] > 500000) {
     echo json_encode(array(
         'message' => 'Sorry, your file is too large.',
         'success' => false
@@ -57,8 +57,8 @@ if ($uploadOk == 0) {
     die();
 // if everything is ok, try to upload file
 } else {
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-        // echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+        // echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
         echo json_encode(array(
             'message' => $url,
             'success' => true

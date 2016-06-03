@@ -12,6 +12,7 @@
           <div class="modal-body">
             <div class="row">
               <div class="alert alert-danger" role="alert" style="display: none;">Unable to upload image</div>
+              <input type="file" name="fileToUpload" class="hide" />
               <div class="col-md-3">
                 <div class="profile-image-container">
                   <img class='profile-img' style='height: 100px; width: 100px; object-fit: fill' src="https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg"/>
@@ -116,7 +117,7 @@
                   </div>
                 </div>
                 <br/>
-                <input type="file" name="image" class="hide" />
+                <input type="text" name="image" class="hide" />
                 <button type="submit" class="btn btn-primary">保存</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
               </form>
