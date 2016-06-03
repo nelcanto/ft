@@ -17,7 +17,6 @@
                   <img class='profile-img' style='height: 100px; width: 100px; object-fit: fill' src="https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg"/>
                   <label>上傳照片</label>
                 </div>
-                <input type="file" id="fileToUpload" name="fileToUpload" style="display:none;" />
               </div>
               <div class="col-md-4">
                 <h3 class='node-name'></h3>
@@ -117,6 +116,7 @@
                   </div>
                 </div>
                 <br/>
+                <input type="file" name="image" class="hide" />
                 <button type="submit" class="btn btn-primary">保存</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
               </form>

@@ -50,8 +50,12 @@ class NodeModal {
         switch(view) {
             case 'node-options':
             case 'add-relative':
+                $(`.${view}-pane`, this.targetModal).removeClass('hidden');
+                $('.profile-image-container', this.targetModal).removeClass('editable');
+                break;
             case 'add-relative-form':
                 $(`.${view}-pane`, this.targetModal).removeClass('hidden');
+                $('.profile-image-container', this.targetModal).addClass('editable');
                 break;
             default:
             break;
@@ -165,6 +169,7 @@ class NodeModal {
     onNodeClicked(e) {
         this.node = $(e.currentTarget).data();
 
+        $('[name=uid]', this.targetModal).val(this.node['id']);
         $('.profile-img', this.targetModal).attr('src', this.node['image']);
         $('.node-name', this.targetModal).text(this.node['name']);
     }
@@ -247,7 +252,7 @@ class NodeModal {
 
         // show all relationships
         $('.list-group-item', addRelativePane).show();
-
+        // 
         // hide the relationships the current node already has
         relationships.forEach((value, key) => {
             if (this.node[value]) {
@@ -277,7 +282,10 @@ class NodeModal {
 
         let relativeFormPane = $('.add-relative-form-pane', this.targetModal);
         $('.add-relationship-type', relativeFormPane).text(target.text().trim());
-        
+        $('.node-name', this.targetModal).text(target.text().trim());
+        $('.profile-image-container img', this.targetModal).prop('src', 'http://gurucul.com/wp-content/uploads/2015/01/default-user-icon-profile.png');
+        $('.node-dob', this.targetModal).text('');
+
         switch(true) {
           case target.hasClass('father'):
           this.prefillForm(relativeFormPane, {

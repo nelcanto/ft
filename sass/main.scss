@@ -17,7 +17,7 @@
             vertical-align: middle;
         }
     }
-    .profile-image-container:hover label {
+    .profile-image-container.editable:hover label {
         visibility: inherit;
         background-color: rgba(0,0,0,0.5);
         color: white;
