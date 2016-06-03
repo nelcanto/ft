@@ -2,13 +2,36 @@
     background-color: white;
 }
 
-#node-modal .node-options-pane {
-    .btn {
-            padding: 10px 13px;
-            width: 90px;
+#node-modal {
+    .profile-image-container {
+        cursor: pointer;
 
-        .glyphicon {
-            font-size: 2em;
+        label {
+            cursor: pointer;
+            visibility: hidden;
+            position: relative;
+            bottom: 1.4em;
+            width: 100px;
+            text-align: center;
+            height: 1.4em;
+            vertical-align: middle;
+        }
+    }
+    .profile-image-container:hover label {
+        visibility: inherit;
+        background-color: rgba(0,0,0,0.5);
+        color: white;
+        transition: background-color .3s,color .3s;
+    }
+
+    .node-options-pane {
+        .btn {
+                padding: 10px 13px;
+                width: 90px;
+
+            .glyphicon {
+                font-size: 2em;
+            }
         }
     }
 }
@@ -30,7 +53,7 @@
     width: 100%;
     height: 650px;
     /*border: 1px solid black;*/
-    background-image: url("http://wp.com/wp-content/uploads/2016/06/ftbg.png");
+    /*background-image: url("http://wp.com/wp-content/uploads/2016/06/ftbg.png");*/
     background-size: contain;
     background-position: right bottom;
     background-repeat: no-repeat;

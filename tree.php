@@ -11,8 +11,13 @@
 
           <div class="modal-body">
             <div class="row">
+              <div class="alert alert-danger" role="alert" style="display: none;">Unable to upload image</div>
               <div class="col-md-3">
-                <img class='profile-img' style='height: 100px; width: 100px; object-fit: fill' src="https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg"/>
+                <div class="profile-image-container">
+                  <img class='profile-img' style='height: 100px; width: 100px; object-fit: fill' src="https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg"/>
+                  <label>上傳照片</label>
+                </div>
+                <input type="file" id="fileToUpload" name="fileToUpload" style="display:none;" />
               </div>
               <div class="col-md-4">
                 <h3 class='node-name'></h3>

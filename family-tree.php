@@ -31,6 +31,9 @@ function add_scripts()
         wp_register_script('lodash', 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.12.0/lodash.js', array(), null, true);
         wp_enqueue_script('lodash');
 
+        wp_register_script('upload', plugins_url('bower_components/blueimp-file-upload/js/jquery.fileupload.js', __FILE__ ), array('jquery'), null, true);
+        wp_enqueue_script('upload');
+
         wp_register_script('node-modal', plugins_url( 'dist/scripts/NodeModal.js', __FILE__ ), array('jquery', 'bootstrap'), null, true);
         wp_enqueue_script('node-modal');
 
