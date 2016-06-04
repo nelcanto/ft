@@ -23,7 +23,6 @@ var w = 1400,
 
 var zoom = d3.behavior.zoom()
     .scaleExtent([0.5, 1])
-    .scale(.7)
     .center([centerX, centerY])
     .on("zoom", zoomed);
 var margin = {top: 0, right: 0, bottom: 0, left: 0};
@@ -45,6 +44,9 @@ $.getJSON(`${apiUrl}/getid.php`, function(e) {
 function mainDraw(id2) {
   // added a hack to change the global id variable without breaking this code
   // need for drawing a different id tree
+
+  // reset tranlsate and scale value to initial state
+  zoom.scale(.7).translate([margin.left, margin.right]);
   id = id2;
   d3.select("svg").remove();
   let container = ".family-tree .container";
@@ -55,8 +57,8 @@ function mainDraw(id2) {
           .attr('width', w)
           //append zoom
           .call(zoom)
-
           .append("g")
+          // set initial tranlsate and scale
           .attr("transform", "translate(" + margin.left + "," + margin.right + ") scale(0.7)");
 
   d3.json(`${apiUrl}/view.php?userid=${id}`, draw);
