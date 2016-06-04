@@ -199,7 +199,7 @@ if ($image == null && $gender ==2) {
 
     // insert new user info
     $query = "INSERT INTO ft_uinfo
-            VALUES (NULL,$image,NULL,NULL,NULL,$status,$birth,$birthPlace,$death,$dealthPlace,$email,$firstName,$lastName,$gender)";
+            VALUES (NULL,'$image',NULL,NULL,NULL,$status,$birth,$birthPlace,$death,$dealthPlace,$email,$firstName,$lastName,$gender)";
 
 // var_dump($query);die;
     $result = mysql_query($query) or die(mysql_error()); 

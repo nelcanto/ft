@@ -139,7 +139,8 @@ class NodeModal {
             'birthPlace',
             'death',
             'dealthPlace',
-            'email'
+            'email',
+            'image'
         ];
         
         let formData = {};
@@ -284,6 +285,7 @@ class NodeModal {
         $('.add-relationship-type', relativeFormPane).text(target.text().trim());
         $('.node-name', this.targetModal).text(target.text().trim());
         $('.profile-image-container img', this.targetModal).prop('src', 'http://gurucul.com/wp-content/uploads/2015/01/default-user-icon-profile.png');
+        $('[name=image]', relativeFormPane).val('http://gurucul.com/wp-content/uploads/2015/01/default-user-icon-profile.png');
         $('.node-dob', this.targetModal).text('');
 
         switch(true) {
