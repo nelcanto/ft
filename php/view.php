@@ -12,7 +12,7 @@ $debug = 0;
     $uid = intval($_GET['userid']);
     // $uid = 5;
     $data = array();
-    $loop = null; //store id for looping generation
+    $loop = array(); //store id for looping generation
     $looped[] = $uid;
 
 
