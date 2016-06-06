@@ -14,8 +14,18 @@ echo $abc;*/
 // $obj = json_decode($json);
 // print $obj->{'foo-bar'};
 
+
+
+
+// phpinfo();
+
+
+
+
+
+echo date("Ymd-His");
 ?>
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <body>
 
@@ -26,4 +36,4 @@ echo $abc;*/
 </form>
 
 </body>
-</html>
+</html> -->

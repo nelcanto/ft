@@ -1,8 +1,12 @@
 <?php
 $endpoint = 'http://wp.com/wp-content/plugins/family-tree/img/';
-$url = $endpoint.basename($_FILES["fileToUpload"]["name"]);
 $target_dir = "../img/";
+
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$extension_pos = strrpos($target_file, '.'); // find position of the last dot, so where the extension starts
+$thumb = substr($target_file, 0, $extension_pos) . date("Ymd-His"). substr($target_file, $extension_pos);
+$url = $endpoint.$thumb;
+
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 // Check if image file is a actual image or fake image
@@ -57,7 +61,7 @@ if ($uploadOk == 0) {
     die();
 // if everything is ok, try to upload file
 } else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $thumb)) {
         // echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
         echo json_encode(array(
             'message' => $url,
