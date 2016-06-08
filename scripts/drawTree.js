@@ -307,6 +307,10 @@ function draw(data) {
 
   initialArr = [ {'node':nodeMe, 'obj':objMe}];
   let layer1Arr = drawParentsLayerAndConnect(initialArr, tree, 1, false);
+  let current_direction = 1;
+  layer1Arr.forEach((x) => {
+    drawSibling(x.node, (-1)*current_direction);
+  });
   // Layer 2
   drawParentsLayerAndConnect(layer1Arr, tree, 0.5, true);
 
@@ -359,7 +363,6 @@ function drawSibling(node, direction) {
   let current_node = node;
   let current_spouse_node;
   let obj = node.obj;
-  console.log(obj);
   let sibling_arr = obj.sibling;
   let sibling_and_spouse_arr = [];
 
