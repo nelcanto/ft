@@ -34,7 +34,7 @@ $.getJSON(`${apiUrl}/getid.php`, function(e) {
     if (e.id) {
       id = e.id;
     }
-    
+
     mainDraw(id);
     // alert('Result from PHP: ' + e.id);
 });
@@ -305,7 +305,7 @@ function draw(data) {
 
   // Layer 1
   let initialArr;
-  //initialArr = [ {'node':nodeMe, 'obj':objMe}, {'node': nodeSpouse, 'obj': objSpouse}];
+
   initialArr = [ {'node':nodeMe, 'obj':objMe}];
   let layer1Arr = drawParentsLayerAndConnect(initialArr, tree, 1, false);
 
@@ -363,7 +363,7 @@ function drawNode(obj, offsetX, offsetY, isHighlighted = false) {
     let highlightStyle = 'stroke:black;stroke-width:2;opacity:0.8;';
     if (isHighlighted) {
         highlightStyle = 'stroke:green;stroke-width:4;opacity:0.8;';
-    } 
+    }
 
     box.append("rect")
         .attr("x", "0")
