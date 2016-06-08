@@ -31,6 +31,9 @@ function add_scripts()
         wp_register_script('lodash', 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.12.0/lodash.js', array(), null, true);
         wp_enqueue_script('lodash');
 
+        wp_register_script('upload', plugins_url('bower_components/blueimp-file-upload/js/jquery.fileupload.js', __FILE__ ), array('jquery'), null, true);
+        wp_enqueue_script('upload');
+
         wp_register_script('node-modal', plugins_url( 'dist/scripts/NodeModal.js', __FILE__ ), array('jquery', 'bootstrap'), null, true);
         wp_enqueue_script('node-modal');
 
@@ -46,11 +49,16 @@ add_action( 'wp_enqueue_scripts', 'add_scripts', 9998 );
 function show_family_tree() {
     //ob_start();
     //echo 'asdasd';
-    include('tree.php');
+    $viewTree = $_GET['view-family-tree'];
+
+    if ($viewTree) {
+        include('tree.php');
+    }
     //ob_end_clean();
 }
 
 /* display the family tree before activity post form when family parameter is passed in request */
-add_action( 'bp_before_member_activity_post_form', 'show_family_tree', 10 );
+// add_action( 'bp_before_member_activity_post_form', 'show_family_tree', 10 );
+add_action( 'get_template_part_content', 'show_family_tree', 10 );
 
 ?>

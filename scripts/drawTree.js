@@ -308,8 +308,9 @@ function draw(data) {
   initialArr = [ {'node':nodeMe, 'obj':objMe}];
   let layer1Arr = drawParentsLayerAndConnect(initialArr, tree, 1, false);
   let current_direction = 1;
-  layer1Arr.forEach((x) => {
-    drawSibling(x.node, (-1)*current_direction);
+  layer1Arr.forEach(function(x) {
+    current_direction = (-1) * current_direction;
+    drawSibling(x.node, current_direction);
   });
   // Layer 2
   drawParentsLayerAndConnect(layer1Arr, tree, 0.5, true);
@@ -360,34 +361,41 @@ function connectUp(current_node, base_node) {
  * @return
  */
 function drawSibling(node, direction) {
-  let current_node = node;
-  let current_spouse_node;
-  let obj = node.obj;
-  let sibling_arr = obj.sibling;
-  let sibling_and_spouse_arr = [];
+  if (node == null || node.obj == undefined) {
+    return -1;
+  }
+  var current_node = node;
+  var current_spouse_node;
+  console.log(node.obj);
+  var sibling_arr = node.obj.sibling;
 
-  sibling_arr.forEach((x) => {
-    if (tree[x].spouse) {
-      let spouseObj = tree[tree[x].spouse];
-      current_spouse_node = drawNode(spouseObj, current_node.offsetX + direction * marginX, current_node.offsetY);
-      current_node = drawNode(tree[x], current_node.offsetX + direction * marginX * 2, current_node.offsetY);
-      connectSpouse(current_node, current_spouse_node);
-      connectUp(current_node, node);
-      if (tree[x].children.length >0) {
-        drawTiny(current_node.offsetX, current_node.offsetY, tree[x].id);
-      }
-      if (spouseObj.children.length >0 || spouseObj.sibling.length >0 || spouseObj.father || spouseObj.mother) {
-        drawTiny(current_spouse_node.offsetX, current_spouse_node.offsetY, spouseObj.id);
-      }
-    } else {
-      current_node = drawNode(tree[x], current_node.offsetX + direction * marginX, current_node.offsetY);
-      connectUp(current_node, node);
-      if (tree[x].children.length >0) {
-        drawTiny(current_node.offsetX, current_node.offsetY, tree[x].id);
+  sibling_arr.forEach(function(x) {
+    if (x != node.obj.id) {
+      if (tree[x].spouse) {
+        var spouseObj = tree[tree[x].spouse];
+        current_spouse_node = drawNode(spouseObj, current_node.offsetX + direction * marginX, current_node.offsetY);
+        current_node = drawNode(tree[x], current_node.offsetX + direction * marginX * 2, current_node.offsetY);
+        if (direction < 0) {
+          connectSpouse(current_node, current_spouse_node);
+        } else {
+          connectSpouse(current_spouse_node, current_node);
+        }
+        connectUp(current_node, node);
+        if (tree[x].children.length > 0) {
+          drawTiny(current_node.offsetX, current_node.offsetY, tree[x].id);
+        }
+        if (spouseObj.children.length > 0 || spouseObj.sibling.length > 0 || spouseObj.father || spouseObj.mother) {
+          drawTiny(current_spouse_node.offsetX, current_spouse_node.offsetY, spouseObj.id);
+        }
+      } else {
+        current_node = drawNode(tree[x], current_node.offsetX + direction * marginX, current_node.offsetY);
+        connectUp(current_node, node);
+        if (tree[x].children.length > 0) {
+          drawTiny(current_node.offsetX, current_node.offsetY, tree[x].id);
+        }
       }
     }
   });
-
 }
 
 /**

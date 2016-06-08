@@ -2,7 +2,7 @@
 include("../../../../wp-config.php");
 function wt_get_user_id(){
     global $userdata;
-    get_currentuserinfo();
+    wp_get_current_user();
     return $userdata->ID;
 }
 

@@ -15,6 +15,7 @@
     "d3": "^3.5.17",
     "lodash": "^4.11.2",
     "traceur-runtime": "^0.0.108",
-    "bootstrap-sass": "^3.3.6"
+    "bootstrap-sass": "^3.3.6",
+    "blueimp-file-upload": "jquery-file-upload#^9.12.3"
   }
 }

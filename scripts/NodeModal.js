@@ -50,8 +50,12 @@ class NodeModal {
         switch(view) {
             case 'node-options':
             case 'add-relative':
+                $(`.${view}-pane`, this.targetModal).removeClass('hidden');
+                $('.profile-image-container', this.targetModal).removeClass('editable');
+                break;
             case 'add-relative-form':
                 $(`.${view}-pane`, this.targetModal).removeClass('hidden');
+                $('.profile-image-container', this.targetModal).addClass('editable');
                 break;
             default:
             break;
@@ -78,11 +82,11 @@ class NodeModal {
             switch(true) {
                 case relationshipType == '父亲':
                     formData['spouse'] = this.node.mother;
-                    formData['children'] = this.node.sibling;
+                    formData['children'] = _.union(this.node.sibling, [this.node.id]);
                     break;
                 case relationshipType == '母亲':
                     formData['spouse'] = this.node.father;
-                    formData['children'] = this.node.sibling;
+                    formData['children'] = _.union(this.node.sibling, [this.node.id]);
                     break;
                 case relationshipType == '兄弟、姐妹':
                     formData['mother'] = this.node.mother;
@@ -91,14 +95,14 @@ class NodeModal {
                 case relationshipType == '儿女':
                     if (this.node.gender == 1) {
                         formData['father'] = this.node.id;
-                        formData['mother'] = this.node.spouse;
+                        formData['mother'] = (this.node.spouse ? this.node.spouse : null);
                     } else if (this.node.gender == 2) {
-                        formData['father'] = this.node.spuse;
+                        formData['father'] = (this.node.spouse ? this.node.spouse : null);
                         formData['mother'] = this.node.id;
                     } else {
                         // unknown gender
                         formData['father'] = this.node.id;
-                        formData['mother'] = this.node.spouse;
+                        formData['mother'] = (this.node.spouse ? this.node.spouse : null);
                     }
                     break;
                 case relationshipType == '配偶':
@@ -135,7 +139,8 @@ class NodeModal {
             'birthPlace',
             'death',
             'dealthPlace',
-            'email'
+            'email',
+            'image'
         ];
 
         let formData = {};
@@ -165,6 +170,7 @@ class NodeModal {
     onNodeClicked(e) {
         this.node = $(e.currentTarget).data();
 
+        $('[name=uid]', this.targetModal).val(this.node['id']);
         $('.profile-img', this.targetModal).attr('src', this.node['image']);
         $('.node-name', this.targetModal).text(this.node['name']);
     }
@@ -247,7 +253,7 @@ class NodeModal {
 
         // show all relationships
         $('.list-group-item', addRelativePane).show();
-
+        //
         // hide the relationships the current node already has
         relationships.forEach((value, key) => {
             if (this.node[value]) {
@@ -277,6 +283,10 @@ class NodeModal {
 
         let relativeFormPane = $('.add-relative-form-pane', this.targetModal);
         $('.add-relationship-type', relativeFormPane).text(target.text().trim());
+        $('.node-name', this.targetModal).text(target.text().trim());
+        $('.profile-image-container img', this.targetModal).prop('src', 'http://gurucul.com/wp-content/uploads/2015/01/default-user-icon-profile.png');
+        $('[name=image]', relativeFormPane).val('http://gurucul.com/wp-content/uploads/2015/01/default-user-icon-profile.png');
+        $('.node-dob', this.targetModal).text('');
 
         switch(true) {
           case target.hasClass('father'):
