@@ -4,18 +4,16 @@ $debug = 0;
 
 // return json in format {"id":5,"gender":null,"status":null,"birth":null,"birthPlace":null,"death":null,"dealthPlace":null,"email":null,"firstName":null,"lastName":null,"children":[10],"father":7,"mother":1,"spouse":"null","image":"imgUrlChild"}
     include('func.php');
-    include('connectdb.php'); 
-    
+    include('connectdb.php');
+
     $connection = mysql_select_db($database, $server) or die("Unable to select db");
-    
+
 
     $uid = intval($_GET['userid']);
     // $uid = 5;
     $data = array();
     $loop = null; //store id for looping generation
     $looped[] = $uid;
-
-
 
 getInfo($uid);
 
@@ -56,8 +54,8 @@ while($diff!=null){
 
 if($debug)  echo json_encode($loop);
 
-    echo json_encode($data, JSON_UNESCAPED_UNICODE );     
-    // echo json_encode($data);     
-      
+    echo json_encode($data, JSON_UNESCAPED_UNICODE );
+    // echo json_encode($data);
+
     mysql_close($server);
 ?>

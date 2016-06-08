@@ -1,7 +1,7 @@
 class NodeModal {
     constructor(targetModal) {
         this.targetModal = $(targetModal);
-        this.apiEndpoint = "http://localhost.cqg.com/wp-content/plugins/family-tree/php/";
+        this.apiEndpoint = "http://homestead.app/wp-content/plugins/family-tree/php/";
         this.bindEvents();
     }
 
@@ -137,7 +137,7 @@ class NodeModal {
             'dealthPlace',
             'email'
         ];
-        
+
         let formData = {};
         formFields.forEach((value, key) => {
             //console.log(value + " " + $(`[name=${value}]`, form).val())
@@ -147,7 +147,7 @@ class NodeModal {
                 formData[value] = $(`[name=${value}]`, form).val()
             }
         });
-            
+
         return formData;
     }
 
@@ -231,7 +231,7 @@ class NodeModal {
                 $(`[name=${key}]`, form).trigger('change');
             }
         });
-        
+
     }
 
     onClickAddRelativeBtn(e) {
@@ -277,7 +277,7 @@ class NodeModal {
 
         let relativeFormPane = $('.add-relative-form-pane', this.targetModal);
         $('.add-relationship-type', relativeFormPane).text(target.text().trim());
-        
+
         switch(true) {
           case target.hasClass('father'):
           this.prefillForm(relativeFormPane, {

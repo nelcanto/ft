@@ -2,18 +2,15 @@
 //get $uid info and add to $data in json format
 function getInfo($uid){
     global $data,$loop;
-
     //$uid == cid to find father, mother, spouse
-    $query = "SELECT * 
+    $query = "SELECT *
             FROM ft_overall_cid
             WHERE cid = $uid";
-    $result = mysql_query($query) or die(mysql_error());  
-    
+    $result = mysql_query($query) or die(mysql_error());
     // if ( ! $result ) {
     //     echo mysql_error();
     //     die;
     // }
- 
     //define json var
     // $id = '';
     // $name = '';
@@ -27,7 +24,7 @@ function getInfo($uid){
         // $data[] = mysql_fetch_assoc($result);
         $row = mysql_fetch_assoc($result);
         // print_r $row;
-        
+
         $id = intval($row['id']);
         // $name = $row['name'];
         $image = $row['image'];
@@ -53,14 +50,14 @@ function getInfo($uid){
         elseif($rid == 3){
             $spouse = intval($row['pid']);
         }
-        
+
     }
     //$uid as pid to find children and spouse
-    $query = "SELECT * 
+    $query = "SELECT *
             FROM ft_overall_cid
             WHERE pid = $uid";
 
-    $result = mysql_query($query) or die(mysql_error());  
+    $result = mysql_query($query) or die(mysql_error());
     // if ( ! $result ) {
     //     echo mysql_error();
     //     die;
@@ -99,10 +96,10 @@ function getInfo($uid){
 
 //del $uid info and relationship
 function del($uid){
-    
+
     $query = "DELETE FROM ft_uinfo
             WHERE $uid = id";
-    $result = mysql_query($query) or die(mysql_error());  
+    $result = mysql_query($query) or die(mysql_error());
     echo $result;
 }
 
@@ -110,7 +107,7 @@ function del($uid){
 
 
 
-//update $uid info 
+//update $uid info
 function upd($info){
     $uid = $info['id'];
     $gender = $info['gender'] == null?'NULL':$info['gender'];
@@ -143,7 +140,7 @@ function upd($info){
 
 // var_dump( $query);
 // die;
-    $result = mysql_query($query) or die(mysql_error());  
+    $result = mysql_query($query) or die(mysql_error());
     echo $result;
 }
 
@@ -153,12 +150,11 @@ function upd($info){
 
 //insert $uid info and relationship
 function insert($info){
-
     $children = $info['children'];
     $father = $info['father'];
     $mother = $info['mother'];
     $spouse = $info['spouse'];
-    
+
     // $gender = $info->{'gender'} == null?'NULL':$info->{'gender'};
     // $status = $info->{'status'} == null?'NULL':$info->{'status'};
     // $birth = $info->{'birth'} == null?'NULL':$info->{'birth'};
@@ -201,8 +197,7 @@ if ($image == null && $gender ==2) {
     $query = "INSERT INTO ft_uinfo
             VALUES (NULL,$image,NULL,NULL,NULL,$status,$birth,$birthPlace,$death,$dealthPlace,$email,$firstName,$lastName,$gender)";
 
-// var_dump($query);die;
-    $result = mysql_query($query) or die(mysql_error()); 
+    $result = mysql_query($query) or die(mysql_error());
 
     //get inserted user id
     $uid = intval(mysql_insert_id());
@@ -218,13 +213,13 @@ if ($image == null && $gender ==2) {
         $pid = $uid;
         if($gender == 2)
             $rid = 2;
-        else 
+        else
             $rid = 1;
         foreach ($children as $child) {
             $cid = $child;
             $query = "INSERT INTO ft_relationship
                         VALUES ($pid,$cid,$rid)";
-            $result = mysql_query($query) or die(mysql_error()); 
+            $result = mysql_query($query) or die(mysql_error());
         }
 
     }
@@ -237,7 +232,7 @@ if ($image == null && $gender ==2) {
                         VALUES ($pid,$cid,$rid)";
         $result = mysql_query($query) or die(mysql_error());
     }
-    
+
     if($mother != NULL){
         $pid = $mother;
         $cid = $uid;
@@ -246,7 +241,7 @@ if ($image == null && $gender ==2) {
                         VALUES ($pid,$cid,$rid)";
         $result = mysql_query($query) or die(mysql_error());
     }
-    
+
     if($spouse != NULL){
         $pid = $spouse;
         $cid = $uid;
@@ -255,8 +250,8 @@ if ($image == null && $gender ==2) {
                         VALUES ($pid,$cid,$rid)";
         $result = mysql_query($query) or die(mysql_error());
     }
-    
-    
+
+
     echo $result;
 }
 ?>

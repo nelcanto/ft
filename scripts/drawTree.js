@@ -10,7 +10,7 @@ var svg,rect,
     imgUrlMen = "http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg",
     imgUrlWomen = "http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg",
     imgUrlChild = "https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg?height=300&width=300";
-var apiUrl = "http://localhost.cqg.com/wp-content/plugins/family-tree/php/";
+var apiUrl = "http://homestead.app/wp-content/plugins/family-tree/php/";
 
 var tree = [];
 
@@ -35,7 +35,7 @@ $.getJSON(`${apiUrl}/getid.php`, function(e) {
     if (e.id) {
       id = e.id;
     }
-    
+
     mainDraw(id);
     // alert('Result from PHP: ' + e.id);
 });
@@ -171,7 +171,7 @@ function drawParentsLayerAndConnect(arr, tree, ratio, preview = false) {
         objFather = tree[obj.father];
         nodeFather = drawNode(objFather, node.offsetX - marginX*ratio, node.offsetY - maxRect.y - marginY);
 
-        if (objFather != undefined && objFather.children != undefined && objFather.children.length>1 && preview == true) {
+        if (objFather != undefined && objFather.children != undefined && (objFather.children.length>1 || objFather.father!=null || objFather.mother!=null  || objFather.spouse != null) && preview == true) {
           drawTiny(nodeFather.offsetX, nodeFather.offsetY, objFather.id);
         }
         ret.push({'obj':objFather, 'node': nodeFather});
@@ -181,7 +181,7 @@ function drawParentsLayerAndConnect(arr, tree, ratio, preview = false) {
       } else {
         objMother = tree[obj.mother];
         nodeMother = drawNode(objMother, node.offsetX + marginX*ratio, node.offsetY - maxRect.y - marginY);
-        if (objMother != undefined && objMother.children != undefined && objMother.children.length>1 && preview == true) {
+        if (objMother != undefined && objMother.children != undefined && (objMother.children.length>1 || objMother.father!=null || objMother.mother!=null || objMother.spouse != null) && preview == true) {
           drawTiny(nodeMother.offsetX, nodeMother.offsetY, objMother.id);
         }
         ret.push({'obj': objMother, 'node': nodeMother});
@@ -232,6 +232,9 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
         nodeSpouse = objSpouse.node;
         if (objSpouse.node == null) {
           nodeSpouse = drawNode(objSpouse, node.offsetX + marginX*ratio, node.offsetY);
+          if (objSpouse.father || objSpouse.mother || objSpouse.sibling.length >= 0) {
+              drawTiny(nodeSpouse.offsetX, nodeSpouse.offsetY, objSpouse.id);
+          }
           connectSpouse(node, nodeSpouse);
           spouseOffsetX = nodeSpouse.offsetX;
         }
@@ -248,7 +251,7 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
         for (let child_id of obj.children) {
           childObj = tree[child_id];
           childNode = drawNode(childObj, (node.offsetX + spouseOffsetX)/2 + i*marginX*ratio, node.offsetY + maxRect.y + marginY);
-          if (preview == true && childObj.spouse != null) {
+          if (preview == true && childObj.spouse) {
               drawTiny(childNode.offsetX, childNode.offsetY, childNode.obj.id);
           }
           ret.push({'obj':childObj, 'node': childNode});
@@ -290,17 +293,20 @@ function draw(data) {
   let nodeMe      = drawNode(objMe, centerX, centerY);
   let nodeSpouse;
 
-  if (objMe.children == undefined || objMe.children.length < 1) {
-    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 1*marginX, nodeMe.offsetY);
-    connectSpouse(nodeMe, nodeSpouse);
-  } else {
-    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 4*marginX, nodeMe.offsetY);
+  nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 1*marginX, nodeMe.offsetY);
+  connectSpouse(nodeMe, nodeSpouse);
+
+  if (objSpouse && (objSpouse.sibling.length || objSpouse.father || objSpouse.mother)) {
+    drawTiny(nodeSpouse.offsetX, nodeSpouse.offsetY, objSpouse.id);
   }
+
+  drawSibling(nodeMe, -1);
+
   // Layer 1
   let initialArr;
-  initialArr = [ {'node':nodeMe, 'obj':objMe}, {'node': nodeSpouse, 'obj': objSpouse}];
-  let layer1Arr = drawParentsLayerAndConnect(initialArr, tree, 1, true);
 
+  initialArr = [ {'node':nodeMe, 'obj':objMe}];
+  let layer1Arr = drawParentsLayerAndConnect(initialArr, tree, 1, false);
   // Layer 2
   drawParentsLayerAndConnect(layer1Arr, tree, 0.5, true);
 
@@ -310,6 +316,75 @@ function draw(data) {
   // Layer -2
   drawChildrenLayerAndConnect(layerN1Arr, tree, 1, true);
   $(document).trigger('DATA_LOADED');
+}
+
+/**
+ * draw line when creating siblings.
+ * @param current_node    current sibling node
+ * @param base_node       base node of this layer
+ * @return
+ */
+function connectUp(current_node, base_node) {
+
+    let lineFunction = d3.svg.line()
+                     .x((d) => { return d.x; })
+                     .y((d) => { return d.y; });
+
+    let lineData = [
+            { "x": current_node.offsetX + maxRect.x/2,
+              "y": current_node.offsetY
+            },
+            { "x": current_node.offsetX + maxRect.x/2,
+              "y": current_node.offsetY - marginY/2
+            },
+            { "x": base_node.offsetX + maxRect.x/2,
+              "y": current_node.offsetY - marginY/2
+            }
+        ];
+
+    svg.append("path")
+       .attr("d", lineFunction(lineData))
+       .attr("stroke", "gray")
+       .attr("stroke-width", 2)
+       .attr("fill", "none");
+}
+
+/**
+ * Draw sibling of current node.
+ * @param node       current node
+ * @param direction  left:-1 or right:1
+ * @return
+ */
+function drawSibling(node, direction) {
+  let current_node = node;
+  let current_spouse_node;
+  let obj = node.obj;
+  console.log(obj);
+  let sibling_arr = obj.sibling;
+  let sibling_and_spouse_arr = [];
+
+  sibling_arr.forEach((x) => {
+    if (tree[x].spouse) {
+      let spouseObj = tree[tree[x].spouse];
+      current_spouse_node = drawNode(spouseObj, current_node.offsetX + direction * marginX, current_node.offsetY);
+      current_node = drawNode(tree[x], current_node.offsetX + direction * marginX * 2, current_node.offsetY);
+      connectSpouse(current_node, current_spouse_node);
+      connectUp(current_node, node);
+      if (tree[x].children.length >0) {
+        drawTiny(current_node.offsetX, current_node.offsetY, tree[x].id);
+      }
+      if (spouseObj.children.length >0 || spouseObj.sibling.length >0 || spouseObj.father || spouseObj.mother) {
+        drawTiny(current_spouse_node.offsetX, current_spouse_node.offsetY, spouseObj.id);
+      }
+    } else {
+      current_node = drawNode(tree[x], current_node.offsetX + direction * marginX, current_node.offsetY);
+      connectUp(current_node, node);
+      if (tree[x].children.length >0) {
+        drawTiny(current_node.offsetX, current_node.offsetY, tree[x].id);
+      }
+    }
+  });
+
 }
 
 /**
@@ -407,6 +482,7 @@ function drawNode(obj, offsetX, offsetY) {
  * draw tiny nodes on left side for hiding infomation
  * @param offsetX
  * @param offsetY
+ * @param id
  * @return
  */
 function drawTiny(offsetX, offsetY, id){
