@@ -1,527 +1,398 @@
-// this file serves to create family tree with D3
-// originally written and tested with traceur,
-// but should be compatible with native ES6
-// please use traceur compiler for safty purposes
-
-// svg is the base for drawing d3 objects
-var svg,rect,
-    maxRect = { x: 100, y: 130},
-    maxIcon = { x: maxRect.x, y: maxRect.x},
+"use strict";
+var svg,
+    rect,
+    maxRect = {
+      x: 100,
+      y: 130
+    },
+    maxIcon = {
+      x: maxRect.x,
+      y: maxRect.x
+    },
     imgUrlMen = "http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg",
     imgUrlWomen = "http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg",
     imgUrlChild = "https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg?height=300&width=300";
-var apiUrl = "http://wp.com/wp-content/plugins/family-tree/php/";
-
+var apiUrl = "http://homestead.app/wp-content/plugins/family-tree/php/";
 var tree = [];
-
-var w = 1400,
+var w = $('.family-tree').width(),
     h = $('.family-tree').height(),
-    centerX = w/2+250,
+    centerX = w / 2 + 250,
     centerY = 400,
     marginX = 150,
     marginY = 50;
-
-var zoom = d3.behavior.zoom()
-    .scaleExtent([0.5, 1])
-    .center([centerX, centerY])
-    .on("zoom", zoomed);
-var margin = {top: 0, right: 0, bottom: 0, left: 0};
-
-// lets start from here ...
+var zoom = d3.behavior.zoom().scaleExtent([0.5, 1]).scale(.7).center([centerX, centerY]).on("zoom", zoomed);
+var margin = {
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0
+};
 var id = 1;
-//get current id
-$.getJSON(`${apiUrl}/getid.php`, function(e) {
-    if (e.id) {
-      id = e.id;
-    }
-
-    mainDraw(id);
-    // alert('Result from PHP: ' + e.id);
+$.getJSON((apiUrl + "/getid.php"), function(e) {
+  if (e.id) {
+    id = e.id;
+  }
+  mainDraw(id);
 });
-// console.log(id);
-
-
 function mainDraw(id2) {
-  // added a hack to change the global id variable without breaking this code
-  // need for drawing a different id tree
-
-  // reset tranlsate and scale value to initial state
-  zoom.scale(.7).translate([margin.left, margin.right]);
   id = id2;
   d3.select("svg").remove();
-  let container = ".family-tree .container";
-  svg = d3.select(container)
-          .append("svg")
-          .attr('data-viewed-id', id)
-          .attr('height', h)
-          .attr('width', w)
-          //append zoom
-          .call(zoom)
-          .append("g")
-          // set initial tranlsate and scale
-          .attr("transform", "translate(" + margin.left + "," + margin.right + ") scale(0.7)");
-
-  d3.json(`${apiUrl}/view.php?userid=${id}`, draw);
+  var container = ".family-tree .container";
+  svg = d3.select(container).append("svg").attr('data-viewed-id', id).attr('height', h).attr('width', w).call(zoom).append("g").attr("transform", "translate(" + margin.left + "," + margin.right + ") scale(0.7)");
+  d3.json((apiUrl + "/view.php?userid=" + id), draw);
 }
-
-
-
-/*
- * connect one node with its mother node and father node
- * @param arr       should pass in all current layer's nodes
- * @param tree      should pass in global tree variable containing all nodes
- * @param ratio     numberic scale based on layer
- * @param preview   set switch on will enable drawTiny to hide children nodes
- * @return
- */
 function connectWithParents(fatherNode, motherNode, nodeX) {
   connectLine(fatherNode, nodeX);
   connectLine(motherNode, nodeX);
 }
-
-/*
- * connect childnode with one parent node
- * @param arr       should pass in all current layer's nodes
- * @param tree      should pass in global tree variable containing all nodes
- * @param ratio     numberic scale based on layer
- * @param preview   set switch on will enable drawTiny to hide children nodes
- * @return
- */
 function connectLine(parentNode, childNode) {
-
-    if (parentNode == null) {
-      return -1;
-    }
-
-    let lineFunction = d3.svg.line()
-                     .x((d) => { return d.x; })
-                     .y((d) => { return d.y; });
-
-    let lineData = [
-            { "x": parentNode.offsetX + maxRect.x/2,
-              "y": parentNode.offsetY + maxRect.y
-            },
-            { "x": parentNode.offsetX + maxRect.x/2,
-              "y": (parentNode.offsetY + maxRect.y + childNode.offsetY)/2
-            },
-            { "x": childNode.offsetX + maxRect.x/2,
-              "y": (parentNode.offsetY + maxRect.y + childNode.offsetY)/2
-            },
-            { "x": childNode.offsetX + maxRect.x/2,
-              "y": childNode.offsetY
-            }
-        ];
-
-    svg.append("path")
-       .attr("d", lineFunction(lineData))
-       .attr("stroke", "gray")
-       .attr("stroke-width", 2)
-       .attr("fill", "none");
+  if (parentNode == null) {
+    return -1;
+  }
+  var lineFunction = d3.svg.line().x(function(d) {
+    return d.x;
+  }).y(function(d) {
+    return d.y;
+  });
+  var lineData = [{
+    "x": parentNode.offsetX + maxRect.x / 2,
+    "y": parentNode.offsetY + maxRect.y
+  }, {
+    "x": parentNode.offsetX + maxRect.x / 2,
+    "y": (parentNode.offsetY + maxRect.y + childNode.offsetY) / 2
+  }, {
+    "x": childNode.offsetX + maxRect.x / 2,
+    "y": (parentNode.offsetY + maxRect.y + childNode.offsetY) / 2
+  }, {
+    "x": childNode.offsetX + maxRect.x / 2,
+    "y": childNode.offsetY
+  }];
+  svg.append("path").attr("d", lineFunction(lineData)).attr("stroke", "gray").attr("stroke-width", 2).attr("fill", "none");
 }
-
-/*
- * connect spouse directly
- * @param nodeLeft       should pass in left node
- * @param nodeRight      should pass in right node
- * @return
- */
 function connectSpouse(nodeLeft, nodeRight) {
-
-    let lineFunction = d3.svg.line()
-                     .x((d) => { return d.x; })
-                     .y((d) => { return d.y; });
-
-    let lineData = [
-            { "x": nodeLeft.offsetX + maxRect.x,
-              "y": nodeLeft.offsetY + maxRect.y/2
-            },
-            { "x": nodeRight.offsetX,
-              "y": nodeLeft.offsetY + maxRect.y/2
-            }
-        ];
-
-    svg.append("path")
-       .attr("d", lineFunction(lineData))
-       .attr("stroke", "gray")
-       .attr("stroke-width", 2)
-       .attr("fill", "none");
+  var lineFunction = d3.svg.line().x(function(d) {
+    return d.x;
+  }).y(function(d) {
+    return d.y;
+  });
+  var lineData = [{
+    "x": nodeLeft.offsetX + maxRect.x,
+    "y": nodeLeft.offsetY + maxRect.y / 2
+  }, {
+    "x": nodeRight.offsetX,
+    "y": nodeLeft.offsetY + maxRect.y / 2
+  }];
+  svg.append("path").attr("d", lineFunction(lineData)).attr("stroke", "gray").attr("stroke-width", 2).attr("fill", "none");
 }
-
-/**
- * Accept an array of nodes, draw all of their parent nodes
- * @param arr       should pass in all current layer's nodes
- * @param tree      should pass in global tree variable containing all nodes
- * @param ratio     numberic scale based on layer
- * @param preview   set switch on will enable drawTiny to hide children nodes
- * @return array of all higher layer's nodes
- */
-function drawParentsLayerAndConnect(arr, tree, ratio, preview = false) {
-  let ret = [];
-  let obj, node;
-
-  for (let entry of arr) {
-      obj = entry.obj;
-      node = entry.node;
-      if (obj == null)
-        return [];
-
-      let objFather,objMother,nodeFather,nodeMother;
-
-      if (obj.father != undefined && obj.father == null) {
-        objFather = null;
-      } else {
-        objFather = tree[obj.father];
-        nodeFather = drawNode(objFather, node.offsetX - marginX*ratio, node.offsetY - maxRect.y - marginY);
-
-        if (objFather != undefined && objFather.children != undefined && objFather.children.length>1 && preview == true) {
-          drawTiny(nodeFather.offsetX, nodeFather.offsetY, objFather.id);
+function drawParentsLayerAndConnect(arr, tree, ratio) {
+  var preview = arguments[3] !== (void 0) ? arguments[3] : false;
+  var ret = [];
+  var obj,
+      node;
+  var $__4 = true;
+  var $__5 = false;
+  var $__6 = undefined;
+  try {
+    for (var $__2 = void 0,
+        $__1 = (arr)[Symbol.iterator](); !($__4 = ($__2 = $__1.next()).done); $__4 = true) {
+      var entry = $__2.value;
+      {
+        obj = entry.obj;
+        node = entry.node;
+        if (obj == null)
+          return [];
+        var objFather = void 0,
+            objMother = void 0,
+            nodeFather = void 0,
+            nodeMother = void 0;
+        if (obj.father != undefined && obj.father == null) {
+          objFather = null;
+        } else {
+          objFather = tree[obj.father];
+          nodeFather = drawNode(objFather, node.offsetX - marginX * ratio, node.offsetY - maxRect.y - marginY);
+          if (objFather != undefined && objFather.children != undefined && (objFather.children.length > 1 || objFather.father != null || objFather.mother != null || objFather.spouse != null) && preview == true) {
+            drawTiny(nodeFather.offsetX, nodeFather.offsetY, objFather.id);
+          }
+          ret.push({
+            'obj': objFather,
+            'node': nodeFather
+          });
         }
-        ret.push({'obj':objFather, 'node': nodeFather});
-      }
-      if (obj.mother == null) {
-        objMother = null;
-      } else {
-        objMother = tree[obj.mother];
-        nodeMother = drawNode(objMother, node.offsetX + marginX*ratio, node.offsetY - maxRect.y - marginY);
-        if (objMother != undefined && objMother.children != undefined && objMother.children.length>1 && preview == true) {
-          drawTiny(nodeMother.offsetX, nodeMother.offsetY, objMother.id);
+        if (obj.mother == null) {
+          objMother = null;
+        } else {
+          objMother = tree[obj.mother];
+          nodeMother = drawNode(objMother, node.offsetX + marginX * ratio, node.offsetY - maxRect.y - marginY);
+          if (objMother != undefined && objMother.children != undefined && (objMother.children.length > 1 || objMother.father != null || objMother.mother != null || objMother.spouse != null) && preview == true) {
+            drawTiny(nodeMother.offsetX, nodeMother.offsetY, objMother.id);
+          }
+          ret.push({
+            'obj': objMother,
+            'node': nodeMother
+          });
         }
-        ret.push({'obj': objMother, 'node': nodeMother});
+        connectWithParents(nodeFather, nodeMother, node);
       }
-      connectWithParents(nodeFather, nodeMother, node);
+    }
+  } catch ($__7) {
+    $__5 = true;
+    $__6 = $__7;
+  } finally {
+    try {
+      if (!$__4 && $__1.return != null) {
+        $__1.return();
+      }
+    } finally {
+      if ($__5) {
+        throw $__6;
+      }
+    }
   }
   return ret;
 }
-
-/**
- * Accept an array of nodes, draw all of their children nodes
- * @param arr       should pass in all current layer's nodes
- * @param tree      should pass in global tree variable containing all nodes
- * @param ratio     numberic scale based on layer
- * @param preview   set switch on will enable drawTiny to hide children nodes
- * @return array of all lower layer's nodes
- */
-function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
-
-  let ret = [];
-  let visited = [];
-  let obj,
+function drawChildrenLayerAndConnect(arr, tree, ratio) {
+  var preview = arguments[3] !== (void 0) ? arguments[3] : false;
+  var ret = [];
+  var visited = [];
+  var obj,
       node,
       nodeSpouse,
       childObj,
       childNode,
       childrenArrayLength;
-
-  // be sure not to use for ()
-  // because arr looks like:
-  // 0:Object, 1:Object, length:2, _proto_: []
-  arr.forEach((entry) => {
-      obj = entry.obj;
-      node = entry.node;
-
-      // check if visited
-      if (node == -1 || visited.indexOf(obj.id) != -1) {
-          return -1;
-      }
-
-      visited.push(obj.id);
-
-      let spouseOffsetX = node.offsetX;
-      if (obj != undefined && obj.spouse != undefined && obj.spouse != null) {
-
-        let objSpouse = tree[obj.spouse];
-
-        nodeSpouse = objSpouse.node;
-        if (objSpouse.node == null) {
-          nodeSpouse = drawNode(objSpouse, node.offsetX + marginX*ratio, node.offsetY);
-          connectSpouse(node, nodeSpouse);
-          spouseOffsetX = nodeSpouse.offsetX;
+  arr.forEach(function(entry) {
+    obj = entry.obj;
+    node = entry.node;
+    if (node == -1 || visited.indexOf(obj.id) != -1) {
+      return -1;
+    }
+    visited.push(obj.id);
+    var spouseOffsetX = node.offsetX;
+    if (obj != undefined && obj.spouse != undefined && obj.spouse != null) {
+      var objSpouse = tree[obj.spouse];
+      nodeSpouse = objSpouse.node;
+      if (objSpouse.node == null) {
+        nodeSpouse = drawNode(objSpouse, node.offsetX + marginX * ratio, node.offsetY);
+        if (objSpouse.father || objSpouse.mother || objSpouse.sibling.length >= 0) {
+          drawTiny(nodeSpouse.offsetX, nodeSpouse.offsetY, objSpouse.id);
         }
-        visited.push(obj.spouse);
+        connectSpouse(node, nodeSpouse);
+        spouseOffsetX = nodeSpouse.offsetX;
       }
-      // first check obj exists
-      if (obj == null)
-        return -1;
-
-      // the children array is defined and has at least one element
-      if (typeof obj.children !== undefined && obj.children.length > 0) {
-        childrenArrayLength = obj.children.length;
-        let i = childrenArrayLength/2*(-1);
-        for (let child_id of obj.children) {
-          childObj = tree[child_id];
-          childNode = drawNode(childObj, (node.offsetX + spouseOffsetX)/2 + i*marginX*ratio, node.offsetY + maxRect.y + marginY);
-          if (preview == true && childObj.spouse != null) {
+      visited.push(obj.spouse);
+    }
+    if (obj == null)
+      return -1;
+    if ($traceurRuntime.typeof(obj.children) !== undefined && obj.children.length > 0) {
+      childrenArrayLength = obj.children.length;
+      var i = childrenArrayLength / 2 * (-1);
+      var $__4 = true;
+      var $__5 = false;
+      var $__6 = undefined;
+      try {
+        for (var $__2 = void 0,
+            $__1 = (obj.children)[Symbol.iterator](); !($__4 = ($__2 = $__1.next()).done); $__4 = true) {
+          var child_id = $__2.value;
+          {
+            childObj = tree[child_id];
+            childNode = drawNode(childObj, (node.offsetX + spouseOffsetX) / 2 + i * marginX * ratio, node.offsetY + maxRect.y + marginY);
+            if (preview == true && childObj.spouse) {
               drawTiny(childNode.offsetX, childNode.offsetY, childNode.obj.id);
+            }
+            ret.push({
+              'obj': childObj,
+              'node': childNode
+            });
+            connectWithParents(node, nodeSpouse, childNode);
+            i++;
           }
-          ret.push({'obj':childObj, 'node': childNode});
-
-          connectWithParents(node, nodeSpouse, childNode);
-
-          i++;
+        }
+      } catch ($__7) {
+        $__5 = true;
+        $__6 = $__7;
+      } finally {
+        try {
+          if (!$__4 && $__1.return != null) {
+            $__1.return();
+          }
+        } finally {
+          if ($__5) {
+            throw $__6;
+          }
         }
       }
-
+    }
   });
   return ret;
 }
-
-/**
- * Draw 2 layers up of current node and 2 layers down of current node.
- * Total: 5 layers
- *    Layer 2: grandpa, grandma, etc
- *    Layer 1: mother, father, etc
- *    Layer 0: sisters, brothers, spouse
- *    Layer -1(N1-negative1): children
- *    Layer -2(N2-negative2): grandchildren
- * @param data     complete json of all nodes
- * @return
- */
 function draw(data) {
-  let main = data.forEach( (entry) => {
+  var main = data.forEach(function(entry) {
     tree[entry.id] = entry;
-    if (entry.id == id){
+    if (entry.id == id) {
       return entry;
     }
   });
-
-  // create objects from id=>objMe
-  // layer0
-  let objMe     = tree[id];
-  let objSpouse = tree[objMe.spouse];
-
-  let nodeMe      = drawNode(objMe, centerX, centerY);
-  let nodeSpouse;
-
-  if (objMe.children == undefined || objMe.children.length < 1) {
-    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 1*marginX, nodeMe.offsetY);
-    connectSpouse(nodeMe, nodeSpouse);
-  } else {
-    nodeSpouse  = drawNode(objSpouse, nodeMe.offsetX + 4*marginX, nodeMe.offsetY);
+  var objMe = tree[id];
+  var objSpouse = tree[objMe.spouse];
+  var nodeMe = drawNode(objMe, centerX, centerY);
+  var nodeSpouse;
+  nodeSpouse = drawNode(objSpouse, nodeMe.offsetX + 1 * marginX, nodeMe.offsetY);
+  connectSpouse(nodeMe, nodeSpouse);
+  if (objSpouse && (objSpouse.sibling.length>1 || objSpouse.father || objSpouse.mother)) {
+    drawTiny(nodeSpouse.offsetX, nodeSpouse.offsetY, objSpouse.id);
   }
 
-  if (objSpouse && (objSpouse.sibling.length || objSpouse.father || objSpouse.mother)) {
-    drawTiny(nodeSpouse.offsetX, nodeSpouse.offsetY, nodeSpouse.id);
-  }
+  drawSibling(nodeMe, -1);
 
-  // Layer 1
-  let initialArr;
+  var initialArr;
+  initialArr = [{
+    'node': nodeMe,
+    'obj': objMe
+  }];
+  var layer1Arr = drawParentsLayerAndConnect(initialArr, tree, 1, false);
 
-  initialArr = [ {'node':nodeMe, 'obj':objMe}];
-  let layer1Arr = drawParentsLayerAndConnect(initialArr, tree, 1, false);
+  var current_direction = 1;
+  layer1Arr.forEach(function(x) {
+    current_direction = (-1) * current_direction;
+    drawSibling(x.node, current_direction);
+  });
 
-  // Layer 2
   drawParentsLayerAndConnect(layer1Arr, tree, 0.5, true);
-
-  // Layer -1
-  let layerN1Arr = drawChildrenLayerAndConnect(initialArr, tree, 3, false);
-
-  // Layer -2
+  var layerN1Arr = drawChildrenLayerAndConnect(initialArr, tree, 3, false);
   drawChildrenLayerAndConnect(layerN1Arr, tree, 1, true);
   $(document).trigger('DATA_LOADED');
 }
-
-/**
- * based on obj and pre-defined offsetX, offsetY, draw and return node
- * @param obj
- * @param offsetX
- * @param offsetY
- * @param isHighlighted
- * @return node
- */
-function drawNode(obj, offsetX, offsetY, isHighlighted = false) {
-    if (obj == null) {
-      return -1;
-    }
-    let name = (obj.lastName?obj.lastName:'') + ' ' + (obj.firstName?obj.firstName:'');
-    let imgUrl = obj.image;
-    let box = svg
-         .append("g")
-         .attr("transform",
-            function(d, i) { return "translate(" + offsetX + "," + offsetY + ")"; }
-          )
-         .attr('id', `node-${obj.id}`);
-
-    box.attr("class", "node")
-        .attr("style", "cursor:pointer;")
-        .attr("data-target", "#node-modal")
-        .attr("data-toggle", "modal")
-        .attr("data-name", name);
-    if (obj.father != null) {
-        obj.sibling = _.difference(tree[obj.father].children, [obj.id]);
-    } else if (obj.mother != null)
-        obj.sibling = _.difference(tree[obj.mother].children, [obj.id]);
-      else
-        obj.sibling = [];
-
-    $(`#node-${obj.id}`).data(obj);
-    box.offsetX = offsetX;
-    box.offsetY = offsetY;
-    box.name = name;
-    box.imgUrl = imgUrl;
-    box.obj = obj;
-
-    let highlightStyle = 'stroke:black;stroke-width:2;opacity:0.8;';
-    if (isHighlighted) {
-        highlightStyle = 'stroke:green;stroke-width:4;opacity:0.8;';
-    }
-
-    box.append("rect")
-        .attr("x", "0")
-        .attr("y", "0")
-        .attr("rx", 5)
-        .attr("ry", 5)
-        .attr("fill", "white")
-        .attr("style", highlightStyle)
-        .attr("width", maxRect.x)
-        .attr("height", maxRect.y);
-
-    box.append("line")
-        .attr("x1", 0)
-        .attr("x2", maxRect.x)
-        .attr("y1", maxIcon.y)
-        .attr("y2", maxIcon.y)
-        .attr("stroke", "gray")
-        .attr("stroke-width", 2);
-
-    box.append("image")
-        .attr("x", "1")
-        .attr("y", "1")
-        .attr("preserveAspectRatio", "none")
-        .attr("height", maxRect.x-2)
-        .attr("width", maxRect.x-2)
-        .attr("xlink:href", imgUrl);
-
-    box.append('text')
-        .attr("text-anchor", "middle")
-        .attr("x", maxRect.x/2)
-        .attr("y", maxRect.y)
-        .attr("dy", "-.35em")
-        .attr("fill", "black")
-        .attr("font-size", 22)
-        .attr("opacity", "1")
-        .attr("font-family", "sans-serif")
-        .text(name);
-
-    box.on("mouseover", function(d) {
-      d3.select(this).transition()
-                     .delay("100")
-                     .style("opacity", .5);
-
-    })
-    .on("mouseout", function(d) {
-      d3.select(this).transition()
-                     .delay("100")
-                     .style("opacity", 1);
-    });
-    obj.node = box;
-    return box;
+function connectUp(current_node, base_node) {
+  var lineFunction = d3.svg.line().x(function(d) {
+    return d.x;
+  }).y(function(d) {
+    return d.y;
+  });
+  var lineData = [{
+    "x": current_node.offsetX + maxRect.x / 2,
+    "y": current_node.offsetY
+  }, {
+    "x": current_node.offsetX + maxRect.x / 2,
+    "y": current_node.offsetY - marginY / 2
+  }, {
+    "x": base_node.offsetX + maxRect.x / 2,
+    "y": current_node.offsetY - marginY / 2
+  }];
+  svg.append("path").attr("d", lineFunction(lineData)).attr("stroke", "gray").attr("stroke-width", 2).attr("fill", "none");
 }
+function drawSibling(node, direction) {
+  var current_node = node;
+  var current_spouse_node;
+  console.log(node.obj);
+  var sibling_arr = node.obj.sibling;
 
-/**
- * draw tiny nodes on left side for hiding infomation
- * @param offsetX
- * @param offsetY
- * @return
- */
-function drawTiny(offsetX, offsetY, id){
-    let base = maxRect.x;
-    let boxOffsetX = offsetX-maxRect.x*0.3;
-    let box = svg
-         .append("g")
-         .attr('class', 'tiny-node')
-         .attr("data-id", id)
-         .attr("transform",
-            function(d, i) { return "translate(" + boxOffsetX + "," + offsetY + ")"; }
-          );
-
-    box.attr("style", "cursor:pointer;");
-
-    box.append("rect")
-        .attr("x", "0")
-        .attr("y", 0.35*base)
-        .attr("rx", 1)
-        .attr("ry", 1)
-        .attr("fill", "white")
-        .attr("style", "stroke:black;stroke-width:0.5;opacity:0.3;")
-        .attr("width", 0.2*base)
-        .attr("height", 0.2*base);
-
-    box.append("image")
-        .attr("preserveAspectRatio", "none")
-        .attr("x", "0")
-        .attr("y", 0.35*base)
-        .attr("height", 0.2*base)
-        .attr("width", 0.2*base)
-        .attr("xlink:href", imgUrlMen);
-
-    box.append("rect")
-        .attr("x", "0")
-        .attr("y", "0")
-        .attr("rx", 1)
-        .attr("ry", 1)
-        .attr("fill", "white")
-        .attr("style", "stroke:black;stroke-width:0.5;opacity:0.3;")
-        .attr("width", 0.2*base)
-        .attr("height", 0.2*base);
-
-    box.append("image")
-        .attr("preserveAspectRatio", "none")
-        .attr("height", 0.2*base)
-        .attr("width", 0.2*base)
-        .attr("xlink:href", imgUrlWomen);
-
-    // connect with line
-    let lineFunction = d3.svg.line()
-                     .x(function(d) { return offsetX - 0.3*base + d.x; })
-                     .y(function(d) { return offsetY + d.y; });
-
-    // adjustable to rect size
-    let lineData1 = [
-            { "x": 0.2*base,
-              "y": 0.1*base
-            },
-            { "x": 0.25*base,
-              "y": 0.1*base
-            },
-            { "x": 0.25*base,
-              "y": 0.275*base
-            },
-            { "x": 0.3*base,
-              "y": 0.275*base
-            }
-        ];
-
-    svg.append("path")
-       .attr("d", lineFunction(lineData1))
-       .attr("stroke", "gray")
-       .attr("stroke-width", 2)
-       .attr("fill", "none");
-
-    let lineData2 = [
-            { "x": 0.2*base,
-              "y": 0.45*base
-            },
-            { "x": 0.25*base,
-              "y": 0.45*base
-            },
-            { "x": 0.25*base,
-              "y": 0.275*base
-            },
-            { "x": 0.3*base,
-              "y": 0.275*base
-            }
-        ];
-
-    svg.append("path")
-       .attr("d", lineFunction(lineData2))
-       .attr("stroke", "gray")
-       .attr("stroke-width", 2)
-       .attr("fill", "none");
+  sibling_arr.forEach(function(x) {
+    if (x != node.obj.id) {
+      if (tree[x].spouse) {
+        var spouseObj = tree[tree[x].spouse];
+        current_spouse_node = drawNode(spouseObj, current_node.offsetX + direction * marginX, current_node.offsetY);
+        current_node = drawNode(tree[x], current_node.offsetX + direction * marginX * 2, current_node.offsetY);
+        if (direction < 0) {
+          connectSpouse(current_node, current_spouse_node);
+        } else {
+          connectSpouse(current_spouse_node, current_node);
+        }
+        connectUp(current_node, node);
+        if (tree[x].children.length > 0) {
+          drawTiny(current_node.offsetX, current_node.offsetY, tree[x].id);
+        }
+        if (spouseObj.children.length > 0 || spouseObj.sibling.length > 0 || spouseObj.father || spouseObj.mother) {
+          drawTiny(current_spouse_node.offsetX, current_spouse_node.offsetY, spouseObj.id);
+        }
+      } else {
+        current_node = drawNode(tree[x], current_node.offsetX + direction * marginX, current_node.offsetY);
+        connectUp(current_node, node);
+        if (tree[x].children.length > 0) {
+          drawTiny(current_node.offsetX, current_node.offsetY, tree[x].id);
+        }
+      }
+    }
+  });
 }
-
-/*
- * zoom ft
- */
+function drawNode(obj, offsetX, offsetY) {
+  if (obj == null) {
+    return -1;
+  }
+  var name = obj.lastName + ' ' + obj.firstName;
+  var imgUrl = obj.image;
+  var box = svg.append("g").attr("transform", function(d, i) {
+    return "translate(" + offsetX + "," + offsetY + ")";
+  }).attr('id', ("node-" + obj.id));
+  box.attr("class", "node").attr("style", "cursor:pointer;").attr("data-target", "#node-modal").attr("data-toggle", "modal").attr("data-name", name);
+  if (obj.father != null) {
+    obj.sibling = tree[obj.father].children;
+  } else if (obj.mother != null)
+    obj.sibling = tree[obj.mother].children;
+  else
+    obj.sibling = [obj.id];
+  $(("#node-" + obj.id)).data(obj);
+  box.offsetX = offsetX;
+  box.offsetY = offsetY;
+  box.name = name;
+  box.imgUrl = imgUrl;
+  box.obj = obj;
+  box.append("rect").attr("x", "0").attr("y", "0").attr("rx", 5).attr("ry", 5).attr("fill", "white").attr("style", "stroke:black;stroke-width:2;opacity:0.3;").attr("width", maxRect.x).attr("height", maxRect.y);
+  box.append("line").attr("x1", 0).attr("x2", maxRect.x).attr("y1", maxIcon.y).attr("y2", maxIcon.y).attr("stroke", "gray").attr("stroke-width", 2);
+  box.append("image").attr("x", "1").attr("y", "1").attr("preserveAspectRatio", "none").attr("height", maxRect.x - 2).attr("width", maxRect.x - 2).attr("xlink:href", imgUrl);
+  box.append('text').attr("text-anchor", "middle").attr("x", maxRect.x / 2).attr("y", maxRect.y).attr("dy", "-.35em").attr("fill", "black").attr("font-size", 22).attr("opacity", "1").attr("font-family", "sans-serif").text(name);
+  box.on("mouseover", function(d) {
+    d3.select(this).transition().delay("100").style("opacity", .5);
+  }).on("mouseout", function(d) {
+    d3.select(this).transition().delay("100").style("opacity", 1);
+  });
+  obj.node = box;
+  return box;
+}
+function drawTiny(offsetX, offsetY, id) {
+  var base = maxRect.x;
+  var boxOffsetX = offsetX - maxRect.x * 0.3;
+  var box = svg.append("g").attr('class', 'tiny-node').attr("data-id", id).attr("transform", function(d, i) {
+    return "translate(" + boxOffsetX + "," + offsetY + ")";
+  });
+  box.attr("style", "cursor:pointer;");
+  box.append("rect").attr("x", "0").attr("y", 0.35 * base).attr("rx", 1).attr("ry", 1).attr("fill", "white").attr("style", "stroke:black;stroke-width:0.5;opacity:0.3;").attr("width", 0.2 * base).attr("height", 0.2 * base);
+  box.append("image").attr("preserveAspectRatio", "none").attr("x", "0").attr("y", 0.35 * base).attr("height", 0.2 * base).attr("width", 0.2 * base).attr("xlink:href", imgUrlMen);
+  box.append("rect").attr("x", "0").attr("y", "0").attr("rx", 1).attr("ry", 1).attr("fill", "white").attr("style", "stroke:black;stroke-width:0.5;opacity:0.3;").attr("width", 0.2 * base).attr("height", 0.2 * base);
+  box.append("image").attr("preserveAspectRatio", "none").attr("height", 0.2 * base).attr("width", 0.2 * base).attr("xlink:href", imgUrlWomen);
+  var lineFunction = d3.svg.line().x(function(d) {
+    return offsetX - 0.3 * base + d.x;
+  }).y(function(d) {
+    return offsetY + d.y;
+  });
+  var lineData1 = [{
+    "x": 0.2 * base,
+    "y": 0.1 * base
+  }, {
+    "x": 0.25 * base,
+    "y": 0.1 * base
+  }, {
+    "x": 0.25 * base,
+    "y": 0.275 * base
+  }, {
+    "x": 0.3 * base,
+    "y": 0.275 * base
+  }];
+  svg.append("path").attr("d", lineFunction(lineData1)).attr("stroke", "gray").attr("stroke-width", 2).attr("fill", "none");
+  var lineData2 = [{
+    "x": 0.2 * base,
+    "y": 0.45 * base
+  }, {
+    "x": 0.25 * base,
+    "y": 0.45 * base
+  }, {
+    "x": 0.25 * base,
+    "y": 0.275 * base
+  }, {
+    "x": 0.3 * base,
+    "y": 0.275 * base
+  }];
+  svg.append("path").attr("d", lineFunction(lineData2)).attr("stroke", "gray").attr("stroke-width", 2).attr("fill", "none");
+}
 function zoomed() {
   svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }

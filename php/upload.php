@@ -1,5 +1,5 @@
 <?php
-$endpoint = 'http://wp.com/wp-content/plugins/family-tree/img/';
+$endpoint = 'http://homestead.app/wp-content/plugins/family-tree/img/';
 $target_dir = "../img/";
 
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -78,7 +78,7 @@ if ($uploadOk == 0) {
 }
 
 // include('func.php');
-// include('connectdb.php'); 
+// include('connectdb.php');
 // $connection = mysql_select_db($database, $server) or die("Unable to select db");
 // $uid =intval($_GET['uid']);
 // if(!empty($uid)  ) {
@@ -90,7 +90,7 @@ if ($uploadOk == 0) {
 
 // // var_dump( $query);
 // // die;
-//     $result = mysql_query($query) or die(mysql_error());  
+//     $result = mysql_query($query) or die(mysql_error());
 //     echo $result;
 // }
 // mysql_close($server);

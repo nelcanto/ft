@@ -1,7 +1,7 @@
 class NodeModal {
     constructor(targetModal) {
         this.targetModal = $(targetModal);
-        this.apiEndpoint = "http://wp.com/wp-content/plugins/family-tree/php/";
+        this.apiEndpoint = "http://homestead.app/wp-content/plugins/family-tree/php/";
         this.bindEvents();
     }
 
@@ -142,7 +142,7 @@ class NodeModal {
             'email',
             'image'
         ];
-        
+
         let formData = {};
         formFields.forEach((value, key) => {
             //console.log(value + " " + $(`[name=${value}]`, form).val())
@@ -152,7 +152,7 @@ class NodeModal {
                 formData[value] = $(`[name=${value}]`, form).val()
             }
         });
-            
+
         return formData;
     }
 
@@ -237,7 +237,7 @@ class NodeModal {
                 $(`[name=${key}]`, form).trigger('change');
             }
         });
-        
+
     }
 
     onClickAddRelativeBtn(e) {
@@ -253,7 +253,7 @@ class NodeModal {
 
         // show all relationships
         $('.list-group-item', addRelativePane).show();
-        // 
+        //
         // hide the relationships the current node already has
         relationships.forEach((value, key) => {
             if (this.node[value]) {
