@@ -8,9 +8,7 @@ Author: nytweb
 
 function add_scripts()
 {
-    $viewTree = $_GET['view-family-tree'];
-
-    if ($viewTree) {
+    if (isset($_GET['view-family-tree']) && $_GET['view-family-tree']) {
         // HEADER STYLES
         wp_enqueue_style( 'family-tree', plugins_url('dist/css/main.css', __FILE__));
         wp_enqueue_style( 'jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/redmond/jquery-ui.css' );
@@ -47,18 +45,12 @@ function add_scripts()
 add_action( 'wp_enqueue_scripts', 'add_scripts', 9998 );
 
 function show_family_tree() {
-    //ob_start();
-    //echo 'asdasd';
-    $viewTree = $_GET['view-family-tree'];
-
-    if ($viewTree) {
+    if (isset($_GET['view-family-tree']) && $_GET['view-family-tree']) {
         include('tree.php');
     }
-    //ob_end_clean();
 }
 
 /* display the family tree before activity post form when family parameter is passed in request */
-// add_action( 'bp_before_member_activity_post_form', 'show_family_tree', 10 );
 add_action( 'get_template_part_content', 'show_family_tree', 10 );
 
 ?>
