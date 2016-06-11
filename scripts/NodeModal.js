@@ -1,7 +1,7 @@
 class NodeModal {
     constructor(targetModal) {
         this.targetModal = $(targetModal);
-        this.apiEndpoint = "http://homestead.app/wp-content/plugins/family-tree/php/";
+        this.apiEndpoint = "http://wp.com/wp-content/plugins/family-tree/php/";
         this.bindEvents();
     }
 

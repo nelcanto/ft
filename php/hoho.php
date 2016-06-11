@@ -22,8 +22,26 @@ echo $abc;*/
 
 
 
+include("../../../../wp-config.php");
+ global $current_user;
+      get_currentuserinfo();
 
-echo date("Ymd-His");
+      echo 'Username: ' . $current_user->user_login . "\n";
+      echo 'User email: ' . $current_user->user_email . "\n";
+      echo 'User level: ' . $current_user->user_level . "\n";
+      echo 'User first name: ' . $current_user->user_firstname . "\n";
+      echo 'User last name: ' . $current_user->user_lastname . "\n";
+      echo 'User display name: ' . $current_user->display_name . "\n";
+      echo 'User ID: ' . $current_user->ID . "\n";
+
+      $user_id = 35;
+      $img = get_avatar( $user_id); 
+      $matches = array();
+      preg_match('/src="(.*?)"/i', $img, $matches);
+    $url = $matches[1];
+    echo $url;
+    echo $img;
+
 ?>
 <!-- <!DOCTYPE html>
 <html>

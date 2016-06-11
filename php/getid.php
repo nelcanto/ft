@@ -20,5 +20,5 @@ $uid = intval(wt_get_user_id());
     $id = $row['id'];
     // echo $id;
 
-echo json_encode(array("id" => $id));
+echo json_encode(array("id" => $id,"wp_id" => $uid));
 ?>

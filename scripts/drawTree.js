@@ -10,7 +10,7 @@ var svg,rect,
     imgUrlMen = "http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg",
     imgUrlWomen = "http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg",
     imgUrlChild = "https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg?height=300&width=300";
-var apiUrl = "http://homestead.app/wp-content/plugins/family-tree/php/";
+var apiUrl = "http://wp.com/wp-content/plugins/family-tree/php";
 
 var tree = [];
 
@@ -32,11 +32,44 @@ var margin = {top: 0, right: 0, bottom: 0, left: 0};
 var id = 1;
 //get current id
 $.getJSON(`${apiUrl}/getid.php`, function(e) {
-    if (e.id) {
+  var wp_id = e.wp_id;
+    if (e.id != null) {
       id = e.id;
+      mainDraw(id);
+    }
+    else{
+
+      $('#content div.family-tree').hide();
+
+      jQuery.post(ajaxurl, {action: 'is_user_logged_in'}, function(response) {
+          if(response == 'yes') {
+              // user is logged in && no associated ft_id
+              $('<div class="ft_assoc_prompt"><button class="btn add_ft_id">Add associated ft_id</button><button class="btn create_ft_id">Create new Family Tree</button></div>').insertAfter('#content div.family-tree');
+
+              $('.add_ft_id').click({wp_id: wp_id},function(e){
+                add_ft_id(wp_id); 
+
+              });
+
+              $('.create_ft_id').click({wp_id: wp_id},function(e){
+                create_ft_id(wp_id);
+                
+              });
+
+          } else {
+              // user is not logged in
+              $('<div class="not_login_msg">Please log in to see you family tree.</div>').insertAfter('#content div.family-tree');
+          }
+      });
+
+
+
+
+
+
     }
 
-    mainDraw(id);
+    
     // alert('Result from PHP: ' + e.id);
 });
 // console.log(id);
@@ -598,3 +631,57 @@ function drawTiny(offsetX, offsetY, id){
 function zoomed() {
   svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
+
+
+function create_ft_id(wp_id){
+  $.ajax({
+      url: `${apiUrl}/insert_uinfo.php`,
+      data: {
+          wp_id: wp_id
+      },
+      success: (data, status, jqXHR) => {
+          if(data) {
+            // id = data;
+            mainDraw(data);
+            $('div.ft_assoc_prompt').remove();
+            $('#content div.family-tree').show();
+          }
+      },
+      error: (data, status, jqXHR) => {
+          console.log(`error occured when creating ft_uinfo id`);
+      }
+  });
+}
+
+function add_ft_id(wp_id){
+  var ft_id = prompt('Enter family tree user id:');
+  if(ft_id){
+    $.ajax({
+        url: `${apiUrl}/connect_wp_user.php`,
+        data: {
+            ft_id: ft_id,
+            wp_id: wp_id
+        },
+        success: (data, status, jqXHR) => {
+            if(data == 1){
+              // id = ft_id;
+              mainDraw(ft_id);
+              $('div.ft_assoc_prompt').remove();
+              $('#content div.family-tree').show();
+            }
+            else{
+              //ft_id is already being used
+              alert(data);
+            }
+        },
+        error: (data, status, jqXHR) => {
+            console.log(`error occured when connecting wpid to ftid`);
+        }
+    });
+
+  }
+  else{
+    alert("no valid ft_id");
+  }
+}
+

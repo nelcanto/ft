@@ -1,5 +1,5 @@
 <?php
-$endpoint = 'http://homestead.app/wp-content/plugins/family-tree/img/';
+$endpoint = 'http://wp.com/wp-content/plugins/family-tree/img/';
 $target_dir = "../img/";
 
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
