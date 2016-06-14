@@ -29,7 +29,8 @@ if(!empty($info)  ) insert($info);
     //insert $uid info and relationship
     function insert($info){
 
-        $children = $info['children'];
+        $children = [];
+        if(isset($info['children']))   $children = $info['children'];
         $father = $info['father'];
         $mother = $info['mother'];
         $spouse = $info['spouse'];
@@ -57,34 +58,58 @@ if(!empty($info)  ) insert($info);
         $death = $info['death'] == null?'NULL':$info['death'];
         $death = explode('-', $death);
         $death = implode('', $death);
-        $dealthPlace = $info['dealthPlace'] == null?'NULL':("'".$info['dealthPlace']."'");
+        if(isset($info['dealthPlace']))
+            $dealthPlace = ("'".$info['dealthPlace']."'");
+        else
+             $dealthPlace = 'NULL';
         $email = $info['email'] == null?'NULL':("'".$info['email']."'");
         $firstName = $info['firstName'] == null?'NULL':("'".$info['firstName']."'");
         $lastName = $info['lastName'] == null?'NULL':("'".$info['lastName']."'");
         // $image = $info['image'] == null?'NULL':("'".$info['image']."'");
 
-    $image = $info['image'];
-    if($image == null)  $image = "'"."http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"."'";
-    if ($image == null && $gender ==2) {
-        $image = "'"."http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"."'";
-    }
+        $image = "'".$info['image']."'";
+        if($image == null)  $image = "'"."http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"."'";
+        if ($image == null && $gender ==2) {
+            $image = "'"."http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"."'";
+        }
+
+
+        
 
 
 
+        $wp_id = is_in_wp($email);
+        $creator_id = 1;
+        //insert node has wp account
 
         // insert new user info
         $query = "INSERT INTO ft_uinfo
-                VALUES (NULL,$image,NULL,NULL,NULL,$status,$birth,$birthPlace,$death,$dealthPlace,$email,$firstName,$lastName,$gender)";
+                VALUES (NULL,$image,$wp_id,NULL,NULL,$status,$birth,$birthPlace,$death,$dealthPlace,$email,$firstName,$lastName,$gender)";
 
-    // var_dump($query);die;
+// var_dump($query);die;
         $result = mysql_query($query) or die(mysql_error()); 
-
         //get inserted user id
-        $uid = intval(mysql_insert_id());
-        $query = "INSERT INTO ft_relationship
-                    VALUES ($uid,$uid,0)";
-        $result = mysql_query($query) or die(mysql_error());
+        $iid = mysql_insert_id();
 
+        //check in ft_uinfo
+        if(!($uid = is_in_ft($email))){
+            //no ft node, insert node and send notification
+            $uid = $iid;
+
+            $query = "INSERT INTO ft_relationship
+                        VALUES (NULL,$uid,$uid,0,1,$creator_id)";
+            $result = mysql_query($query) or die(mysql_error());
+
+
+            //send notification to confirm, and set is_confirmed to 0
+            do_action('ft_confirm',$receiver)
+            
+        }
+        else{
+            //has ft node, combine two ft: add relationship only, do not need to insert node
+        }
+
+        
         $pid = -1;
         $cid = -1;
         $rid = -1;
@@ -98,8 +123,12 @@ if(!empty($info)  ) insert($info);
             foreach ($children as $child) {
                 $cid = $child;
                 $query = "INSERT INTO ft_relationship
-                            VALUES ($pid,$cid,$rid)";
+                            VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
                 $result = mysql_query($query) or die(mysql_error()); 
+
+                if($wp_id != NULL){
+                    //Send confirmation, set is_confirmed to 0 pending
+                }
             }
 
         }
@@ -109,17 +138,25 @@ if(!empty($info)  ) insert($info);
             $cid = $uid;
             $rid = 1;
             $query = "INSERT INTO ft_relationship
-                            VALUES ($pid,$cid,$rid)";
+                            VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
             $result = mysql_query($query) or die(mysql_error());
-        }
+
+
+            if($wp_id != NULL){
+                //Send confirmation, set is_confirmed to 0 pending
+            }        }
         
         if($mother != NULL){
             $pid = $mother;
             $cid = $uid;
             $rid = 2;
             $query = "INSERT INTO ft_relationship
-                            VALUES ($pid,$cid,$rid)";
+                            VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
             $result = mysql_query($query) or die(mysql_error());
+
+            if($wp_id != NULL){
+                //Send confirmation, set is_confirmed to 0 pending
+            }
         }
         
         if($spouse != NULL){
@@ -127,11 +164,54 @@ if(!empty($info)  ) insert($info);
             $cid = $uid;
             $rid = 3;
             $query = "INSERT INTO ft_relationship
-                            VALUES ($pid,$cid,$rid)";
+                            VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
             $result = mysql_query($query) or die(mysql_error());
+
+            if($wp_id != NULL){
+                //Send confirmation, set is_confirmed to 0 pending
+            }
+
         }
         
         
         echo $result;
+        
+
+
+
+
+
+
+        
+
+        
+    }
+
+    function is_in_wp($email){
+        $query = "SELECT ID 
+                FROM wp_users
+                WHERE user_email = $email";
+
+        $result = mysql_query($query) or die(mysql_error());
+        if($result){
+            $row = mysql_fetch_assoc($result);
+            return intval($row['ID']);
+        }
+/*        else
+            return -1;*/
+    }
+
+    function is_in_ft($email){
+        $query = "SELECT id 
+                FROM ft_uinfo
+                WHERE email = $email";
+
+        $result = mysql_query($query) or die(mysql_error());
+        if($result){
+            $row = mysql_fetch_assoc($result);
+            return intval($row['id']);
+        }
+/*        else
+            return -1;*/
     }
 ?>

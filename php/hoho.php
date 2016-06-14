@@ -21,7 +21,7 @@ echo $abc;*/
 
 
 
-
+/*
 include("../../../../wp-config.php");
  global $current_user;
       get_currentuserinfo();
@@ -41,6 +41,29 @@ include("../../../../wp-config.php");
     $url = $matches[1];
     echo $url;
     echo $img;
+*/
+
+include('connectdb.php'); 
+    $connection = mysql_select_db($database, $server) or die("Unable to select db");
+
+function is_in_wp($email){
+        $query = "SELECT ID 
+                FROM wp_users
+                WHERE user_email = $email";
+
+        $result = mysql_query($query) or die(mysql_error());
+        if($result){
+            $row = mysql_fetch_assoc($result);
+            return intval($row['ID']);
+        }
+/*        else
+            return -1;*/
+    }
+if(is_in_wp('"aa"') == null)
+    var_dump('yy');
+  else
+    echo 'notnull';
+
 
 ?>
 <!-- <!DOCTYPE html>
