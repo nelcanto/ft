@@ -102,7 +102,7 @@ if(!empty($info)  ) insert($info);
 
 
             //send notification to confirm, and set is_confirmed to 0
-            do_action('ft_confirm',$receiver)
+            // do_action('ft_confirm',$receiver)
             
         }
         else{
