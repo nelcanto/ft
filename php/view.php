@@ -4,10 +4,11 @@ $debug = 0;
 
 // return json in format {"id":5,"gender":null,"status":null,"birth":null,"birthPlace":null,"death":null,"dealthPlace":null,"email":null,"firstName":null,"lastName":null,"children":[10],"father":7,"mother":1,"spouse":"null","image":"imgUrlChild"}
     // include('func.php');
-    include('connectdb.php'); 
+/*    include('connectdb.php'); 
     
-    $connection = mysql_select_db($database, $server) or die("Unable to select db");
-    
+    $connection = mysql_select_db($database, $server) or die("Unable to select db");*/
+require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-config.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');  
 
     $uid = intval($_GET['userid']);
     // $uid = 5;
@@ -59,7 +60,7 @@ if($debug)  echo json_encode($loop);
     echo json_encode($data, JSON_UNESCAPED_UNICODE );     
     // echo json_encode($data);     
       
-    mysql_close($server);
+    // mysql_close($server);
 
 
     //get $uid info and add to $data in json format

@@ -105,12 +105,19 @@ $query = "drop view ft_overall_cid;";
 $result = mysql_query($query) or die(mysql_error()); 
 
 
-$query = "create view ft_overall_cid as
+/*$query = "create view ft_overall_cid as
 SELECT * 
 FROM ft_uinfo u
 INNER JOIN ft_relationship ON u.id = cid
 WHERE id = cid
-ORDER BY id;";
+ORDER BY id;";*/
+
+$query = 'create view wp_ft_overall_cid as
+SELECT u.id,image,wp_id,date_created,date_modified,status,birth,birthPlace,death,dealthPlace,email,firstName,lastName,gender,rel.id as relid,pid,cid,rid,is_confirmed,creator_id
+FROM wp_ft_uinfo u
+INNER JOIN wp_ft_relationship rel ON u.id = cid
+WHERE u.id = cid
+ORDER BY u.id;';
 $result = mysql_query($query) or die(mysql_error()); 
 
 
