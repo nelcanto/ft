@@ -1,8 +1,7 @@
 <?php
 // insert user(node) and relationship from received json
-    // include('func.php');
-    include('connectdb.php'); 
-    $connection = mysql_select_db($database, $server) or die("Unable to select db");
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-config.php');
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
 
 // var_dump($_POST);die;
     // $json = ($_GET['info']);
@@ -16,18 +15,18 @@ $info = ($_POST);
 // var_dump($info);
 // die;
 
-if(!empty($info)  ) insert($info);
+if(!empty($info)  ) insert($info,get_current_user_id());
 
 
 
 // echo json_encode($loop);
     // echo json_encode($data, JSON_UNESCAPED_UNICODE );     
       
-    mysql_close($server);
 
 
     //insert $uid info and relationship
-    function insert($info){
+    function insert($info,$creator_id){
+        global $wpdb;
 
         $children = [];
         if(isset($info['children']))   $children = $info['children'];
@@ -79,27 +78,29 @@ if(!empty($info)  ) insert($info);
 
 
         $wp_id = is_in_wp($email);
-        $creator_id = 1;
+        // $creator_id = 1;
         //insert node has wp account
 
         // insert new user info
-        $query = "INSERT INTO ft_uinfo
-                VALUES (NULL,$image,$wp_id,NULL,NULL,$status,$birth,$birthPlace,$death,$dealthPlace,$email,$firstName,$lastName,$gender)";
+/*        $query = "INSERT INTO ft_uinfo
+                VALUES (NULL,$image,$wp_id,NULL,NULL,$status,$birth,$birthPlace,$death,$dealthPlace,$email,$firstName,$lastName,$gender)";*/
+$result = $wpdb -> insert('wp_ft_uinfo', array('image' => $image, 'wp_id' => $wp_id, 'status' => $status, 'birth' => $birth, 'birthPlace' => $birthPlace, 'death' => $death, 'dealthPlace' => $dealthPlace, 'email' => $email, 'firstName' => $firstName, 'lastName' => $lastName, 'gender' => $gender));
+$iid = $wpdb->insert_id;
 
 // var_dump($query);die;
-        $result = mysql_query($query) or die(mysql_error()); 
+/*        $result = mysql_query($query) or die(mysql_error()); */
         //get inserted user id
-        $iid = mysql_insert_id();
+        // $iid = mysql_insert_id();
 
         //check in ft_uinfo
         if(!($uid = is_in_ft($email))){
             //no ft node, insert node and send notification
             $uid = $iid;
 
-            $query = "INSERT INTO ft_relationship
-                        VALUES (NULL,$uid,$uid,0,1,$creator_id)";
-            $result = mysql_query($query) or die(mysql_error());
-
+/*            $query = "INSERT INTO ft_relationship
+                        VALUES (NULL,$uid,$uid,0,1,$creator_id)";*/
+            // $result = mysql_query($query) or die(mysql_error());
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $uid, 'cid' => $uid, 'rid' => 0, 'is_confirmed' => 1, 'creator_id' => $creator_id ));
 
             //send notification to confirm, and set is_confirmed to 0
             // do_action('ft_confirm',$receiver)
@@ -122,9 +123,12 @@ if(!empty($info)  ) insert($info);
                 $rid = 1;
             foreach ($children as $child) {
                 $cid = $child;
-                $query = "INSERT INTO ft_relationship
+/*                $query = "INSERT INTO ft_relationship
                             VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
-                $result = mysql_query($query) or die(mysql_error()); 
+                $result = mysql_query($query) or die(mysql_error());*/ 
+
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => rid, 'creator_id' => $creator_id ));
+
 
                 if($wp_id != NULL){
                     //Send confirmation, set is_confirmed to 0 pending
@@ -137,10 +141,10 @@ if(!empty($info)  ) insert($info);
             $pid = $father;
             $cid = $uid;
             $rid = 1;
-            $query = "INSERT INTO ft_relationship
+/*            $query = "INSERT INTO ft_relationship
                             VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
-            $result = mysql_query($query) or die(mysql_error());
-
+            $result = mysql_query($query) or die(mysql_error());*/
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => rid, 'creator_id' => $creator_id ));
 
             if($wp_id != NULL){
                 //Send confirmation, set is_confirmed to 0 pending
@@ -150,9 +154,10 @@ if(!empty($info)  ) insert($info);
             $pid = $mother;
             $cid = $uid;
             $rid = 2;
-            $query = "INSERT INTO ft_relationship
+/*            $query = "INSERT INTO ft_relationship
                             VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
-            $result = mysql_query($query) or die(mysql_error());
+            $result = mysql_query($query) or die(mysql_error());*/
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => rid, 'creator_id' => $creator_id ));
 
             if($wp_id != NULL){
                 //Send confirmation, set is_confirmed to 0 pending
@@ -163,9 +168,10 @@ if(!empty($info)  ) insert($info);
             $pid = $spouse;
             $cid = $uid;
             $rid = 3;
-            $query = "INSERT INTO ft_relationship
+/*            $query = "INSERT INTO ft_relationship
                             VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
-            $result = mysql_query($query) or die(mysql_error());
+            $result = mysql_query($query) or die(mysql_error());*/
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => rid, 'creator_id' => $creator_id ));
 
             if($wp_id != NULL){
                 //Send confirmation, set is_confirmed to 0 pending
@@ -188,30 +194,40 @@ if(!empty($info)  ) insert($info);
     }
 
     function is_in_wp($email){
+        global $wpdb;
+
         $query = "SELECT ID 
                 FROM wp_users
                 WHERE user_email = $email";
 
-        $result = mysql_query($query) or die(mysql_error());
+/*        $result = mysql_query($query) or die(mysql_error());
         if($result){
             $row = mysql_fetch_assoc($result);
             return intval($row['ID']);
-        }
-/*        else
-            return -1;*/
+        }*/
+
+
+        $result = $wpdb -> get_row($wpdb->prepare($query));
+        if($result)
+            return intval($result->id);
+
     }
 
     function is_in_ft($email){
+        global $wpdb;
+
         $query = "SELECT id 
                 FROM ft_uinfo
                 WHERE email = $email";
 
-        $result = mysql_query($query) or die(mysql_error());
+/*        $result = mysql_query($query) or die(mysql_error());
         if($result){
             $row = mysql_fetch_assoc($result);
             return intval($row['id']);
-        }
-/*        else
-            return -1;*/
+        }*/
+
+        $result = $wpdb -> get_row($wpdb->prepare($query));
+        if($result)
+            return intval($result->id);
     }
 ?>

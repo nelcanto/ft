@@ -65,14 +65,17 @@ if($debug)  echo json_encode($loop);
 
     //get $uid info and add to $data in json format
     function getInfo($uid){
-        global $data,$loop;
+        global $data,$loop,$wpdb;
 
         //$uid == cid to find father, mother, spouse
         $query = "SELECT * 
-                FROM ft_overall_cid
+                FROM wp_ft_overall_cid
                 WHERE cid = $uid";
-        $result = mysql_query($query) or die(mysql_error());  
+        $result = $wpdb -> get_results($wpdb->prepare($query));
+        // $result = mysql_query($query) or die(mysql_error());  
         
+
+
         // if ( ! $result ) {
         //     echo mysql_error();
         //     die;
@@ -87,60 +90,63 @@ if($debug)  echo json_encode($loop);
         $spouse = null;
         // $image = '';
         // $rid = '';
-        for ($x = 0; $x < mysql_num_rows($result); $x++) {
-            // $data[] = mysql_fetch_assoc($result);
-            $row = mysql_fetch_assoc($result);
-            // print_r $row;
+
+        foreach($result as $r){
+        // for ($x = 0; $x < mysql_num_rows($result); $x++) {
+
+
+
+            // $row = mysql_fetch_assoc($result);
             
-            $id = intval($row['id']);
-            // $name = $row['name'];
-            $image = $row['image'];
-            $gender = $row['gender'];
-            $status = $row['status'];
-            $birth = $row['birth'];
-            $birthPlace = $row['birthPlace'];
-            $death = $row['death'];
-            $dealthPlace = $row['dealthPlace'];
-            $email = $row['email'];
-            $firstName = $row['firstName'];
-            $lastName = $row['lastName'];
-            $rid = intval($row['rid']);
+            $id = intval($r->id);
+            $image = $r->image;
+            $gender = $r->gender;
+            $status = $r->status;
+            $birth = $r->birth;
+            $birthPlace = $r->birthPlace;
+            $death = $r->death;
+            $dealthPlace = $r->dealthPlace;
+            $email = $r->email;
+            $firstName = $r->firstName;
+            $lastName = $r->lastName;
+            $rid = intval($r->rid);
             //father
             if($rid == 1){
-                $father = intval($row['pid']);
+                $father = intval($r->pid);
             }
             //mother
             elseif($rid == 2){
-                $mother = intval($row['pid']);
+                $mother = intval($r->pid);
             }
             //spouse
             elseif($rid == 3){
-                $spouse = intval($row['pid']);
+                $spouse = intval($r->pid);
             }
             
         }
         //$uid as pid to find children and spouse
         $query = "SELECT * 
-                FROM ft_overall_cid
+                FROM wp_ft_overall_cid
                 WHERE pid = $uid";
-
-        $result = mysql_query($query) or die(mysql_error());  
+$result = $wpdb -> get_results($wpdb->prepare($query));
+        // $result = mysql_query($query) or die(mysql_error());  
         // if ( ! $result ) {
         //     echo mysql_error();
         //     die;
         // }
-        for ($x = 0; $x < mysql_num_rows($result); $x++) {
-            $row = mysql_fetch_assoc($result);
-            $rid = intval($row['rid']);
+        // for ($x = 0; $x < mysql_num_rows($result); $x++) {
+foreach($result as $r){
+            // $row = mysql_fetch_assoc($result);
+            $rid = intval($r->rid);
             //children
             if($rid == 1){
-                $children[] = intval($row['cid']);
+                $children[] = intval($r->cid);
             }
             elseif($rid == 2){
-                $children[] = intval($row['cid']);
+                $children[] = intval($r->cid);
             }
             elseif($rid == 3){
-                $spouse = intval($row['cid']);
+                $spouse = intval($r->cid);
             }
         }
         //push $uid into json array
