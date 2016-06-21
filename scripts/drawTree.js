@@ -11,6 +11,8 @@ var svg,rect,
     imgUrlWomen = "http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg",
     imgUrlChild = "https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg?height=300&width=300";
 var apiUrl = "/wp-content/plugins/family-tree/php";
+if(document.location.host=='108.61.159.150')
+            apiUrl = 'http://108.61.159.150/~socialmedia'+apiUrl;
 
 var tree = [];
 
@@ -684,4 +686,5 @@ function add_ft_id(wp_id){
     alert("no valid ft_id");
   }
 }
+
 
