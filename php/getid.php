@@ -2,6 +2,9 @@
 require_once('../../../../wp-config.php' );
 // require_once('../../../../wp-load.php');  
 /*function wt_get_user_id(){
+require_once($_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/wp-config.php');
+
+function wt_get_user_id(){
     global $userdata;
     wp_get_current_user();
     return $userdata->ID;
