@@ -24,6 +24,9 @@ class NodeModal {
         $('.btn-edit', this.targetModal).on('click', e => {
             this.onClickEditBtn(e);
         });
+        $('.btn-vInfo', this.targetModal).on('click', e => {
+            this.onClickVInfoBtn(e);
+        });
         $('.btn-add-relative', this.targetModal).on('click', e => {
             this.onClickAddRelativeBtn(e);
         });
@@ -205,6 +208,17 @@ class NodeModal {
         });
     }
 
+    onClickVInfoBtn(e) {
+        this.showView('add-relative-form');
+        let relativeFormPane = $('.add-relative-form-pane', this.targetModal);
+        // Hide create new node H4 title
+        $('h4', relativeFormPane).hide();
+        // $('form', relativeFormPane).data('action', 'disable');
+
+        this.prefillForm(relativeFormPane, this.node);
+        $('.add-relative-form-pane button').hide();
+    }
+
     onClickEditBtn(e) {
         this.showView('add-relative-form');
         let relativeFormPane = $('.add-relative-form-pane', this.targetModal);
@@ -213,6 +227,7 @@ class NodeModal {
         $('form', relativeFormPane).data('action', 'edit');
 
         this.prefillForm(relativeFormPane, this.node);
+        $('.add-relative-form-pane button').show();
     }
 
     prefillForm(form, values) {

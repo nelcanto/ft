@@ -30,7 +30,7 @@
             <div class="node-options-pane">
               <button class="btn btn-primary btn-view-tree" data-dismiss="modal"><span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span><br/> 族谱</button>
 
-              <a class="btn btn-primary" href="http://google.com" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br/> 信息</a>
+              <a class="btn btn-primary btn-vInfo" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br/> 信息</a>
 
               <a class="btn btn-primary btn-edit" href="#" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><br/> 修改</a>
 
@@ -39,7 +39,7 @@
               <button class="btn btn-primary btn-delete" data-dismiss="modal"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><br/> 删除</button>
             </div>
             <div class="hidden add-relative-pane">
-              <h4>选者要添加关系</h4>
+              <h4>选择要添加关系</h4>
               <div class="relationship-list">
                 <a href="#" class="list-group-item father" data-value=1><span class="glyphicon glyphicon-plus"></span> 父亲</a>
                 <a href="#" class="list-group-item mother" data-value=2><span class="glyphicon glyphicon-plus"></span> 母亲</a>
