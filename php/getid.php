@@ -1,6 +1,6 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-config.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
+require_once($_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/wp-config.php');
+
 function wt_get_user_id(){
     global $userdata;
     wp_get_current_user();
