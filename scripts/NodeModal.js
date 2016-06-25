@@ -1,7 +1,9 @@
 class NodeModal {
     constructor(targetModal) {
         this.targetModal = $(targetModal);
-        this.apiEndpoint = "http://wp.com/wp-content/plugins/family-tree/php/";
+        this.apiEndpoint = "/wp-content/plugins/family-tree/php/";
+        if(document.location.host=='108.61.159.150')
+            this.apiEndpoint = 'http://108.61.159.150/~socialmedia'+this.apiEndpoint;
         this.bindEvents();
     }
 

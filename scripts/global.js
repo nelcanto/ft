@@ -5,8 +5,13 @@ $(() => {
             $("[name=fileToUpload]").click();
         }
     });
+
+    var apiEndpoint = '/wp-content/plugins/family-tree/php/upload.php';
+    if(document.location.host=='108.61.159.150')
+        apiEndpoint = 'http://108.61.159.150/~socialmedia'+apiEndpoint;
+
     $('[name=fileToUpload]').fileupload({
-        url: '/wp-content/plugins/family-tree/php/upload.php',
+        url: apiEndpoint,
         type: 'POST',
         dataType: 'json',
         paramName: 'fileToUpload',
