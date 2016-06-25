@@ -1,7 +1,7 @@
 <?php
 // insert user(node) and relationship from received json
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-config.php');
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
+    require_once('../../../../wp-config.php' );
+    // require_once('../../../../wp-load.php');  
 
 // var_dump($_POST);die;
     // $json = ($_GET['info']);
@@ -53,23 +53,23 @@ if(!empty($info)  ) insert($info,get_current_user_id());
         $birth = $info['birth'] == null?'NULL':$info['birth'];
         $birth = explode('-', $birth);
         $birth = implode('', $birth);
-        $birthPlace = $info['birthPlace'] == null?'NULL':("'".$info['birthPlace']."'");
+        $birthPlace = $info['birthPlace'] == null?'NULL':($info['birthPlace']);
         $death = $info['death'] == null?'NULL':$info['death'];
         $death = explode('-', $death);
         $death = implode('', $death);
         if(isset($info['dealthPlace']))
-            $dealthPlace = ("'".$info['dealthPlace']."'");
+            $dealthPlace = ($info['dealthPlace']);
         else
              $dealthPlace = 'NULL';
-        $email = $info['email'] == null?'NULL':("'".$info['email']."'");
-        $firstName = $info['firstName'] == null?'NULL':("'".$info['firstName']."'");
-        $lastName = $info['lastName'] == null?'NULL':("'".$info['lastName']."'");
+        $email = $info['email'] == null?'NULL':($info['email']);
+        $firstName = $info['firstName'] == null?'NULL':($info['firstName']);
+        $lastName = $info['lastName'] == null?'NULL':($info['lastName']);
         // $image = $info['image'] == null?'NULL':("'".$info['image']."'");
 
-        $image = "'".$info['image']."'";
-        if($image == null)  $image = "'"."http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg"."'";
+        $image = $info['image'];
+        if($image == null)  $image = "http://thumbs.dreamstime.com/m/profile-icon-male-avatar-man-hipster-style-fashion-cartoon-guy-beard-glasses-portrait-casual-person-silhouette-face-flat-design-62449823.jpg";
         if ($image == null && $gender ==2) {
-            $image = "'"."http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg"."'";
+            $image = "http://thumbs.dreamstime.com/m/profile-icon-female-avatar-woman-portrait-casual-person-silhouette-face-flat-design-vector-illustration-58249368.jpg";
         }
 
 
@@ -127,7 +127,7 @@ $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $uid, 'cid' => 
                             VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
                 $result = mysql_query($query) or die(mysql_error());*/ 
 
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => rid, 'creator_id' => $creator_id ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $creator_id ));
 
 
                 if($wp_id != NULL){
@@ -144,11 +144,12 @@ $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => 
 /*            $query = "INSERT INTO ft_relationship
                             VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
             $result = mysql_query($query) or die(mysql_error());*/
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => rid, 'creator_id' => $creator_id ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $creator_id ));
 
             if($wp_id != NULL){
                 //Send confirmation, set is_confirmed to 0 pending
-            }        }
+            }        
+        }
         
         if($mother != NULL){
             $pid = $mother;
@@ -157,7 +158,7 @@ $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => 
 /*            $query = "INSERT INTO ft_relationship
                             VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
             $result = mysql_query($query) or die(mysql_error());*/
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => rid, 'creator_id' => $creator_id ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $creator_id ));
 
             if($wp_id != NULL){
                 //Send confirmation, set is_confirmed to 0 pending
@@ -171,7 +172,7 @@ $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => 
 /*            $query = "INSERT INTO ft_relationship
                             VALUES (NULL,$pid,$cid,$rid,NULL,$creator_id)";
             $result = mysql_query($query) or die(mysql_error());*/
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => rid, 'creator_id' => $creator_id ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $creator_id ));
 
             if($wp_id != NULL){
                 //Send confirmation, set is_confirmed to 0 pending
@@ -198,7 +199,7 @@ $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => 
 
         $query = "SELECT ID 
                 FROM wp_users
-                WHERE user_email = $email";
+                WHERE user_email = %s";
 
 /*        $result = mysql_query($query) or die(mysql_error());
         if($result){
@@ -207,7 +208,7 @@ $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => 
         }*/
 
 
-        $result = $wpdb -> get_row($wpdb->prepare($query));
+        $result = $wpdb -> get_row($wpdb->prepare($query,$email));
         if($result)
             return intval($result->id);
 
@@ -218,7 +219,7 @@ $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => 
 
         $query = "SELECT id 
                 FROM ft_uinfo
-                WHERE email = $email";
+                WHERE email = %s";
 
 /*        $result = mysql_query($query) or die(mysql_error());
         if($result){
@@ -226,7 +227,7 @@ $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => 
             return intval($row['id']);
         }*/
 
-        $result = $wpdb -> get_row($wpdb->prepare($query));
+        $result = $wpdb -> get_row($wpdb->prepare($query,$email));
         if($result)
             return intval($result->id);
     }

@@ -1,6 +1,6 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-config.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
+    require_once('../../../../wp-config.php' );
+    // require_once('../../../../wp-load.php');  
 
 // function is_in_wp($email){
 //   global $wpdb;
@@ -33,9 +33,15 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
 
 // echo site_url();
 global $wpdb;
-$uid = 111;
+/*$uid = 111;
 $creator_id = 111;
 $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $uid, 'cid' => $uid, 'rid' => 0, 'is_confirmed' => 1, 'creator_id' => $creator_id ));
-var_dump($result);
+var_dump($result);*/
+
+
+
+/*delete*/
+// $result = $wpdb -> delete( 'wp_ft_uinfo', array( 'id' => $uid ), array( '%d' ) );
+
 
 ?>

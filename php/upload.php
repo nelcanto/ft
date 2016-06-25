@@ -1,5 +1,8 @@
 <?php
-$endpoint = 'http://wp.com/wp-content/plugins/family-tree/img/';
+    require_once('../../../../wp-config.php' );
+    // require_once('../../../../wp-load.php');  
+
+$endpoint = site_url().'/wp-content/plugins/family-tree/img/';
 $target_dir = "../img/";
 
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);

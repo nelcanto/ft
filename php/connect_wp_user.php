@@ -2,8 +2,8 @@
     // include('func.php');
     // include('connectdb.php'); 
     // $connection = mysql_select_db($database, $server) or die("Unable to select db");
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-config.php');
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
+    require_once('../../../../wp-config.php' );
+    // require_once('../../../../wp-load.php');  
 
     $ft_id = intval($_GET['ft_id']);
     $wp_id = intval($_GET['wp_id']);
@@ -47,7 +47,7 @@ else{
 /*        $result = mysql_query($query) or die(mysql_error());
         $row = mysql_fetch_assoc($result);
         return $row['wp_id'];*/
-        $result = $wpdb -> get_results($wpdb->prepare($query));
+        $result = $wpdb -> get_results($wpdb->$query);
         foreach($result as $r){
             // $row = mysql_fetch_assoc($result);
             return intval($r->id);

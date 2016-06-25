@@ -3,8 +3,8 @@
     /*include('connectdb.php'); 
     $connection = mysql_select_db($database, $server) or die("Unable to select db");*/
 
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-config.php');
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
+    require_once('../../../../wp-config.php' );
+    // require_once('../../../../wp-load.php');  
 
     $id = intval($_GET['id']);
     $confirm = intval($_GET['confirm']);

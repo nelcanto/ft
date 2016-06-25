@@ -1,19 +1,26 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-config.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
-function wt_get_user_id(){
+require_once('../../../../wp-config.php' );
+// require_once('../../../../wp-load.php');  
+/*function wt_get_user_id(){
     global $userdata;
     wp_get_current_user();
     return $userdata->ID;
 }
-$uid = intval(wt_get_user_id());
-global $wpdb;
+$uid = intval(wt_get_user_id());*/
 
-$query = "SELECT id 
-        FROM wp_ft_uinfo
-        WHERE wp_id = $uid";
-$result = $wpdb -> get_row($wpdb->prepare($query));
+$uid = get_current_user_id ();
+	if($uid != null)
+	{
+	global $wpdb;
 
-$id = intval($result->id);
-echo json_encode(array("id" => $id,"wp_id" => $uid));
+	$query = "SELECT id 
+	        FROM wp_ft_uinfo
+	        WHERE wp_id = %d";
+	$result = $wpdb -> get_row($wpdb->prepare($query,$uid));
+
+	$id = intval($result->id);
+	echo json_encode(array("id" => $id,"wp_id" => $uid));
+	}
+	else 
+		echo -1;
 ?>

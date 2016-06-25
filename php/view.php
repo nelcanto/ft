@@ -7,8 +7,8 @@ $debug = 0;
 /*    include('connectdb.php'); 
     
     $connection = mysql_select_db($database, $server) or die("Unable to select db");*/
-require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-config.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');  
+require_once('../../../../wp-config.php' );
+// require_once('../../../../wp-load.php');  
 
     $uid = intval($_GET['userid']);
     // $uid = 5;
@@ -70,8 +70,8 @@ if($debug)  echo json_encode($loop);
         //$uid == cid to find father, mother, spouse
         $query = "SELECT * 
                 FROM wp_ft_overall_cid
-                WHERE cid = $uid";
-        $result = $wpdb -> get_results($wpdb->prepare($query));
+                WHERE cid = %d";
+        $result = $wpdb -> get_results($wpdb->prepare($query,$uid));
         // $result = mysql_query($query) or die(mysql_error());  
         
 
@@ -127,8 +127,8 @@ if($debug)  echo json_encode($loop);
         //$uid as pid to find children and spouse
         $query = "SELECT * 
                 FROM wp_ft_overall_cid
-                WHERE pid = $uid";
-$result = $wpdb -> get_results($wpdb->prepare($query));
+                WHERE pid = %d";
+$result = $wpdb -> get_results($wpdb->prepare($query,$uid));
         // $result = mysql_query($query) or die(mysql_error());  
         // if ( ! $result ) {
         //     echo mysql_error();

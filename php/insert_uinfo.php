@@ -1,8 +1,8 @@
 <?php
-    include("../../../../wp-config.php");
+    require_once('../../../../wp-config.php' );
+    // require_once('../../../../wp-load.php');  
 
-    include('connectdb.php'); 
-    $connection = mysql_select_db($database, $server) or die("Unable to select db");
+
 
     
 
@@ -15,12 +15,12 @@
 
 
 function insert_uinfo($wp_id){
- 	global $current_user;
+ 	global $current_user,$wpdb;
   	get_currentuserinfo();
 
-    $email = ("'".$current_user->user_email."'");
-    $firstName = ("'".$current_user->user_firstname ."'");
-	$lastName = ("'".$current_user->user_lastname ."'");
+    $email = ($current_user->user_email);
+    $firstName = ($current_user->user_firstname );
+	$lastName = ($current_user->user_lastname );
 
     $url = '';
 
@@ -29,19 +29,24 @@ function insert_uinfo($wp_id){
     preg_match('/src="(.*?)"/i', $img, $matches);
     if($matches[1][0] == '/')
         $url = 'http:';
-  	$url = "'".$url.$matches[1]."'";
+  	$url = $url.$matches[1];
 
     // insert new user info
-    $query = "INSERT INTO ft_uinfo
-            VALUES (NULL,$url,$wp_id,NULL,NULL,1,NULL,NULL,NULL,NULL,$email,$firstName,$lastName,NULL)";
-	// var_dump($query);die;
-    $result = mysql_query($query) or die(mysql_error()); 
+    $result = $wpdb -> insert( 'wp_ft_uinfo', array( 'image' => $url, 'wp_id' => $wp_id, 'status' => 1, 'email' => $email, 'firstName' => $firstName, 'lastName' => $lastName ) );
+
+ //    $query = "INSERT INTO ft_uinfo
+ //            VALUES (NULL,$url,$wp_id,NULL,NULL,1,NULL,NULL,NULL,NULL,$email,$firstName,$lastName,NULL)";
+	// // var_dump($query);die;
+    // $result = mysql_query($query) or die(mysql_error()); 
     //get inserted user id
-    return (mysql_insert_id());
+    return $wpdb->insert_id;
 }
 function insert_self($ft_id){
-    $query = "INSERT INTO ft_relationship
-                VALUES ($ft_id,$ft_id,0)";
-    return mysql_query($query) or die(mysql_error()); 
+    global $wpdb;
+    // $query = "INSERT INTO ft_relationship
+    //             VALUES ($ft_id,$ft_id,0)";
+    // return mysql_query($query) or die(mysql_error()); 
+    $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $ft_id, 'cid' => $ft_id, 'rid' => 0, 'is_confirmed' => 1, 'creator_id' => $ft_id) );
+    return $result;
 }
 ?>
