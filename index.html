@@ -13,6 +13,7 @@
     <svg></svg>
   </div>
 
+  <div class ='family-tree'>
   <div class="container">
     <!-- Modal -->
     <div class="modal fade" id="node-modal" tabindex="-1" role="dialog" aria-labelledby="familyTreeNodeModal">
@@ -21,8 +22,13 @@
 
           <div class="modal-body">
             <div class="row">
+              <div class="alert alert-danger" role="alert" style="display: none;">Unable to upload image</div>
+              <input type="file" name="fileToUpload" class="hide" />
               <div class="col-md-3">
-                <img class='profile-img' style='height: 100px; width: 100px; object-fit: fill' src="https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg"/>
+                <div class="profile-image-container">
+                  <img class='profile-img' style='height: 100px; width: 100px; object-fit: fill' src="https://thumbsplus.tutsplus.com/uploads/users/135/posts/21954/preview_image/preview-cartoon-children.jpg"/>
+                  <label>上傳照片</label>
+                </div>
               </div>
               <div class="col-md-4">
                 <h3 class='node-name'></h3>
@@ -35,7 +41,7 @@
             <div class="node-options-pane">
               <button class="btn btn-primary btn-view-tree" data-dismiss="modal"><span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span><br/> 族谱</button>
 
-              <a class="btn btn-primary" href="http://google.com" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br/> 信息</a>
+              <a class="btn btn-primary btn-vInfo" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br/> 信息</a>
 
               <a class="btn btn-primary btn-edit" href="#" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><br/> 修改</a>
 
@@ -44,7 +50,7 @@
               <button class="btn btn-primary btn-delete" data-dismiss="modal"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><br/> 删除</button>
             </div>
             <div class="hidden add-relative-pane">
-              <h4>选者要添加关系</h4>
+              <h4>选择要添加关系</h4>
               <div class="relationship-list">
                 <a href="#" class="list-group-item father" data-value=1><span class="glyphicon glyphicon-plus"></span> 父亲</a>
                 <a href="#" class="list-group-item mother" data-value=2><span class="glyphicon glyphicon-plus"></span> 母亲</a>
@@ -122,6 +128,7 @@
                   </div>
                 </div>
                 <br/>
+                <input type="text" name="image" class="hide" />
                 <button type="submit" class="btn btn-primary">保存</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
               </form>
@@ -132,6 +139,7 @@
     </div>
 
   </div>
+  </div>
 </body>
 
 <footer>
@@ -139,7 +147,8 @@
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.js"></script>
   <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
-  <script src="/bower_components/traceur-runtime/traceur-runtime.js"></script>
+  <script src="bower_components/traceur-runtime/traceur-runtime.js"></script>
+  <script src="bower_components/blueimp-file-upload/js/jquery.fileupload.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.12.0/lodash.js"></script>
   <script type="text/javascript" src="dist/scripts/NodeModal.js"></script>
   <script type="text/javascript" src="dist/scripts/drawTree.js"></script>
