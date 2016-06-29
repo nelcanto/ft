@@ -37,6 +37,10 @@ $.getJSON(`${apiUrl}/getid.php`, function(e) {
   var wp_id = e.wp_id;
     if (e.id != 0) {
       id = e.id;
+      let temp = getParameter("id");
+      if(temp){
+        id = temp;
+      }
       mainDraw(id);
     }
     else{
@@ -76,6 +80,18 @@ $.getJSON(`${apiUrl}/getid.php`, function(e) {
 });
 // console.log(id);
 
+function getParameter(paraName){
+  let searchstring = window.location.search.substring(1);
+  let params = searchstring.split('&');
+  let i , val;
+  for(i=0;i<params.length;i++){
+    val = params[i].split('=');
+    if(val[0] == paraName){
+      return val[1];
+    }
+  }
+  return null;
+}
 
 function mainDraw(id2) {
   // added a hack to change the global id variable without breaking this code
