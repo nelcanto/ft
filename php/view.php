@@ -151,7 +151,6 @@ foreach($result as $r){
             if($spouse != null) if(!in_array($spouse, $loop))  $loop[] = $spouse;
         // }
     }
-    echo json_encode($data, JSON_UNESCAPED_UNICODE );
-    // echo json_encode($data);
+
 
 ?>

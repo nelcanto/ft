@@ -44,22 +44,22 @@ if(!empty($info)  ) insert($info,get_current_user_id());
         // $firstName = $info->{'firstName'} == null?'NULL':("'".$info->{'firstName'}."'");
         // $lastName = $info->{'lastName'} == null?'NULL':("'".$info->{'lastName'}."'");
         // $image = $info->{'image'} == null?'NULL':("'".$info->{'image'}."'");
-        $gender = $info['gender'] == null?'NULL':$info['gender'];
-        $status = $info['status'] == null?'NULL':$info['status'];
-        $birth = $info['birth'] == null?'NULL':$info['birth'];
+        $gender = $info['gender'];
+        $status = $info['status'];
+        $birth = $info['birth'];
         $birth = explode('-', $birth);
         $birth = implode('', $birth);
-        $birthPlace = $info['birthPlace'] == null?'NULL':($info['birthPlace']);
-        $death = $info['death'] == null?'NULL':$info['death'];
+        $birthPlace = $info['birthPlace'];
+        $death = $info['death'];
         $death = explode('-', $death);
         $death = implode('', $death);
         if(isset($info['dealthPlace']))
             $dealthPlace = ($info['dealthPlace']);
         else
-             $dealthPlace = 'NULL';
-        $email = $info['email'] == null?'NULL':($info['email']);
-        $firstName = $info['firstName'] == null?'NULL':($info['firstName']);
-        $lastName = $info['lastName'] == null?'NULL':($info['lastName']);
+             $dealthPlace = NULL;
+        $email = $info['email'];
+        $firstName = $info['firstName'];
+        $lastName = $info['lastName'];
         // $image = $info['image'] == null?'NULL':("'".$info['image']."'");
 
         $image = $info['image'];
