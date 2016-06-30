@@ -64,3 +64,73 @@
         width: 1400px;
     }
 }
+
+
+@media screen and (max-width: 768px){
+    .family-tree {
+        min-width: 0;
+    }
+
+    #node-modal .modal-dialog {
+        width: 100%;
+        padding-top:10px;
+        height: 100%;
+    }
+
+    #node-modal .modal-dialog .modal-content {
+        height: 100%;
+    }
+
+    #node-modal .modal-dialog .modal-content .modal-body {
+        height: 100%;
+        padding: 10;
+    }
+
+     #node-modal .modal-dialog .modal-content .modal-body .close{
+        font-size: 36px;
+        margin-top: -23px;
+        margin-right: -19px;
+    }
+
+    #node-modal .modal-dialog .modal-content .modal-body .row{
+        height: 20%;
+    }
+
+   
+
+    #node-modal .modal-dialog .modal-content .modal-body .row .col-md-3{
+        display: inline-block;
+    }
+
+    #node-modal .modal-dialog .modal-content .modal-body .row .col-md-3 .profile-image-container{
+        display: inline-block;
+        width: 100px;
+    }
+
+    #node-modal .modal-dialog .modal-content .modal-body .row .col-md-offset-4{
+        display: inline-block;
+        float:right;
+        padding-top: 7%;
+    }
+
+    #node-modal .node-options-pane .btn{
+        display: list-item;
+        width: 100%;
+        font-size: 20px;
+        text-align: center;
+        margin-top:2%;
+    }
+
+    #node-modal .node-options-pane .btn .glyphicon {
+        font-size: 1.2em;
+    }
+
+    #node-modal .node-options-pane .btn span {
+        float: left;
+    }
+
+    #node-modal .node-options-pane .btn br {
+        display: none;
+    }
+
+}

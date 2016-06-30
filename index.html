@@ -5,7 +5,7 @@
   <link rel="stylesheet" type="text/css" href="dist/css/main.css">
   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/redmond/jquery-ui.css">
   <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 </head>
 <body class="wpb_wrapper">
 
@@ -21,7 +21,9 @@
         <div class="modal-content">
 
           <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <div class="row">
+
               <div class="alert alert-danger" role="alert" style="display: none;">Unable to upload image</div>
               <input type="file" name="fileToUpload" class="hide" />
               <div class="col-md-3">
@@ -30,7 +32,7 @@
                   <label>上傳照片</label>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-offset-4">
                 <h3 class='node-name'></h3>
               </div>
               <div class="col-md-4">
@@ -133,8 +135,8 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
               </form>
             </div>
-          </div>
-        </div>
+          </div> <!-- end of model body -->
+        </div> <!-- end of model content -->
       </div>
     </div>
 
