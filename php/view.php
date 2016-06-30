@@ -2,21 +2,14 @@
 $debug = 0;
 // $debug = 1;
 
-// return json in format {"id":5,"gender":null,"status":null,"birth":null,"birthPlace":null,"death":null,"dealthPlace":null,"email":null,"firstName":null,"lastName":null,"children":[10],"father":7,"mother":1,"spouse":"null","image":"imgUrlChild"}
-    // include('func.php');
-/*    include('connectdb.php'); 
-    
-    $connection = mysql_select_db($database, $server) or die("Unable to select db");*/
 require_once('../../../../wp-config.php' );
-// require_once('../../../../wp-load.php');  
+
 
     $uid = intval($_GET['userid']);
     // $uid = 5;
     $data = array();
     $loop = array(); //store id for looping generation
     $looped[] = $uid;
-
-
 
 getInfo($uid);
 
@@ -73,13 +66,6 @@ if($debug)  echo json_encode($loop);
                 WHERE cid = %d";
         $result = $wpdb -> get_results($wpdb->prepare($query,$uid));
         // $result = mysql_query($query) or die(mysql_error());  
-        
-
-
-        // if ( ! $result ) {
-        //     echo mysql_error();
-        //     die;
-        // }
      
         //define json var
         $id = null;
@@ -165,4 +151,6 @@ foreach($result as $r){
             if($spouse != null) if(!in_array($spouse, $loop))  $loop[] = $spouse;
         // }
     }
+
+
 ?>
