@@ -2,7 +2,6 @@
   <div class="myClass">
     <svg></svg>
   </div>
-
   <div class="container">
     <!-- Modal -->
     <div class="modal fade" id="node-modal" tabindex="-1" role="dialog" aria-labelledby="familyTreeNodeModal">
