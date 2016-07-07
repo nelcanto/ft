@@ -96,6 +96,7 @@ if($debug)  echo json_encode($loop);
             $firstName = $r->firstName;
             $lastName = $r->lastName;
             $rid = intval($r->rid);
+            $wp_id = $r->wp_id;
             //father
             if($rid == 1){
                 $father = intval($r->pid);
@@ -137,7 +138,7 @@ foreach($result as $r){
         }
         //push $uid into json array
         if($id!=null)
-        $data[] = array('id'=>$id,'gender'=>$gender,'status'=>$status,'birth'=>$birth,'birthPlace'=>$birthPlace,'death'=>$death,'dealthPlace'=>$dealthPlace,'email'=>$email,'firstName'=>$firstName,'lastName'=>$lastName,'children'=>$children,'father'=>$father,'mother'=>$mother,'spouse'=>$spouse,'image'=>$image);
+        $data[] = array('id'=>$id,'gender'=>$gender,'status'=>$status,'birth'=>$birth,'birthPlace'=>$birthPlace,'death'=>$death,'dealthPlace'=>$dealthPlace,'email'=>$email,'firstName'=>$firstName,'lastName'=>$lastName,'children'=>$children,'father'=>$father,'mother'=>$mother,'spouse'=>$spouse,'image'=>$image,'wp_id'=>$wp_id);
 
         // if($loop == ''){
             //push loop value

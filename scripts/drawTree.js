@@ -329,6 +329,12 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
  * @return
  */
 function draw(data) {
+  var family_list = new Array();
+  data.forEach((fnode)=>{
+    if(fnode.wp_id != null) family_list.push(fnode.wp_id);
+  });
+document.cookie = "family_list="+family_list+"; path=/";
+
   let main = data.forEach( (entry) => {
     tree[entry.id] = entry;
     if (entry.id == id){
@@ -372,6 +378,7 @@ function draw(data) {
   // Layer -2
   drawChildrenLayerAndConnect(layerN1Arr, tree, 1, true);
   $(document).trigger('DATA_LOADED');
+
 }
 
 /**
