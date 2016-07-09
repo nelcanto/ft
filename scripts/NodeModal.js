@@ -51,6 +51,7 @@ class NodeModal {
         $('.node-options-pane', this.targetModal).addClass('hidden');
         $('.add-relative-pane', this.targetModal).addClass('hidden');
         $('.add-relative-form-pane', this.targetModal).addClass('hidden');
+        $('.view-info-pane', this.targetModal).addClass('hidden');
 
         switch(view) {
             case 'node-options':
@@ -61,6 +62,9 @@ class NodeModal {
             case 'add-relative-form':
                 $(`.${view}-pane`, this.targetModal).removeClass('hidden');
                 $('.profile-image-container', this.targetModal).addClass('editable');
+                break;
+            case 'view-info':
+                $(`.${view}-pane`, this.targetModal).removeClass('hidden');
                 break;
             default:
             break;
@@ -197,7 +201,8 @@ class NodeModal {
                 $.ajax({
             url: `${this.apiEndpoint}/delete.php`,
             data: {
-                userid: this.node['id']
+                userid: this.node['id'],
+                table: 'wp_ft_uinfo'
             },
             success: (data, status, jqXHR) => {
                 mainDraw($('svg').data('viewed-id'));
@@ -209,14 +214,58 @@ class NodeModal {
     }
 
     onClickVInfoBtn(e) {
-        this.showView('add-relative-form');
+        this.showView('view-info');
         let relativeFormPane = $('.add-relative-form-pane', this.targetModal);
         // Hide create new node H4 title
         $('h4', relativeFormPane).hide();
         // $('form', relativeFormPane).data('action', 'disable');
 
-        this.prefillForm(relativeFormPane, this.node);
-        $('.add-relative-form-pane button').hide();
+        // this.prefillForm(relativeFormPane, this.node);
+        // $('.add-relative-form-pane button').hide();
+        this.getInfo(this.node);
+    }
+
+    getInfo(data) {
+        var keys = ['firstName',
+            'lastName',
+            // 'gender',
+            // 'status',
+            'birth',
+            'birthPlace',
+            'death',
+            'dealthPlace',
+            'email',
+            'wp_id'
+        ];
+        keys.forEach(function(item,index){
+            $(`#${item}`).text(data[item]);
+        });
+        switch (data['gender']) {
+            case '1':
+                $('#gender').text('男');
+                break;
+            case '2':
+                $('#gender').text('女');
+                break;
+            case '3':
+                $('#gender').text('未知');
+                break;
+            default:
+                break;
+        }
+        switch (data['status']) {
+            case '1':
+                $('#status').text('在世');
+                break;
+            case '2':
+                $('#status').text('已故');
+                break;
+            case '3':
+                $('#status').text('未知');
+                break;
+            default:
+                break;
+        }
     }
 
     onClickEditBtn(e) {
@@ -227,7 +276,7 @@ class NodeModal {
         $('form', relativeFormPane).data('action', 'edit');
 
         this.prefillForm(relativeFormPane, this.node);
-        $('.add-relative-form-pane button').show();
+        // $('.add-relative-form-pane button').show();
     }
 
     prefillForm(form, values) {

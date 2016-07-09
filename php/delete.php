@@ -5,13 +5,14 @@
     // require_once('../../../../wp-load.php');  
 
     $uid = ($_GET['userid']);
+    $table = ($_GET['table']);
 
-del($uid);
+del($uid,$table);
 
 //del $uid info and relationship
-function del($uid){
+function del($uid,$table){
 	global $wpdb;
-    $result = $wpdb -> delete( 'wp_ft_uinfo', array( 'id' => $uid ), array( '%d' ) );
+    $result = $wpdb -> delete( $table, array( 'id' => $uid ), array( '%d' ) );
     echo $result;
 }
 ?>
