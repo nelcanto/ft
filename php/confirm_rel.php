@@ -29,6 +29,15 @@ con_rel($id,$confirm);
 */
         $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$confirm),array('id'=>$id));
 
+        $wp_id = get_current_user_id();
+        $result = $wpdb -> insert('wp_bp_groups_members', array('group_id' => 1, 'user_id' => $wp_id, 'inviter_id' => 1, 'is_confirmed' => 1, 'invite_sent' => 1));
+
+        $result = $wpdb -> get_row($wpdb->prepare('SELECT meta_value FROM wp_bp_groups_groupmeta WHERE meta_key=%s','total_member_count'));
+        $count = intval($result->meta_value) + 1;
+
+        $result = $wpdb -> update('wp_bp_groups_groupmeta',array('total_member_count'=>$count),array('id'=>1));
+
         echo $result;
     }
+
 ?>

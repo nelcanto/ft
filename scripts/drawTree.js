@@ -50,12 +50,13 @@ $.getJSON(`${apiUrl}/getid.php`, function(e) {
       jQuery.post(ajaxurl, {action: 'is_user_logged_in'}, function(response) {
           if(response == 'yes') {
               // user is logged in && no associated ft_id
-              $('<div class="ft_assoc_prompt"><button class="btn add_ft_id">Add associated ft_id</button><button class="btn create_ft_id">Create new Family Tree</button></div>').insertAfter('#content div.family-tree');
-
+              $('<div class="ft_assoc_prompt"><button class="btn create_ft_id">Create new Family Tree</button></div>').insertAfter('#content div.family-tree');
+/*
+              <button class="btn add_ft_id">Add associated ft_id</button>
               $('.add_ft_id').click({wp_id: wp_id},function(e){
                 add_ft_id(wp_id); 
 
-              });
+              });*/
 
               $('.create_ft_id').click({wp_id: wp_id},function(e){
                 create_ft_id(wp_id);
