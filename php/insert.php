@@ -2,11 +2,11 @@
 require_once('../../../../wp-config.php' );
 
 $info = ($_POST);
-if(!empty($info)  ) insert($info,get_current_user_id());
+if(!empty($info)  ) insert($info,wp_get_current_user());
 
 
 
-function insert($info,$creator_id){
+function insert($info,$currentuser){
     global $wpdb;
 
     $children = [];
@@ -76,16 +76,18 @@ function insert($info,$creator_id){
         $uid = $iid;
 
         //insert self node
-        $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $uid, 'cid' => $uid, 'rid' => 0, 'is_confirmed' => 1, 'creator_id' => $creator_id ));
+        $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $uid, 'cid' => $uid, 'rid' => 0, 'is_confirmed' => 1, 'creator_id' => $currentuser->ID ));
 
-        //send notification to confirm, and set is_confirmed to 0
-        // do_action('ft_confirm',$receiver)
-        
     }
     else{
         //has ft node, combine two ft: add relationship only, do not need to insert node
     }
 
+    //no wp acct, send invitation email
+    if($wp_id == 0) {
+        $msg = $currentuser->display_name.'('.$currentuser->user_email.') invites you to CQG. Please register with this email at http://wp.com/wp-login.php';
+        wp_mail($email,'CQG family tree invitation',$msg);
+    }
     
     $pid = -1;
     $cid = -1;
@@ -99,19 +101,21 @@ function insert($info,$creator_id){
             $rid = 1;
         foreach ($children as $child) {
             $cid = $child;
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $creator_id ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' => 0, 'creator_id' => $currentuser->ID ));
 $iid = $wpdb->insert_id;
 
 
-            if($wp_id != 0){
+            if($wp_id > 0){
                 //Send confirmation, set is_confirmed to 0 pending
-                $is_confirmed=0;
+                //send notification to confirm, and set is_confirmed to 0
+                // do_action('ft_confirm',$receiver)
+                // $is_confirmed=0;
+            // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
             }
             else{
                 //wp_id==0,no wp account, set is_confirmed to 1 convirmed
-                $is_confirmed=1;
+                // $is_confirmed=1;
             }
-            $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
         }
     }
 
@@ -119,57 +123,57 @@ $iid = $wpdb->insert_id;
         $pid = $father;
         $cid = $uid;
         $rid = 1;
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $creator_id ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' => 0, 'creator_id' => $currentuser->ID ));
 $iid = $wpdb->insert_id;
 
 
-            if($wp_id != 0){
+            if($wp_id > 0){
                 //Send confirmation, set is_confirmed to 0 pending
-                $is_confirmed=0;
+                // $is_confirmed=0;
+            // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));    
             }
             else{
                 //wp_id==0,no wp account, set is_confirmed to 1 convirmed
-                $is_confirmed=1;
+                // $is_confirmed=1;
             }
-            $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));    
     }
     
     if($mother != NULL){
         $pid = $mother;
         $cid = $uid;
         $rid = 2;
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $creator_id ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' => 0, 'creator_id' => $currentuser->ID ));
 $iid = $wpdb->insert_id;
 
 
-            if($wp_id != 0){
+            if($wp_id > 0){
                 //Send confirmation, set is_confirmed to 0 pending
-                $is_confirmed=0;
+                // $is_confirmed=0;
+            // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
             }
             else{
                 //wp_id==0,no wp account, set is_confirmed to 1 convirmed
-                $is_confirmed=1;
+                // $is_confirmed=1;
             }
-            $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
     }
     
     if($spouse != NULL){
         $pid = $spouse;
         $cid = $uid;
         $rid = 3;
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $creator_id ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' => 0, 'creator_id' => $currentuser->ID ));
 $iid = $wpdb->insert_id;
 
 
-            if($wp_id != 0){
+            if($wp_id > 0){
                 //Send confirmation, set is_confirmed to 0 pending
-                $is_confirmed=0;
+                // $is_confirmed=0;
+            // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
             }
             else{
                 //wp_id==0,no wp account, set is_confirmed to 1 convirmed
-                $is_confirmed=1;
+                // $is_confirmed=1;
             }
-            $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
 
     }
     

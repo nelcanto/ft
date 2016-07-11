@@ -130,6 +130,7 @@ class NodeModal {
             success: (data, status, jqXHR) => {
                 mainDraw($('svg').data('viewed-id'));
                 this.targetModal.modal('hide');
+                alert('Family tree request is sent, please wait for confirmation.');
             },
             error: (data, status, jqXHR) => {
                 console.log(`error.`);
