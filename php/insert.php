@@ -101,7 +101,7 @@ function insert($info,$currentuser){
             $rid = 1;
         foreach ($children as $child) {
             $cid = $child;
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' => 0, 'creator_id' => $currentuser->ID ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $currentuser->ID ));
 $iid = $wpdb->insert_id;
 
 
@@ -123,7 +123,7 @@ $iid = $wpdb->insert_id;
         $pid = $father;
         $cid = $uid;
         $rid = 1;
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' => 0, 'creator_id' => $currentuser->ID ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $currentuser->ID ));
 $iid = $wpdb->insert_id;
 
 
@@ -143,7 +143,7 @@ $iid = $wpdb->insert_id;
         $pid = $mother;
         $cid = $uid;
         $rid = 2;
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' => 0, 'creator_id' => $currentuser->ID ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $currentuser->ID ));
 $iid = $wpdb->insert_id;
 
 
@@ -163,7 +163,7 @@ $iid = $wpdb->insert_id;
         $pid = $spouse;
         $cid = $uid;
         $rid = 3;
-$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' => 0, 'creator_id' => $currentuser->ID ));
+$result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $currentuser->ID ));
 $iid = $wpdb->insert_id;
 
 
