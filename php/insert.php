@@ -108,7 +108,7 @@ $iid = $wpdb->insert_id;
             if($wp_id > 0){
                 //Send confirmation, set is_confirmed to 0 pending
                 //send notification to confirm, and set is_confirmed to 0
-                // do_action('ft_confirm',$receiver)
+                do_action('ft_confirm',$wp_id,$iid);
                 // $is_confirmed=0;
             // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
             }
@@ -129,6 +129,7 @@ $iid = $wpdb->insert_id;
 
             if($wp_id > 0){
                 //Send confirmation, set is_confirmed to 0 pending
+                do_action('ft_confirm',$wp_id,$iid);
                 // $is_confirmed=0;
             // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));    
             }
@@ -148,6 +149,7 @@ $iid = $wpdb->insert_id;
 
             if($wp_id > 0){
                 //Send confirmation, set is_confirmed to 0 pending
+                do_action('ft_confirm',$wp_id,$iid);
                 // $is_confirmed=0;
             // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
             }
@@ -167,6 +169,7 @@ $iid = $wpdb->insert_id;
 
             if($wp_id > 0){
                 //Send confirmation, set is_confirmed to 0 pending
+                do_action('ft_confirm',$wp_id,$iid);
                 // $is_confirmed=0;
             // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
             }

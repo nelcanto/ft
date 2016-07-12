@@ -63,7 +63,7 @@ if($debug)  echo json_encode($loop);
         //$uid == cid to find father, mother, spouse
         $query = "SELECT * 
                 FROM wp_ft_overall_cid
-                WHERE cid = %d AND is_confirmed=1";
+                WHERE cid = %d AND (is_confirmed=1 OR email IS NULL)";
         $result = $wpdb -> get_results($wpdb->prepare($query,$uid));
         // $result = mysql_query($query) or die(mysql_error());  
      
@@ -114,7 +114,7 @@ if($debug)  echo json_encode($loop);
         //$uid as pid to find children and spouse
         $query = "SELECT * 
                 FROM wp_ft_overall_cid
-                WHERE pid = %d AND is_confirmed=1";
+                WHERE pid = %d AND (is_confirmed=1 OR email IS NULL)";
 $result = $wpdb -> get_results($wpdb->prepare($query,$uid));
         // $result = mysql_query($query) or die(mysql_error());  
         // if ( ! $result ) {
