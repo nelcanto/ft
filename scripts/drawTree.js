@@ -330,11 +330,15 @@ function drawChildrenLayerAndConnect(arr, tree, ratio, preview = false) {
  * @return
  */
 function draw(data) {
-  var family_list = new Array();
-  data.forEach((fnode)=>{
-    if(fnode.wp_id != null) family_list.push(fnode.wp_id);
-  });
-document.cookie = "family_list="+family_list+"; path=/";
+  var family_list = new Array(),
+    current_uid = $('.header-account-login a.user-link span img').attr('class').match(/user-\d+/)[0].substring(5);
+  
+  if(data[0] == current_uid){
+    data.forEach((fnode)=>{
+      if(fnode.wp_id != null && fnode.wp_id != current_uid) family_list.push(fnode.wp_id);
+    });
+    document.cookie = "family_list="+family_list+"; path=/";
+  }
 
   let main = data.forEach( (entry) => {
     tree[entry.id] = entry;
