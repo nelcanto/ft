@@ -183,6 +183,16 @@ class NodeModal {
         $('[name=uid]', this.targetModal).val(this.node['id']);
         $('.profile-img', this.targetModal).attr('src', this.node['image']);
         $('.node-name', this.targetModal).text(this.node['name']);
+
+        $('.family-tree .node-options-pane button.btn-delete').hide();
+        $('.family-tree .node-options-pane a.btn-edit').hide();
+
+        var creator_wp_id = this.node['creator_wp_id'],
+            current_uid = $('.header-account-login a.user-link span img').attr('class').match(/user-\d+/)[0].substring(5);
+        if(creator_wp_id == current_uid){
+            $('.family-tree .node-options-pane a.btn-edit').show();
+            $('.family-tree .node-options-pane button.btn-delete').show();
+        }
     }
 
     onTinyNodeClicked(e) {

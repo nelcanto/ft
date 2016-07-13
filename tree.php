@@ -31,11 +31,11 @@
 
               <a class="btn btn-primary btn-vInfo" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br/> 信息</a>
 
-              <a class="btn btn-primary btn-edit" href="#" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><br/> 修改</a>
+              <a class="btn btn-primary btn-edit" href="#" role="button" style="display: none;"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><br/> 修改</a>
 
               <button class="btn btn-primary btn-add-relative"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><br/> 添加</button>
 
-              <button class="btn btn-primary btn-delete" data-dismiss="modal"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><br/> 删除</button>
+              <button class="btn btn-primary btn-delete" data-dismiss="modal" style="display: none;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><br/> 删除</button>
             </div>
             <div class="hidden add-relative-pane">
               <h4>选择要添加关系</h4>
@@ -139,7 +139,7 @@
                       <label for="gender">性别</label>
                         <span id="gender"></span>
                     </div>
-                    <div class="form-group col-xs-6">
+                    <div class="form-group col-xs-6 hidden">
                       <label for="wp_id">wp_id</label>
                         <span id="wp_id"></span>
                     </div>
