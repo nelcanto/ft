@@ -70,9 +70,9 @@
                     <label class="radio-inline">
                       <input type="radio" name="gender" value="2"> 女
                     </label>
-                    <label class="radio-inline">
+<!--                     <label class="radio-inline">
                       <input type="radio" name="gender" value="3"> 未知
-                    </label>
+                    </label> -->
                   </div>
                 </div>
                 <div class="row">
