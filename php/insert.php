@@ -93,7 +93,7 @@ function insert($info,$currentuser){
         $msg = $currentuser->display_name.'('.$currentuser->user_email.') invites you to CQG. Please register with this email at http://wp.com/wp-login.php';
         wp_mail($email,'CQG family tree invitation',$msg);
     }
-    
+
     $pid = -1;
     $cid = -1;
     $rid = -1;
@@ -127,25 +127,16 @@ function insert($info,$currentuser){
             }
         }
         // add parent
-        if($wp_id > 0){
-            $cid = $children[0];
-            //add father
-            if($rid == 1){
-                $result = $wpdb -> insert( 'wp_family_request', array( 'curr_node_id' => $cid, 'modify_node_id' => $pid, 'sex' => null, 'insert_action' => 'add_father' ));
-            }
-            //add mother
-            else{
-                $result = $wpdb -> insert( 'wp_family_request', array( 'curr_node_id' => $cid, 'modify_node_id' => $pid, 'sex' => null, 'insert_action' => 'add_mother' ));
-            }
+
+        //add father
+        if($rid == 1){
+            family_tree_handler::insert($cid, $pid,null,'add_father');
         }
+        //add mother
         else{
-            $cid = $children[0];
-            if($rid == 1){
-                family_tree_handler::insert($cid, $pid,null,'add_father');
-            }
-            else{
-                family_tree_handler::insert($cid, $pid,null,'add_mother');
-            }
+            family_tree_handler::insert($cid, $pid,null,'add_mother');
+        }
+
         }
     }
 
@@ -165,7 +156,8 @@ function insert($info,$currentuser){
             // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));  
 
                 //add child
-                $result = $wpdb -> insert( 'wp_family_request', array( 'curr_node_id' => $pid, 'modify_node_id' => $cid, 'sex' => $child_gender, 'insert_action' => 'add_child' ));
+                $insert_gender = ($child_gender == 1)? 'male' : 'female';
+                family_tree_handler::insert($pid, $cid,$insert_gender,'add_child');
             }
             else{
                 $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' => 1, 'creator_id' => $currentuser->ID ));
@@ -193,7 +185,8 @@ function insert($info,$currentuser){
             // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
 
                 //add child
-                $result = $wpdb -> insert( 'wp_family_request', array( 'curr_node_id' => $pid, 'modify_node_id' => $cid, 'sex' => $child_gender, 'insert_action' => 'add_child' ));
+                $insert_gender = ($child_gender == 1)? 'male' : 'female';
+                family_tree_handler::insert($pid, $cid,$insert_gender,'add_child');
             }
             else{
                 $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' =>1 ,'creator_id' => $currentuser->ID ));
@@ -220,7 +213,7 @@ function insert($info,$currentuser){
                 // $is_confirmed=0;
             // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
 
-                $result = $wpdb -> insert( 'wp_family_request', array( 'curr_node_id' => $pid, 'modify_node_id' => $cid, 'sex' => null, 'insert_action' => 'add_spouse' ));
+                family_tree_handler::insert($pid, $cid, null,'add_spouse');
             }
             else{
                 $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'is_confirmed' => 1, 'creator_id' => $currentuser->ID ));
