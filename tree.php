@@ -65,7 +65,7 @@
                   <div class="form-group col-xs-12">
                     <label for="gender">性别</label>
                     <label class="radio-inline">
-                      <input type="radio" name="gender" value="1" > 男
+                      <input type="radio" name="gender" value="1" checked> 男
                     </label>
                     <label class="radio-inline">
                       <input type="radio" name="gender" value="2"> 女
@@ -112,7 +112,7 @@
                 <div class="row">
                   <div class="form-group col-xs-12">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email">
+                    <input type="email" class="form-control" name="email" required>
                   </div>
                 </div>
                 <br/>
