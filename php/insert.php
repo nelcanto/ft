@@ -1,5 +1,6 @@
 <?php
 require_once('../../../../wp-config.php' );
+require_once($_SERVER['CONTEXT_DOCUMENT_ROOT'].'/wp-content/familytree-function.php');
 
 $info = ($_POST);
 if(!empty($info)  ) insert($info,wp_get_current_user());
@@ -63,12 +64,12 @@ function insert($info,$currentuser){
     //check in ft_uinfo
     if($uid == 0){
         //insert node has wp account
-
+        $insert_gender_num = ($gender == 1)? 1 : 2;
         // insert new user info
         if($wp_id > 0)
-            $result = $wpdb -> insert('wp_ft_uinfo', array('image' => $image, 'wp_id' => $wp_id, 'status' => $status, 'birth' => $birth, 'birthPlace' => $birthPlace, 'death' => $death, 'dealthPlace' => $dealthPlace, 'email' => $email, 'firstName' => $firstName, 'lastName' => $lastName, 'gender' => $gender, 'creator_wp_id' => $currentuser->ID ));
+            $result = $wpdb -> insert('wp_ft_uinfo', array('image' => $image, 'wp_id' => $wp_id, 'status' => $status, 'birth' => $birth, 'birthPlace' => $birthPlace, 'death' => $death, 'dealthPlace' => $dealthPlace, 'email' => $email, 'firstName' => $firstName, 'lastName' => $lastName, 'gender' => $insert_gender_num, 'creator_wp_id' => $currentuser->ID ));
         else
-            $result = $wpdb -> insert('wp_ft_uinfo', array('image' => $image, 'status' => $status, 'birth' => $birth, 'birthPlace' => $birthPlace, 'death' => $death, 'dealthPlace' => $dealthPlace, 'email' => $email, 'firstName' => $firstName, 'lastName' => $lastName, 'gender' => $gender, 'creator_wp_id' => $currentuser->ID));
+            $result = $wpdb -> insert('wp_ft_uinfo', array('image' => $image, 'status' => $status, 'birth' => $birth, 'birthPlace' => $birthPlace, 'death' => $death, 'dealthPlace' => $dealthPlace, 'email' => $email, 'firstName' => $firstName, 'lastName' => $lastName, 'gender' => $insert_gender_num, 'creator_wp_id' => $currentuser->ID));
 
         $iid = $wpdb->insert_id;
 
@@ -78,6 +79,8 @@ function insert($info,$currentuser){
         //insert self node
         $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $uid, 'cid' => $uid, 'rid' => 0, 'is_confirmed' => 1, 'creator_id' => $currentuser->ID ));
 
+        $insert_gender = ($gender == 1)? 'male' : 'female';
+        family_tree_handler::insert(null, $uid, $insert_gender,'add_self');
     }
     else{
         //has ft node, combine two ft: add relationship only, do not need to insert node
@@ -117,6 +120,27 @@ $iid = $wpdb->insert_id;
                 // $is_confirmed=1;
             }
         }
+        // add parent
+        if($wp_id > 0){
+            $cid = $child[0];
+            //add father
+            if($rid == 1){
+                $result = $wpdb -> insert( 'wp_family_request', array( 'curr_node_id' => $cid, 'modify_node_id' => $pid, 'sex' => null, 'insert_action' => 'add_father' ));
+            }
+            //add mother
+            else{
+                $result = $wpdb -> insert( 'wp_family_request', array( 'curr_node_id' => $cid, 'modify_node_id' => $pid, 'sex' => null, 'insert_action' => 'add_mother' ));
+            }
+        }
+        else{
+            $cid = $child[0];
+            if($rid == 1){
+                family_tree_handler::insert($cid, $pid,null,'add_father');
+            }
+            else{
+                family_tree_handler::insert($cid, $pid,null,'add_mother');
+            }
+        }
     }
 
     if($father != NULL){
@@ -125,17 +149,22 @@ $iid = $wpdb->insert_id;
         $rid = 1;
 $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $currentuser->ID ));
 $iid = $wpdb->insert_id;
-
-
+    
+            $child_gender = ($gender == 1) ? 1 : 2;
             if($wp_id > 0){
                 //Send confirmation, set is_confirmed to 0 pending
                 do_action('ft_confirm',$wp_id,$iid);
                 // $is_confirmed=0;
-            // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));    
+            // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));  
+
+                //add child
+                $result = $wpdb -> insert( 'wp_family_request', array( 'curr_node_id' => $pid, 'modify_node_id' => $cid, 'sex' => $child_gender, 'insert_action' => 'add_child' ));
             }
             else{
                 //wp_id==0,no wp account, set is_confirmed to 1 convirmed
                 // $is_confirmed=1;
+                $insert_gender = ($child_gender == 1)? 'male' : 'female';
+                family_tree_handler::insert($pid, $cid,$insert_gender,'add_child');
             }
     }
     
@@ -146,16 +175,21 @@ $iid = $wpdb->insert_id;
 $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $pid, 'cid' => $cid, 'rid' => $rid, 'creator_id' => $currentuser->ID ));
 $iid = $wpdb->insert_id;
 
-
+            $child_gender = ($gender == 1) ? 1 : 2;
             if($wp_id > 0){
                 //Send confirmation, set is_confirmed to 0 pending
                 do_action('ft_confirm',$wp_id,$iid);
                 // $is_confirmed=0;
             // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
+
+                //add child
+                $result = $wpdb -> insert( 'wp_family_request', array( 'curr_node_id' => $pid, 'modify_node_id' => $cid, 'sex' => $child_gender, 'insert_action' => 'add_child' ));
             }
             else{
                 //wp_id==0,no wp account, set is_confirmed to 1 convirmed
                 // $is_confirmed=1;
+                $insert_gender = ($child_gender == 1)? 'male' : 'female';
+                family_tree_handler::insert($pid, $cid,$insert_gender,'add_child');
             }
     }
     
@@ -172,10 +206,13 @@ $iid = $wpdb->insert_id;
                 do_action('ft_confirm',$wp_id,$iid);
                 // $is_confirmed=0;
             // $result = $wpdb -> update('wp_ft_relationship',array('is_confirmed'=>$is_confirmed),array('id'=>$iid));
+
+                $result = $wpdb -> insert( 'wp_family_request', array( 'curr_node_id' => $pid, 'modify_node_id' => $cid, 'sex' => null, 'insert_action' => 'add_spouse' ));
             }
             else{
                 //wp_id==0,no wp account, set is_confirmed to 1 convirmed
                 // $is_confirmed=1;
+                family_tree_handler::insert($pid, $cid, null,'add_spouse');
             }
 
     }
