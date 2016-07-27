@@ -1,7 +1,7 @@
 <?php
     require_once('../../../../wp-config.php' );
     // require_once('../../../../wp-load.php');  
-
+    require_once($_SERVER['CONTEXT_DOCUMENT_ROOT'].'/wp-content/familytree-function.php');
 
 
     
@@ -47,6 +47,9 @@ function insert_self($ft_id){
     //             VALUES ($ft_id,$ft_id,0)";
     // return mysql_query($query) or die(mysql_error()); 
     $result = $wpdb -> insert( 'wp_ft_relationship', array( 'pid' => $ft_id, 'cid' => $ft_id, 'rid' => 0, 'is_confirmed' => 1, 'creator_id' => $ft_id) );
+
+    $insert_gender = 'male';
+    family_tree_handler::insert(null, $ft_id, $insert_gender,'add_self');
     return $result;
 }
 ?>
