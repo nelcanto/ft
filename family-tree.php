@@ -53,4 +53,17 @@ function show_family_tree() {
 /* display the family tree before activity post form when family parameter is passed in request */
 add_action( 'get_template_part_content', 'show_family_tree', 10 );
 
+function load_ft_textdomain() {
+    // Traditional WordPress plugin locale filter
+    $locale        = apply_filters( 'plugin_locale', get_locale(), 'family-tree' );
+    $mofile        = sprintf( '%1$s-%2$s.mo', 'family-tree', $locale );
+
+    // Setup paths to current locale file
+    $mofile_local  = dirname(__file__) . '/languages/' . $mofile;
+
+    // Look in local /wp-content/plugins/bp-reshare/languages/ folder
+    load_textdomain( 'family-tree', $mofile_local );
+}
+add_action( 'plugins_loaded', 'load_ft_textdomain' );
+
 ?>
